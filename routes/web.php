@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/card/{id}', [App\Http\Controllers\CardController::class, 'showpublic'])->name('card');
+
+
+Route::resource('cards',  App\Http\Controllers\CardController::class);
