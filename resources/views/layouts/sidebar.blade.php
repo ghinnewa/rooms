@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{ url('/home') }}" class="brand-link">
-        <img src="{{ asset('storage/images/') }}"
+        <img src="{{ asset('/glucc.jpg') }}"
              alt="GLUCC Logo"
              class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light">GLUCC</span>
