@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Models;
+
+use Eloquent as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * Class Categories
+ * @package App\Models
+ * @version May 11, 2023, 12:28 pm UTC
+ *
+ * @property \Illuminate\Database\Eloquent\Collection $cards
+ * @property string $name_ar
+ * @property string $name_en
+ * @property string $image
+ */
+class Categories extends Model
+{
+    use SoftDeletes;
+
+    use HasFactory;
+
+    public $table = 'categories';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
+
+    protected $dates = ['deleted_at'];
+
+
+
+    public $fillable = [
+        'name_ar',
+        'name_en',
+        'image'
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name_ar' => 'string',
+        'name_en' => 'string',
+        'image' => 'string'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name_ar' => 'required|string|max:255',
+        'name_en' => 'required|string|max:255',
+        'image' => 'required|string|max:255',
+        'deleted_at' => 'nullable',
+        'created_at' => 'nullable',
+        'updated_at' => 'nullable'
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function cards()
+    {
+        return $this->hasMany(\App\Models\Card::class, 'category_id');
+    }
+}

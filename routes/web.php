@@ -24,3 +24,9 @@ Route::get('/card/{id}', [App\Http\Controllers\CardController::class, 'showpubli
 
 
 Route::resource('cards',  App\Http\Controllers\CardController::class);
+
+
+Route::resource('users', App\Http\Controllers\UserController::class);
+
+
+Route::resource('categories', App\Http\Controllers\CategoriesController::class);

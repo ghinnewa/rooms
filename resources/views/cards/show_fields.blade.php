@@ -1,9 +1,3 @@
-<!-- Image Field -->
-<div class="col-sm-12">
-    {!! Form::label('image', 'Image:') !!}
-    <p><img src="{{ asset('storage/images/'.$card->image) }}" style="width:150px; height:150px;object-fit:cover;" class="rounded-circle" alt=""></p>
-</div>
-
 <!-- Name Ar Field -->
 <div class="col-sm-12">
     {!! Form::label('name_ar', 'Name Ar:') !!}
@@ -61,9 +55,14 @@
 <!-- Qrcode Field -->
 <div class="col-sm-12">
     {!! Form::label('qrcode', 'Qrcode:') !!}
-    <p><img src="{{ asset('storage/qr-code/'.$card->qrcode) }}" style="width:100px; height:100px" class="" alt=""></p>
+    <p>{{ $card->qrcode }}</p>
 </div>
 
+<!-- Image Field -->
+<div class="col-sm-12">
+    {!! Form::label('image', 'Image:') !!}
+    <p>{{ $card->image }}</p>
+</div>
 
 <!-- Paid Field -->
 <div class="col-sm-12">

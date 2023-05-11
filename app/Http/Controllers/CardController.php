@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\CardDataTable;
+use App\Http\Requests;
 use App\Http\Requests\CreateCardRequest;
 use App\Http\Requests\UpdateCardRequest;
 use App\Repositories\CardRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
 use Flash;
-use Generator as GlobalGenerator;
-use Illuminate\Support\Facades\Storage;
-use PHPUnit\Framework\MockObject\Generator as MockObjectGenerator;
+use App\Http\Controllers\AppBaseController;
 use Response;
-use SimpleSoftwareIO\QrCode\Generator;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
-
 
 class CardController extends AppBaseController
 {
@@ -30,16 +24,13 @@ class CardController extends AppBaseController
     /**
      * Display a listing of the Card.
      *
-     * @param Request $request
+     * @param CardDataTable $cardDataTable
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index(CardDataTable $cardDataTable)
     {
-        $cards = $this->cardRepository->all();
-
-        return view('cards.index')
-            ->with('cards', $cards);
+        return $cardDataTable->render('cards.index');
     }
 
     /**
@@ -63,21 +54,7 @@ class CardController extends AppBaseController
     {
         $input = $request->all();
 
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $fileName = uniqid() . '.' . $extension;
-        $file->storeAs('public/images/', $fileName);
-        $input = $request->all();
-        $input['image'] = $fileName;
-
-            $path='qrcode-'. time() . '.svg';
-        $output_file = 'public/qr-code/'.$path;
-        $input['qrcode']=$path;
-
         $card = $this->cardRepository->create($input);
-        $image = QrCode::size(200)->errorCorrection('H')
-        ->generate('https://rooms.test/card/'.$card->id);
-        Storage::disk('local')->put($output_file, $image);
 
         Flash::success('Card saved successfully.');
 
@@ -102,25 +79,6 @@ class CardController extends AppBaseController
         }
 
         return view('cards.show')->with('card', $card);
-    }
-    /**
-     * Display the specified Card.
-     *
-     * @param int $id
-     *
-     * @return Response
-     */
-    public function showpublic($id)
-    {
-        $card = $this->cardRepository->find($id);
-
-        if (empty($card)) {
-            Flash::error('Card not found');
-
-            return redirect(route('cards.index'));
-        }
-
-        return view('card')->with('card', $card);
     }
 
     /**
@@ -160,20 +118,8 @@ class CardController extends AppBaseController
 
             return redirect(route('cards.index'));
         }
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $fileName = uniqid() . '.' . $extension;
-        $file->storeAs('public/images/', $fileName);
-        $request = $request->all();
-        $request['image'] = $fileName;
-        $image = QrCode::size(200)->generate('https://www.google.com/');
-            $path='qrcode-'. time() . '.svg';
-        $output_file = 'public/qr-code/'.$path;
 
-        Storage::disk('local')->put($output_file, $image);
-        $request['qrcode']=$path;
-
-        $card = $this->cardRepository->update($request, $id);
+        $card = $this->cardRepository->update($request->all(), $id);
 
         Flash::success('Card updated successfully.');
 
@@ -184,8 +130,6 @@ class CardController extends AppBaseController
      * Remove the specified Card from storage.
      *
      * @param int $id
-     *
-     * @throws \Exception
      *
      * @return Response
      */

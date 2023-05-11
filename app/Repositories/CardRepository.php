@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class CardRepository
  * @package App\Repositories
- * @version May 5, 2023, 10:31 pm UTC
+ * @version May 9, 2023, 5:26 pm UTC
 */
 
 class CardRepository extends BaseRepository

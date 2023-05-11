@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Card
  * @package App\Models
- * @version May 5, 2023, 10:31 pm UTC
+ * @version May 9, 2023, 5:26 pm UTC
  *
  * @property string $name_ar
  * @property string $name_en
@@ -31,7 +31,7 @@ class Card extends Model
     use HasFactory;
 
     public $table = 'cards';
-
+    
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -87,17 +87,17 @@ class Card extends Model
         'job_title_ar' => 'required|string|max:255',
         'job_title_en' => 'required|string|max:255',
         'membership_number' => 'required|string|max:255',
-        'phone1' => 'required|numeric|min:10',
-        'phone2' => 'numeric|min:10',
-        'email' => 'required|email',
+        'phone1' => 'required|string|max:255',
+        'phone2' => 'required|string|max:255',
+        'email' => 'required|string|max:255',
         'website' => 'nullable|string|max:255',
-        'qrcode' => '',
-        'image' => 'required|',
+        'qrcode' => 'required|string|max:255',
+        'image' => 'required|string|max:255',
         'paid' => 'required|boolean',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-
+    
 }
