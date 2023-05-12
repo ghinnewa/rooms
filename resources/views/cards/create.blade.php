@@ -25,7 +25,10 @@
                     @include('cards.fields')
                 </div>
 
+                {!! Form::hidden('active',1 ) !!}
+
             </div>
+
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

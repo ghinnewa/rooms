@@ -31,7 +31,7 @@ class Card extends Model
     use HasFactory;
 
     public $table = 'cards';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -91,7 +91,7 @@ class Card extends Model
         'phone2' => 'required|string|max:255',
         'email' => 'required|string|max:255',
         'website' => 'nullable|string|max:255',
-        'qrcode' => 'required|string|max:255',
+        'qrcode' => 'string|max:255',
         'image' => 'required|string|max:255',
         'paid' => 'required|boolean',
         'deleted_at' => 'nullable',
@@ -99,5 +99,5 @@ class Card extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+
 }
