@@ -78,7 +78,7 @@
     <!-- Image Field -->
 
         {{--  {!! Form::label('image', 'Image:') !!}  --}}
-        <p><img src="{{ asset('storage/images/'.$card->image) }}" style="width:350px; height:400px; object-fit:cover;" class="img-fluid" alt=""></p>
+        <p><img src="{{ asset('storage/profile/'.$card->image) }}" style="width:350px; height:400px; object-fit:cover;" class="img-fluid" alt=""></p>
 </div>
 
         </div>

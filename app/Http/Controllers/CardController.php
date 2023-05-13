@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
 
 use App\DataTables\CardDataTable;
@@ -94,22 +95,22 @@ class CardController extends AppBaseController
         $input['identity_file1'] = $this->cardRepository->files($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->files($request->file('identity_file2'), 'identity_file2');
         //generate qr code
-        if ($previousRouteName=='cards.create') $input['paid']=1;
-        if ($previousRouteName=='requests') $input['paid']=0;
+        if ($previousRouteName == 'cards.create') $input['paid'] = 1;
+        if ($previousRouteName == 'requests') $input['paid'] = 0;
 
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
         $input['qrcode'] = $path;
         $card = $this->cardRepository->create($input);
-        $card->membership_number='00'+1000+$card->id;
+        $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
         $image = QrCode::size(200)->errorCorrection('H')
             ->generate('https://rooms.test/card/' . $card->id);
         Storage::disk('local')->put($output_file, $image);
         Flash::success('Card saved successfully.');
 
-         if ($previousRouteName=='cards.create')return redirect(route('cards.index'));
-         if ($previousRouteName=='publicForm')return redirect(route('publicForm'));
+        if ($previousRouteName == 'cards.create') return redirect(route('cards.index'));
+        if ($previousRouteName == 'publicForm') return redirect(route('publicForm'));
     }
 
     /**
@@ -151,7 +152,45 @@ class CardController extends AppBaseController
 
         return view('cards.edit')->with('card', $card);
     }
+    /**
+     * Show the form for editing the specified Card.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function paid($id)
+    {
+        $card = $this->cardRepository->find($id);
 
+        if (empty($card)) {
+            Flash::error('Card not found');
+
+            return redirect(route('cards.index'));
+        }
+        $card->paid = 1;
+        $card->save();
+        return view('cards.show')->with('card', $card);
+    }
+    /**
+     * Display the specified Card.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function showpublic($id)
+    {
+        $card = $this->cardRepository->find($id);
+
+        if (empty($card)) {
+            Flash::error('Card not found');
+
+            return redirect(route('cards.index'));
+        }
+
+        return view('card')->with('card', $card);
+    }
     /**
      * Update the specified Card in storage.
      *
@@ -201,10 +240,10 @@ class CardController extends AppBaseController
         return redirect(route('cards.index'));
     }
 
-    public function downloadAttachment($folder,$attachURL)
+    public function downloadAttachment($folder, $attachURL)
     {
         // TODO: handel file not found error.
         // TODO: remove this unnecessary method
-        return Storage::download('public/'.$folder.'/'.$attachURL);
+        return Storage::download('public/' . $folder . '/' . $attachURL);
     }
 }
