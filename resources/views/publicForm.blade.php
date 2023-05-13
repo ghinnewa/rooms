@@ -8,10 +8,7 @@
 </head>
 <body>
     @php
-    $data = $request->all();
-    $data['new_key'] = 'new_value';
 
-    $request->merge($data);
     @endphp
     @extends('layouts.app')
 
@@ -32,7 +29,7 @@
 
             <div class="card">
 
-                {!! Form::open(['route' => 'cards.store']) !!}
+                {!! Form::open(['route' => 'store', 'files' => true]) !!}
 
                 <div class="card-body">
 

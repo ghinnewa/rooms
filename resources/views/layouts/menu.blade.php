@@ -21,4 +21,11 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('cards.requests') }}"
+       class="nav-link {{ Request::is('requests') ? 'active' : '' }}">
+        <p>Requests</p>
+    </a>
+</li>
+
 

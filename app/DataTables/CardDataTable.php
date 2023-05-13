@@ -3,6 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Card;
+use Illuminate\Support\Facades\Route;
+
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -16,9 +18,13 @@ class CardDataTable extends DataTable
      */
     public function dataTable($query)
     {
+
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'cards.datatables_actions');
+        return $dataTable->addColumn('image', function ($card) {
+           $url = asset('storage/profile/'.$card->image);
+            return '<img src='.$url.' style="width:50px; height:50px" class="rounded-circle"/>';
+        })->rawColumns(['image', 'action','title'])->addColumn('action', 'cards.datatables_actions');
     }
 
     /**
@@ -29,7 +35,10 @@ class CardDataTable extends DataTable
      */
     public function query(Card $model)
     {
-        return $model->newQuery();
+        if(Route::is('cards.index')) return $model->where('paid',1)->newQuery();
+        if(Route::is('cards.requests')) return $model->where('paid',0)->newQuery();
+
+
     }
 
     /**
@@ -65,18 +74,13 @@ class CardDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name_ar',
-            'name_en',
-            'job_title_ar',
-            'job_title_en',
-            'membership_number',
-            'phone1',
-            'phone2',
-            'email',
-            'website',
-            'qrcode',
             'image',
-            'paid'
+            'membership_number',
+            'name_ar',
+            'company_ar',
+            'email',
+            'phone1',
+
         ];
     }
 

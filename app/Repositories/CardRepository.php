@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class CardRepository
  * @package App\Repositories
- * @version May 9, 2023, 5:26 pm UTC
+ * @version May 12, 2023, 5:02 pm UTC
 */
 
 class CardRepository extends BaseRepository
@@ -28,7 +28,18 @@ class CardRepository extends BaseRepository
         'website',
         'qrcode',
         'image',
-        'paid'
+        'paid',
+        'category_id',
+        'facebook_url',
+        'twitter_url',
+        'linkedin_url',
+        'company_ar',
+        'company_en',
+        'company_email',
+        'instagram_url',
+        'youtube_url',
+        'identity_file1',
+        'identity_file2'
     ];
 
     /**

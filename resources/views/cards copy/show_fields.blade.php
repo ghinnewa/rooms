@@ -1,7 +1,7 @@
 <!-- Image Field -->
 <div class="col-sm-12">
     {!! Form::label('image', 'Image:') !!}
-    <p><img src="{{ asset('storage/images/'.$card->image) }}" style="width:150px; height:150px;object-fit:cover;" class="rounded-circle" alt=""></p>
+    <p><img src="{{ asset('storage/profile/'.$card->image) }}" style="width:150px; height:150px;object-fit:cover;" class="rounded-circle" alt=""></p>
 </div>
 
 <!-- Name Ar Field -->

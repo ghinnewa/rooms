@@ -190,4 +190,13 @@ abstract class BaseRepository
 
         return $model->delete();
     }
+    public function files($file,$folder){
+
+        $extension = $file->getClientOriginalExtension();
+
+        $fileName = $folder.'__'.uniqid().'.'. $extension;
+
+        $file->storeAs('public/'.$folder.'/', $fileName);
+         return $fileName;
+    }
 }

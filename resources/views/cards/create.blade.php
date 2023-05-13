@@ -17,18 +17,17 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'cards.store']) !!}
+            {!! Form::open(['route' => 'cards.store', 'files' => true]) !!}
 
             <div class="card-body">
 
                 <div class="row">
+
                     @include('cards.fields')
+
                 </div>
 
-                {!! Form::hidden('active',1 ) !!}
-
             </div>
-
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

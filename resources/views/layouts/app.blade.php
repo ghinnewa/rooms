@@ -153,6 +153,9 @@
 
     @stack('third_party_scripts')
 
+    @stack('img')
+    @stack('filename1')
+    @stack('filename2')
     @stack('page_scripts')
 </body>
 
