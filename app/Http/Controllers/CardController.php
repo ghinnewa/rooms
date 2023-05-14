@@ -62,7 +62,29 @@ class CardController extends AppBaseController
     public function create()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
-        return view('cards.create', compact('categories'));
+        $cities=[
+            "طرابلس",
+            "بنغازي",
+            "مصراتة",
+            "الزاوية",
+            "البيضاء",
+            "غريان",
+            "طبرق",
+            "اجدابيا",
+            "زليتن",
+            "درنة",
+            "سبها",
+            "الخمس",
+            "صبراتة",
+            "زوارة",
+            "الكفرة",
+            "المرج",
+            "توكرة",
+            "ترهونة",
+
+        ];
+
+        return view('cards.create', compact('categories','cities'));
     }
     /**
      * Show the form for creating a new Card.
