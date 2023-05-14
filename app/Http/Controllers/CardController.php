@@ -186,7 +186,7 @@ class CardController extends AppBaseController
         if (empty($card)) {
             Flash::error('Card not found');
 
-            return redirect(route('cards.index'));
+            return view('card')->with('card', $card);
         }
 
         return view('card')->with('card', $card);
