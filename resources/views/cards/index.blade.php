@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Cards</h1>
+                   @lang('models/cards.plural')
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
                        href="{{ route('cards.create') }}">
-                        Add New
+                         @lang('crud.add_new')
                     </a>
                 </div>
             </div>
@@ -27,15 +27,15 @@
             <div class="card-body p-0">
                 @include('cards.table')
 
-                <div class="card-footer clearfix">
+                <div class="card-footer clearfix float-right">
                     <div class="float-right">
                         
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
 @endsection
+
 

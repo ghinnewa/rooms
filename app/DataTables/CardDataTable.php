@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class CardDataTable extends DataTable
 {
@@ -18,14 +19,13 @@ class CardDataTable extends DataTable
      */
     public function dataTable($query)
     {
-
         $dataTable = new EloquentDataTable($query);
 
         return $dataTable->addColumn('image', function ($card) {
            $url = asset('storage/profile/'.$card->image);
             return '<img src='.$url.' style="width:50px; height:50px" class="rounded-circle"/>';
         })->rawColumns(['image', 'action','title'])->addColumn('action', 'cards.datatables_actions');
-    }
+       }
 
     /**
      * Get query source of dataTable.
@@ -37,8 +37,6 @@ class CardDataTable extends DataTable
     {
         if(Route::is('cards.index')) return $model->where('paid',1)->newQuery();
         if(Route::is('cards.requests')) return $model->where('paid',0)->newQuery();
-
-
     }
 
     /**
@@ -51,18 +49,41 @@ class CardDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+            ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+                    [
+                       'extend' => 'create',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
+                    ],
+                    [
+                       'extend' => 'export',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
+                    ],
+                    [
+                       'extend' => 'print',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-print"></i> ' .__('auth.app.print').''
+                    ],
+                    [
+                       'extend' => 'reset',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-undo"></i> ' .__('auth.app.reset').''
+                    ],
+                    [
+                       'extend' => 'reload',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-refresh"></i> ' .__('auth.app.reload').''
+                    ],
                 ],
+                 'language' => [
+                   'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json'),
+                 ],
             ]);
     }
 
@@ -74,14 +95,13 @@ class CardDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'image',
-            'membership_number',
-            'name_ar',
-            'company_ar',
-            'email',
-            'phone1',
-
-        ];
+            'image' => new Column(['title' => __('models/cards.fields.image'), 'data' => 'image']),
+            'membership_number' => new Column(['title' => __('models/cards.fields.membership_number'), 'data' => 'membership_number']),
+            'name_ar' => new Column(['title' => __('models/cards.fields.name_ar'), 'data' => 'name_ar']),
+            'email' => new Column(['title' => __('models/cards.fields.email'), 'data' => 'email']),
+            'phone1' => new Column(['title' => __('models/cards.fields.phone1'), 'data' => 'phone1']),
+            'company_ar' => new Column(['title' => __('models/cards.fields.company_ar'), 'data' => 'company_ar']),
+           ];
     }
 
     /**

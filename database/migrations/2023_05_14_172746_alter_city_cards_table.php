@@ -14,7 +14,8 @@ class AlterCityCardsTable extends Migration
     public function up()
     {
         Schema::table('cards', function (Blueprint $table) {
-            //
+            $table->string('city');
+
         });
     }
 

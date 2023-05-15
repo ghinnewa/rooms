@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $phone1
  * @property string $phone2
  * @property string $email
+ * @property string $city
  * @property string $website
  * @property string $qrcode
  * @property string $image
@@ -69,6 +70,7 @@ class Card extends Model
         'facebook_url',
         'twitter_url',
         'linkedin_url',
+        'city',
         'company_ar',
         'company_en',
         'company_email',
@@ -99,6 +101,7 @@ class Card extends Model
         'paid' => 'boolean',
         'category_id' => 'integer',
         'facebook_url' => 'string',
+        'city' => 'string',
         'twitter_url' => 'string',
         'linkedin_url' => 'string',
         'company_ar' => 'string',
@@ -127,6 +130,7 @@ class Card extends Model
         'website' => 'nullable|url',
         'qrcode' => '',
         'image' => 'required',
+        'city' => 'required',
         'paid' => '',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',

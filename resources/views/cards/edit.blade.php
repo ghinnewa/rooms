@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Edit Card</h1>
+                      @lang('models/cards.singular')
                 </div>
             </div>
         </div>
@@ -27,7 +27,9 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('cards.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('cards.index') }}" class="btn btn-default">
+                    @lang('crud.cancel')
+                 </a>
             </div>
 
             {!! Form::close() !!}

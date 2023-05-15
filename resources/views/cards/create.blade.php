@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Card</h1>
+                     @lang('models/cards.singular')
                 </div>
             </div>
         </div>
@@ -20,18 +20,16 @@
             {!! Form::open(['route' => 'cards.store', 'files' => true]) !!}
 
             <div class="card-body">
-
                 <div class="row">
-
                     @include('cards.fields')
-
                 </div>
-
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('cards.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('cards.index') }}" class="btn btn-default">
+                 @lang('crud.cancel')
+                </a>
             </div>
 
             {!! Form::close() !!}

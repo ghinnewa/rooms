@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,8 @@
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap4-toggle/3.6.1/bootstrap4-toggle.min.css"
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap4-toggle/3.6.1/bootstrap4-toggle.min.css"
         integrity="sha512-EzrsULyNzUc4xnMaqTrB4EpGvudqpetxG/WNjCpG6ZyyAGxeB6OBF9o246+mwx3l/9Cn838iLIcrxpPHTiygAA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -33,6 +34,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
         integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
         crossorigin="anonymous" />
+        <script src="https://kit.fontawesome.com/69393ee716.js" crossorigin="anonymous"></script>
 
     @stack('third_party_stylesheets')
 
@@ -41,6 +43,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
+
         @auth
             <!-- Main Header -->
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -92,8 +95,16 @@
 
 
         <!-- Content Wrapper. Contains page content -->
-        <div class=@if(!Route::is('publicForm'))"content-wrapper"@endif>
+        <div class=@if (!Route::is('publicForm')) "content-wrapper" @endif>
             <section class="content">
+                @if(App::isLocale('ar'))
+
+                <a  class="btn btn-primary mx-2 float-right" href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a>
+                @else
+                <a  class="btn btn-primary mx-2 float-right" href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a>
+
+
+                @endif
                 @yield('content')
             </section>
         </div>

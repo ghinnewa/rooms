@@ -63,24 +63,31 @@ class CardController extends AppBaseController
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
         $cities=[
-            "طرابلس",
-            "بنغازي",
-            "مصراتة",
-            "الزاوية",
-            "البيضاء",
-            "غريان",
-            "طبرق",
-            "اجدابيا",
-            "زليتن",
-            "درنة",
-            "سبها",
-            "الخمس",
-            "صبراتة",
-            "زوارة",
-            "الكفرة",
-            "المرج",
-            "توكرة",
-            "ترهونة",
+            "Tripoli"=> "طرابلس",
+            "Benghazi"=> "بنغازي",
+            "Misrata"=> "مصراتة",
+            "Zawiya"=> "الزاوية",
+            "Bayda"=> "البيضاء",
+            "Gharyan"=> "غريان",
+            "Tobruk"=> "طبرق",
+            "Ajdabiya"=> "اجدابيا",
+            "Zliten"=> "زليتن",
+            "Derna"=> "درنة",
+            "Sabha"=> "سبها",
+            "Khoms"=> "الخمس",
+            "Sabratha"=> "صبراتة",
+            "Zuwara"=> "زوارة",
+            "Kufra"=> "الكفرة",
+            "Marj"=> "المرج",
+            "Tocra"=>  "توكرة",
+            "Tarhuna"=>  "ترهونة",
+            "Sirte"=>  "سرت",
+            "Msallata"=>  "مسلاتة",
+            "Bani Walid"=>  "بني وليد",
+            "Jumayl"=>  "الجميل",
+            "Sorman"=>  "صرمان",
+            "Al Gseibat"=>  "القصيبات",
+            "Shahhat"=>  "شحات",
 
         ];
 
@@ -94,7 +101,35 @@ class CardController extends AppBaseController
     public function publicForm()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
-        return view('publicForm', compact('categories'));
+        $cities=[
+            "Tripoli"=> "طرابلس",
+            "Benghazi"=> "بنغازي",
+            "Misrata"=> "مصراتة",
+            "Zawiya"=> "الزاوية",
+            "Bayda"=> "البيضاء",
+            "Gharyan"=> "غريان",
+            "Tobruk"=> "طبرق",
+            "Ajdabiya"=> "اجدابيا",
+            "Zliten"=> "زليتن",
+            "Derna"=> "درنة",
+            "Sabha"=> "سبها",
+            "Khoms"=> "الخمس",
+            "Sabratha"=> "صبراتة",
+            "Zuwara"=> "زوارة",
+            "Kufra"=> "الكفرة",
+            "Marj"=> "المرج",
+            "Tocra"=>  "توكرة",
+            "Tarhuna"=>  "ترهونة",
+            "Sirte"=>  "سرت",
+            "Msallata"=>  "مسلاتة",
+            "Bani Walid"=>  "بني وليد",
+            "Jumayl"=>  "الجميل",
+            "Sorman"=>  "صرمان",
+            "Al Gseibat"=>  "القصيبات",
+            "Shahhat"=>  "شحات",
+
+        ];
+        return view('publicForm', compact('categories','cities'));
     }
 
     /**
