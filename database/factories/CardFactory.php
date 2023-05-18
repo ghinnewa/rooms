@@ -47,7 +47,8 @@ class CardFactory extends Factory
         'instagram_url' => $this->faker->word,
         'youtube_url' => $this->faker->word,
         'identity_file1' => $this->faker->word,
-        'identity_file2' => $this->faker->word
+        'identity_file2' => $this->faker->word,
+        'city' => $this->faker->word
         ];
     }
 }

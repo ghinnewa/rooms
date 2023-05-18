@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class Card
  * @package App\Models
- * @version May 12, 2023, 5:02 pm UTC
+ * @version May 15, 2023, 2:04 pm UTC
  *
  * @property \App\Models\Category $category
  * @property string $name_ar
@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $phone1
  * @property string $phone2
  * @property string $email
- * @property string $city
  * @property string $website
  * @property string $qrcode
  * @property string $image
@@ -36,6 +35,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $youtube_url
  * @property string $identity_file1
  * @property string $identity_file2
+ * @property string $city
  */
 class Card extends Model
 {
@@ -70,14 +70,14 @@ class Card extends Model
         'facebook_url',
         'twitter_url',
         'linkedin_url',
-        'city',
         'company_ar',
         'company_en',
         'company_email',
         'instagram_url',
         'youtube_url',
         'identity_file1',
-        'identity_file2'
+        'identity_file2',
+        'city'
     ];
 
     /**
@@ -101,7 +101,6 @@ class Card extends Model
         'paid' => 'boolean',
         'category_id' => 'integer',
         'facebook_url' => 'string',
-        'city' => 'string',
         'twitter_url' => 'string',
         'linkedin_url' => 'string',
         'company_ar' => 'string',
@@ -110,7 +109,8 @@ class Card extends Model
         'instagram_url' => 'string',
         'youtube_url' => 'string',
         'identity_file1' => 'string',
-        'identity_file2' => 'string'
+        'identity_file2' => 'string',
+        'city' => 'string'
     ];
 
     /**
@@ -123,29 +123,29 @@ class Card extends Model
         'name_en' => 'required|string|max:255',
         'job_title_ar' => 'required|string|max:255',
         'job_title_en' => 'required|string|max:255',
-        'membership_number' => '',
-        'phone1' => 'required|string|numeric',
-        'phone2' => 'required|string|numeric',
-        'email' => 'required|string|email',
-        'website' => 'nullable|url',
-        'qrcode' => '',
-        'image' => 'required',
-        'city' => 'required',
-        'paid' => '',
+        'membership_number' => 'required|string|max:255',
+        'phone1' => 'required|string|max:255',
+        'phone2' => 'required|string|max:255',
+        'email' => 'required|string|max:255',
+        'website' => 'nullable|string|max:255',
+        'qrcode' => 'required|string|max:255',
+        'image' => '',
+        'paid' => 'required|boolean',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
-        'category_id' => 'required',
-        'facebook_url' => 'nullable|url|regex:/^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/',
-        'twitter_url' => 'nullable|url|regex:/^(https?:\/\/)?(www\.)?twitter\.com\/[a-zA-Z0-9(\.\?)?]/',
-        'linkedin_url' => 'nullable|url|regex:/^(https?:\/\/)?(www\.)?linkedin\.com\/[a-zA-Z0-9(\.\?)?]/',
-        'company_ar' => 'required|string|max:255',
-        'company_en' => 'required|string|max:255',
-        'company_email' => 'required|string|email',
-        'instagram_url' => 'nullable|url|regex:/^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/',
-        'youtube_url' => 'nullable|url|regex:/^(https?:\/\/)?(www\.)?youtube\.com\/[a-zA-Z0-9(\.\?)?]/',
-        'identity_file1' => 'required',
-        'identity_file2' => 'required'
+        'category_id' => 'nullable',
+        'facebook_url' => 'nullable|string|max:255',
+        'twitter_url' => 'nullable|string|max:255',
+        'linkedin_url' => 'nullable|string|max:255',
+        'company_ar' => 'nullable|string|max:255',
+        'company_en' => 'nullable|string|max:255',
+        'company_email' => 'required|string|max:255',
+        'instagram_url' => 'nullable|string|max:255',
+        'youtube_url' => 'nullable|string|max:255',
+        'identity_file1' => '',
+        'identity_file2' => '',
+        'city' => 'required|string|max:255'
     ];
 
     /**

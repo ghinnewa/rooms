@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class CardRepository
  * @package App\Repositories
- * @version May 12, 2023, 5:02 pm UTC
+ * @version May 15, 2023, 2:04 pm UTC
 */
 
 class CardRepository extends BaseRepository
@@ -39,7 +39,8 @@ class CardRepository extends BaseRepository
         'instagram_url',
         'youtube_url',
         'identity_file1',
-        'identity_file2'
+        'identity_file2',
+        'city'
     ];
 
     /**

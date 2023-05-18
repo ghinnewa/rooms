@@ -324,6 +324,18 @@
         "inView": true
     },
     {
+        "name": "city",
+        "dbType": "string,255",
+        "htmlType": "text",
+        "validations": "required|string|max:255|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "type": "relation",
         "relation": "mt1,Category,category_id"
     }

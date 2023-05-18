@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Storage;
 
 abstract class BaseRepository
 {
@@ -189,5 +189,13 @@ abstract class BaseRepository
         $model = $query->findOrFail($id);
 
         return $model->delete();
+    }
+    public function files($file,$folder){
+
+        $fileName = $folder.'__'.uniqid(). $file['name'];
+    $output_file='public/'.$folder.'/'.$fileName;
+    $contents = file_get_contents($file['tmp_name']);
+    Storage::disk('local')->put($output_file, $contents);
+    return $fileName;
     }
 }

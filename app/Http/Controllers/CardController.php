@@ -162,7 +162,7 @@ class CardController extends AppBaseController
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('https://rooms.test/card/' . $card->id);
+            ->generate('http://gucc.test/card-arg110/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
         Flash::success('Card saved successfully.');
 

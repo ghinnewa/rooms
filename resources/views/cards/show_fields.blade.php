@@ -58,11 +58,13 @@
     <p>{{ $card->website }}</p>
 </div>
 
+
 <!-- Qrcode Field -->
 <div class="col-sm-12">
-    {!! Form::label('qrcode', __('models/cards.fields.qrcode').':') !!}
-    <p>{{ $card->qrcode }}</p>
+    {!! Form::label('qrcode', 'Qrcode:') !!}
+    <p> <a class="pb-2 d-block" href="{{ route('attachments.downloadAttachment',['qr-code',$card->qrcode]) }}" class="d-block"><img src="{{ asset('storage/qr-code/'.$card->qrcode) }}" style="width:100px; height:100px" class="" alt=""> </a></p>
 </div>
+
 
 
 <!-- Paid Field -->
@@ -133,15 +135,18 @@
 
 <!-- Identity File1 Field -->
 <div class="col-sm-12">
-    {!! Form::label('identity_file1', __('models/cards.fields.identity_file1').':') !!}
-    <p>{{ $card->identity_file1 }}</p>
+    {!! Form::label('identity_file1', 'Identity File1:') !!}
+    <a class="pb-2 d-block" href="{{ route('attachments.downloadAttachment',['identity_file1',$card->identity_file1]) }}" class="d-block">{{ $card->identity_file1 }}</a>
 </div>
 
 <!-- Identity File2 Field -->
 <div class="col-sm-12">
-    {!! Form::label('identity_file2', __('models/cards.fields.identity_file2').':') !!}
-    <p>{{ $card->identity_file2 }}</p>
+    {!! Form::label('identity_file2', 'Identity File2:') !!}
+    <a class="pb-2 d-block" href="{{ route('attachments.downloadAttachment',['identity_file2',$card->identity_file2]) }}" class="d-block">{{ $card->identity_file2 }}</a>
+
+
 </div>
 @if(!$card->paid)
 <a  href="{{ route('paid',$card->id) }}" class="btn btn-primary" > paid </a>
 @endif
+
