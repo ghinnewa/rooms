@@ -9,7 +9,11 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Hash;
 use Response;
+// use Spatie\Permission\Contracts\Role;
+use Spatie\Permission\Models\Role ;
+use Throwable;
 
 class UserController extends AppBaseController
 {
@@ -40,7 +44,9 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::pluck('name', 'id')->toArray();
+
+        return view('users.create')->with('roles', $roles);
     }
 
     /**
@@ -52,14 +58,23 @@ class UserController extends AppBaseController
      */
     public function store(CreateUserRequest $request)
     {
-        $input = $request->all();
+        try {
+            $input = $request->all();
+            $input['password'] = Hash::make($input['password']);
+            $user = $this->userRepository->create($input);
 
-        $user = $this->userRepository->create($input);
+            if (isset($input['role'])) {
+                $user->assignRole($input['role']);
+            }
 
-        Flash::success('User saved successfully.');
+            Flash::success('User saved successfully.');
+        } catch (Throwable $th) {
+            Flash::error(__('messages.errorOccurred', ['model' => __('models/users.singular')]));
+        }
 
         return redirect(route('users.index'));
     }
+
 
     /**
      * Display the specified User.

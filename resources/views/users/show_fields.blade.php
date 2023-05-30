@@ -16,6 +16,9 @@
     <p>{{ $user->email_verified_at }}</p>
 </div>
 
+
+
+
 <!-- Password Field -->
 <div class="col-sm-12">
     {!! Form::label('password', 'Password:') !!}

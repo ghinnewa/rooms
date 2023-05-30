@@ -7,7 +7,7 @@
                 <div class="col-sm-6">
                     <h1>Cards</h1>
                 </div>
-            
+
             </div>
         </div>
     </section>
@@ -19,7 +19,7 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            <div class="card-body p-0">
+            <div class="card-body  ">
                 @include('cards.table')
 
                 <div class="card-footer clearfix">

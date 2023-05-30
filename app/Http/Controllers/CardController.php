@@ -148,9 +148,9 @@ class CardController extends AppBaseController
 
         $input = $request->all();
 
-        $input['image'] = $this->cardRepository->files($request->file('image'), 'profile');
-        $input['identity_file1'] = $this->cardRepository->files($request->file('identity_file1'), 'identity_file1');
-        $input['identity_file2'] = $this->cardRepository->files($request->file('identity_file2'), 'identity_file2');
+        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
+        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
+        $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
         //generate qr code
         if ($previousRouteName == 'cards.create') $input['paid'] = 1;
         if ($previousRouteName == 'requests') $input['paid'] = 0;
@@ -199,6 +199,36 @@ class CardController extends AppBaseController
      */
     public function edit($id)
     {
+        $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+        $cities=[
+            "Tripoli"=> "طرابلس",
+            "Benghazi"=> "بنغازي",
+            "Misrata"=> "مصراتة",
+            "Zawiya"=> "الزاوية",
+            "Bayda"=> "البيضاء",
+            "Gharyan"=> "غريان",
+            "Tobruk"=> "طبرق",
+            "Ajdabiya"=> "اجدابيا",
+            "Zliten"=> "زليتن",
+            "Derna"=> "درنة",
+            "Sabha"=> "سبها",
+            "Khoms"=> "الخمس",
+            "Sabratha"=> "صبراتة",
+            "Zuwara"=> "زوارة",
+            "Kufra"=> "الكفرة",
+            "Marj"=> "المرج",
+            "Tocra"=>  "توكرة",
+            "Tarhuna"=>  "ترهونة",
+            "Sirte"=>  "سرت",
+            "Msallata"=>  "مسلاتة",
+            "Bani Walid"=>  "بني وليد",
+            "Jumayl"=>  "الجميل",
+            "Sorman"=>  "صرمان",
+            "Al Gseibat"=>  "القصيبات",
+            "Shahhat"=>  "شحات",
+
+        ];
+
         $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
@@ -207,7 +237,7 @@ class CardController extends AppBaseController
             return redirect(route('cards.index'));
         }
 
-        return view('cards.edit')->with('card', $card);
+        return view('cards.edit')->with('card', $card)->with('categories', $categories)->with('cities', $cities);
     }
     /**
      * Show the form for editing the specified Card.
@@ -265,8 +295,12 @@ class CardController extends AppBaseController
 
             return redirect(route('cards.index'));
         }
+        $input = $request->all();
+        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
+        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
+        $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
 
-        $card = $this->cardRepository->update($request->all(), $id);
+        $card = $this->cardRepository->update(  $input, $id);
 
         Flash::success('Card updated successfully.');
 

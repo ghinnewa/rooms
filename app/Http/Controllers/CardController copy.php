@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateCardRequest;
 use App\Repositories\CardRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Storage;
 use Response;
 
 class CardController extends AppBaseController
@@ -74,7 +75,7 @@ class CardController extends AppBaseController
         $input['qrcode']=$path;
         $card = $this->cardRepository->create($input);
         $image = QrCode::size(200)->errorCorrection('H')
-        ->generate('https://rooms.test/card/'.$card->id);
+        ->generate('https://glucc.ly/card/'.$card->id);
         Storage::disk('local')->put($output_file, $image);
 
         Flash::success('Card saved successfully.');

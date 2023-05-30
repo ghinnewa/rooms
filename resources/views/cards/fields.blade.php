@@ -60,7 +60,7 @@
     {!! Form::label('image',__('models/cards.fields.image').':' ) !!} <br>
     {!! Form::label('image', 'Upload', ['class' => 'btn-primary btn btn-block ']) !!}
     {!! Form::file('image', ['style' => 'display:none;', 'id' => 'image', 'onchange' => 'previewImage(event)']) !!}
-    <img id="preview" src={{ Route::is('cards.edit') ? asset('storage/images/' . $card->image) : '' }}>
+    <img id="preview" src={{ Route::is('cards.edit') ? asset('storage/profile/' . $card->image) : '' }}>
 
 </div>
 @push('img')

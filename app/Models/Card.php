@@ -128,7 +128,7 @@ class Card extends Model
         'phone2' => 'required|string|max:255',
         'email' => 'required|string|max:255',
         'website' => 'nullable|string|max:255',
-        'qrcode' => 'required|string|max:255',
+        'qrcode' => '',
         'image' => '',
         'paid' => 'required|boolean',
         'deleted_at' => 'nullable',

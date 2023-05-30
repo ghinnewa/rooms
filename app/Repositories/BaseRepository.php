@@ -88,7 +88,7 @@ abstract class BaseRepository
         $query = $this->model->newQuery();
 
         if (count($search)) {
-            foreach($search as $key => $value) {
+            foreach ($search as $key => $value) {
                 if (in_array($key, $this->getFieldsSearchable())) {
                     $query->where($key, $value);
                 }
@@ -190,12 +190,25 @@ abstract class BaseRepository
 
         return $model->delete();
     }
-    public function files($file,$folder){
+    public function files($file, $folder)
+    {
+        $fileName = str_replace(' ', '_', $file['name']);
+        $fileName = $folder . '__' . uniqid() . $file['name'];
+        $output_file = 'public/' . $folder . '/' . $fileName;
+        $contents = file_get_contents($file['tmp_name']);
+        Storage::disk('local')->put($output_file, $contents);
+        return $fileName;
+    }
+    public function filesFromDashboard($file, $folder)
+    {
+        if (!empty($file)) {
+            $extension = $file->getClientOriginalExtension();
 
-        $fileName = $folder.'__'.uniqid(). $file['name'];
-    $output_file='public/'.$folder.'/'.$fileName;
-    $contents = file_get_contents($file['tmp_name']);
-    Storage::disk('local')->put($output_file, $contents);
-    return $fileName;
+            $fileName = $folder . '__' . uniqid() . '.' . $extension;
+
+            $file->storeAs('public/' . $folder . '/', $fileName);
+            return $fileName;
+        }
+        return '';
     }
 }

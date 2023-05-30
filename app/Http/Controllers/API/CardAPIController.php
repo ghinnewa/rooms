@@ -78,7 +78,7 @@ class CardAPIController extends AppBaseController
         $card->save();
 
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://gucc.test/card/?id='. $card->id.'&lang=ar' );
+            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
 
 
@@ -101,7 +101,7 @@ class CardAPIController extends AppBaseController
         /** @var Card $card */
         $card = $this->cardRepository->find($id);
 
-        if (empty($card)) {
+        if (empty($card)|| !$card->paid) {
             return $this->sendError(
                 __('messages.not_found', ['model' => __('models/cards.singular')])
             );
