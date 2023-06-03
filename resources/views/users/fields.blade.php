@@ -19,8 +19,8 @@
 
 <!-- roles Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('roles_id', __('models/cards.fields.roles_id').':') !!}
-    {!! Form::select('roles_id',$roles,null,['class' => 'form-control']) !!}
+    {!! Form::label('role_id', 'Role:') !!}
+    {!! Form::select('role_id',$roles,null,['class' => 'form-control']) !!}
 </div>
 
 

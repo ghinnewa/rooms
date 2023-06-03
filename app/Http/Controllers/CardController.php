@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
+
 
 use App\DataTables\CardDataTable;
 use App\Models\Categories;
 use Illuminate\Support\Facades\URL;
+// use Illuminate\Support\Facades\Request;
 use App\Http\Requests\CreateCardRequest;
 use App\Http\Requests\UpdateCardRequest;
 use App\Repositories\CardRepository;
@@ -29,6 +32,15 @@ class CardController extends AppBaseController
     public function __construct(CardRepository $cardRepo)
     {
         $this->cardRepository = $cardRepo;
+        $this->middleware('CheckAdminRoles')->only('edit');
+
+        $this->middleware('permission:cards index')->only('index');
+        $this->middleware('permission:cards show')->only('show');
+        $this->middleware('permission:cards create')->only('create');
+        // $this->middleware('permission:cards edit')->only('edit');
+        $this->middleware('permission:cards store')->only('store');
+        // $this->middleware('permission:cards destroy')->only('destroy');
+        $this->middleware('permission:cards update')->only('update');
     }
 
     /**
@@ -62,36 +74,36 @@ class CardController extends AppBaseController
     public function create()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
-        $cities=[
-            "Tripoli"=> "طرابلس",
-            "Benghazi"=> "بنغازي",
-            "Misrata"=> "مصراتة",
-            "Zawiya"=> "الزاوية",
-            "Bayda"=> "البيضاء",
-            "Gharyan"=> "غريان",
-            "Tobruk"=> "طبرق",
-            "Ajdabiya"=> "اجدابيا",
-            "Zliten"=> "زليتن",
-            "Derna"=> "درنة",
-            "Sabha"=> "سبها",
-            "Khoms"=> "الخمس",
-            "Sabratha"=> "صبراتة",
-            "Zuwara"=> "زوارة",
-            "Kufra"=> "الكفرة",
-            "Marj"=> "المرج",
-            "Tocra"=>  "توكرة",
-            "Tarhuna"=>  "ترهونة",
-            "Sirte"=>  "سرت",
-            "Msallata"=>  "مسلاتة",
-            "Bani Walid"=>  "بني وليد",
-            "Jumayl"=>  "الجميل",
-            "Sorman"=>  "صرمان",
-            "Al Gseibat"=>  "القصيبات",
-            "Shahhat"=>  "شحات",
+        $cities = [
+            "Tripoli" => "طرابلس",
+            "Benghazi" => "بنغازي",
+            "Misrata" => "مصراتة",
+            "Zawiya" => "الزاوية",
+            "Bayda" => "البيضاء",
+            "Gharyan" => "غريان",
+            "Tobruk" => "طبرق",
+            "Ajdabiya" => "اجدابيا",
+            "Zliten" => "زليتن",
+            "Derna" => "درنة",
+            "Sabha" => "سبها",
+            "Khoms" => "الخمس",
+            "Sabratha" => "صبراتة",
+            "Zuwara" => "زوارة",
+            "Kufra" => "الكفرة",
+            "Marj" => "المرج",
+            "Tocra" =>  "توكرة",
+            "Tarhuna" =>  "ترهونة",
+            "Sirte" =>  "سرت",
+            "Msallata" =>  "مسلاتة",
+            "Bani Walid" =>  "بني وليد",
+            "Jumayl" =>  "الجميل",
+            "Sorman" =>  "صرمان",
+            "Al Gseibat" =>  "القصيبات",
+            "Shahhat" =>  "شحات",
 
         ];
 
-        return view('cards.create', compact('categories','cities'));
+        return view('cards.create', compact('categories', 'cities'));
     }
     /**
      * Show the form for creating a new Card.
@@ -101,35 +113,35 @@ class CardController extends AppBaseController
     public function publicForm()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
-        $cities=[
-            "Tripoli"=> "طرابلس",
-            "Benghazi"=> "بنغازي",
-            "Misrata"=> "مصراتة",
-            "Zawiya"=> "الزاوية",
-            "Bayda"=> "البيضاء",
-            "Gharyan"=> "غريان",
-            "Tobruk"=> "طبرق",
-            "Ajdabiya"=> "اجدابيا",
-            "Zliten"=> "زليتن",
-            "Derna"=> "درنة",
-            "Sabha"=> "سبها",
-            "Khoms"=> "الخمس",
-            "Sabratha"=> "صبراتة",
-            "Zuwara"=> "زوارة",
-            "Kufra"=> "الكفرة",
-            "Marj"=> "المرج",
-            "Tocra"=>  "توكرة",
-            "Tarhuna"=>  "ترهونة",
-            "Sirte"=>  "سرت",
-            "Msallata"=>  "مسلاتة",
-            "Bani Walid"=>  "بني وليد",
-            "Jumayl"=>  "الجميل",
-            "Sorman"=>  "صرمان",
-            "Al Gseibat"=>  "القصيبات",
-            "Shahhat"=>  "شحات",
+        $cities = [
+            "Tripoli" => "طرابلس",
+            "Benghazi" => "بنغازي",
+            "Misrata" => "مصراتة",
+            "Zawiya" => "الزاوية",
+            "Bayda" => "البيضاء",
+            "Gharyan" => "غريان",
+            "Tobruk" => "طبرق",
+            "Ajdabiya" => "اجدابيا",
+            "Zliten" => "زليتن",
+            "Derna" => "درنة",
+            "Sabha" => "سبها",
+            "Khoms" => "الخمس",
+            "Sabratha" => "صبراتة",
+            "Zuwara" => "زوارة",
+            "Kufra" => "الكفرة",
+            "Marj" => "المرج",
+            "Tocra" =>  "توكرة",
+            "Tarhuna" =>  "ترهونة",
+            "Sirte" =>  "سرت",
+            "Msallata" =>  "مسلاتة",
+            "Bani Walid" =>  "بني وليد",
+            "Jumayl" =>  "الجميل",
+            "Sorman" =>  "صرمان",
+            "Al Gseibat" =>  "القصيبات",
+            "Shahhat" =>  "شحات",
 
         ];
-        return view('publicForm', compact('categories','cities'));
+        return view('publicForm', compact('categories', 'cities'));
     }
 
     /**
@@ -162,7 +174,7 @@ class CardController extends AppBaseController
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://gucc.test/card-arg110/?id='. $card->id.'&lang=ar' );
+            ->generate('http://gucc.test/card-arg110/?id=' . $card->id . '&lang=ar');
         Storage::disk('local')->put($output_file, $image);
         Flash::success('Card saved successfully.');
 
@@ -200,32 +212,32 @@ class CardController extends AppBaseController
     public function edit($id)
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
-        $cities=[
-            "Tripoli"=> "طرابلس",
-            "Benghazi"=> "بنغازي",
-            "Misrata"=> "مصراتة",
-            "Zawiya"=> "الزاوية",
-            "Bayda"=> "البيضاء",
-            "Gharyan"=> "غريان",
-            "Tobruk"=> "طبرق",
-            "Ajdabiya"=> "اجدابيا",
-            "Zliten"=> "زليتن",
-            "Derna"=> "درنة",
-            "Sabha"=> "سبها",
-            "Khoms"=> "الخمس",
-            "Sabratha"=> "صبراتة",
-            "Zuwara"=> "زوارة",
-            "Kufra"=> "الكفرة",
-            "Marj"=> "المرج",
-            "Tocra"=>  "توكرة",
-            "Tarhuna"=>  "ترهونة",
-            "Sirte"=>  "سرت",
-            "Msallata"=>  "مسلاتة",
-            "Bani Walid"=>  "بني وليد",
-            "Jumayl"=>  "الجميل",
-            "Sorman"=>  "صرمان",
-            "Al Gseibat"=>  "القصيبات",
-            "Shahhat"=>  "شحات",
+        $cities = [
+            "Tripoli" => "طرابلس",
+            "Benghazi" => "بنغازي",
+            "Misrata" => "مصراتة",
+            "Zawiya" => "الزاوية",
+            "Bayda" => "البيضاء",
+            "Gharyan" => "غريان",
+            "Tobruk" => "طبرق",
+            "Ajdabiya" => "اجدابيا",
+            "Zliten" => "زليتن",
+            "Derna" => "درنة",
+            "Sabha" => "سبها",
+            "Khoms" => "الخمس",
+            "Sabratha" => "صبراتة",
+            "Zuwara" => "زوارة",
+            "Kufra" => "الكفرة",
+            "Marj" => "المرج",
+            "Tocra" =>  "توكرة",
+            "Tarhuna" =>  "ترهونة",
+            "Sirte" =>  "سرت",
+            "Msallata" =>  "مسلاتة",
+            "Bani Walid" =>  "بني وليد",
+            "Jumayl" =>  "الجميل",
+            "Sorman" =>  "صرمان",
+            "Al Gseibat" =>  "القصيبات",
+            "Shahhat" =>  "شحات",
 
         ];
 
@@ -246,15 +258,35 @@ class CardController extends AppBaseController
      *
      * @return Response
      */
-    public function paid($id)
+    public function paid(Request $request)
     {
-        $card = $this->cardRepository->find($id);
+        $card = $this->cardRepository->find($request->id);
 
         if (empty($card)) {
             Flash::error('Card not found');
 
             return redirect(route('cards.index'));
         }
+
+
+        // Get the selected expiration period from the form input
+        $expirationPeriod = $request->expiration;
+
+        // Calculate the expiration date based on the selected expiration period
+        switch ($expirationPeriod) {
+            case '6m':
+                $expirationDate = Carbon::now()->addMonths(6);
+                break;
+            case '1y':
+                $expirationDate = Carbon::now()->addYears(1);
+                break;
+            case '2y':
+                $expirationDate = Carbon::now()->addYears(2);
+                break;
+        }
+// dd($expirationDate);
+        // Save the expiration date to the card
+        $card->expiration = $expirationDate;
         $card->paid = 1;
         $card->save();
         return view('cards.show')->with('card', $card);
@@ -300,7 +332,7 @@ class CardController extends AppBaseController
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
 
-        $card = $this->cardRepository->update(  $input, $id);
+        $card = $this->cardRepository->update($input, $id);
 
         Flash::success('Card updated successfully.');
 

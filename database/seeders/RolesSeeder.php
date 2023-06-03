@@ -15,10 +15,10 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $role =Role::findOrCreate('admin','web');
+        $role =Role::findOrCreate('system admin','web');
         $role->syncPermissions(Permission::all());
         $role =Role::findOrCreate('data_entry','web');
-        $role->syncPermissions(['cards show', 'cards index',]);
+        $role->syncPermissions(['cards show', 'cards index','cards edit','categories index']);
 
 
     }

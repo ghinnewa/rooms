@@ -8,10 +8,12 @@
                     <h1>Users</h1>
                 </div>
                 <div class="col-sm-6">
+                    @role('admin|system admin')
                     <a class="btn btn-primary float-right"
                        href="{{ route('users.create') }}">
                         Add New
                     </a>
+                    @endrole
                 </div>
             </div>
         </div>

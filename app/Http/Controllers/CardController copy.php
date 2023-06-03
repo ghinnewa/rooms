@@ -20,7 +20,9 @@ class CardController extends AppBaseController
     public function __construct(CardRepository $cardRepo)
     {
         $this->cardRepository = $cardRepo;
+        
     }
+
 
     /**
      * Display a listing of the Card.

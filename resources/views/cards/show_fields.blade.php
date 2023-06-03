@@ -146,7 +146,5 @@
 
 
 </div>
-@if(!$card->paid)
-<a  href="{{ route('paid',$card->id) }}" class="btn btn-primary" > paid </a>
-@endif
+
 

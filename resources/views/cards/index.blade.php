@@ -8,10 +8,13 @@
                    @lang('models/cards.plural')
                 </div>
                 <div class="col-sm-6">
+                    {{--  @role('admin|system admin')  --}}
                     <a class="btn btn-primary float-right"
                        href="{{ route('cards.create') }}">
+
                          @lang('crud.add_new')
                     </a>
+                    {{--  @endrole  --}}
                 </div>
             </div>
         </div>

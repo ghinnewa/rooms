@@ -23,6 +23,7 @@ class UserController extends AppBaseController
     public function __construct(UserRepository $userRepo)
     {
         $this->userRepository = $userRepo;
+
     }
 
     /**
@@ -58,19 +59,21 @@ class UserController extends AppBaseController
      */
     public function store(CreateUserRequest $request)
     {
-        try {
+
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
             $user = $this->userRepository->create($input);
 
-            if (isset($input['role'])) {
-                $user->assignRole($input['role']);
-            }
+
+                $role=Role::findById($input['role_id']);
+                $user->assignRole($role);
+                $user->save();
+
+
+
+
 
             Flash::success('User saved successfully.');
-        } catch (Throwable $th) {
-            Flash::error(__('messages.errorOccurred', ['model' => __('models/users.singular')]));
-        }
 
         return redirect(route('users.index'));
     }
