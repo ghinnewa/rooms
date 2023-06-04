@@ -327,13 +327,18 @@ class CardController extends AppBaseController
 
             return redirect(route('cards.index'));
         }
+
         $input = $request->all();
-        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
-        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
+        if(!empty($request->file('image'))){
+        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');}
+        if(!empty($request->file('identity_file1'))){
+        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');}
+        if(!empty($request->file('identity_file2'))){
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
-
+        }
         $card = $this->cardRepository->update($input, $id);
-
+        $card->membership_number = '00' + 1000 + $card->id;
+        $card->save();
         Flash::success('Card updated successfully.');
 
         return redirect(route('cards.index'));
