@@ -7,7 +7,7 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -35,7 +35,26 @@
         integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
         crossorigin="anonymous" />
         <script src="https://kit.fontawesome.com/69393ee716.js" crossorigin="anonymous"></script>
-
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Tempusdominus Bootstrap 4 -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+        <!-- JQVMap -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/jqvmap/jqvmap.min.css')}}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{  asset('assets/dist/css/adminlte.min.css')}}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/daterangepicker/daterangepicker.css')}}">
+        <!-- summernote -->
+        <link rel="stylesheet" href="{{  asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -164,10 +183,12 @@
 
     @stack('third_party_scripts')
 
+    @stack('chart')
     @stack('img')
     @stack('filename1')
     @stack('filename2')
     @stack('page_scripts')
+
 </body>
 
 </html>

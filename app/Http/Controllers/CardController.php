@@ -142,9 +142,7 @@ class CardController extends AppBaseController
     public function store(CreateCardRequest $request)
     {
 
-        //save image
-        $previousUrl = URL::previous();
-        $previousRouteName = Route::getRoutes()->match(Request::create($previousUrl))->getName();
+
 
         $input = $request->all();
 
@@ -152,8 +150,8 @@ class CardController extends AppBaseController
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
         //generate qr code
-        if ($previousRouteName == 'cards.create') $input['paid'] = 1;
-        if ($previousRouteName == 'requests') $input['paid'] = 0;
+        $input['paid'] = 0;
+
 
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
@@ -162,12 +160,12 @@ class CardController extends AppBaseController
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://gucc.test/card-arg110/?id='. $card->id.'&lang=ar' );
+            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
         Flash::success('Card saved successfully.');
 
-        if ($previousRouteName == 'cards.create') return redirect(route('cards.index'));
-        if ($previousRouteName == 'publicForm') return redirect(route('publicForm'));
+        return redirect(route('cards.index'));
+
     }
 
     /**
@@ -288,20 +286,25 @@ class CardController extends AppBaseController
      */
     public function update($id, UpdateCardRequest $request)
     {
-        $card = $this->cardRepository->find($id);
+         $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
             Flash::error('Card not found');
 
             return redirect(route('cards.index'));
         }
+
         $input = $request->all();
-        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
-        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
+        if(!empty($request->file('image'))){
+        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');}
+        if(!empty($request->file('identity_file1'))){
+        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');}
+        if(!empty($request->file('identity_file2'))){
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
-
-        $card = $this->cardRepository->update(  $input, $id);
-
+        }
+        $card = $this->cardRepository->update($input, $id);
+        $card->membership_number = '00' + 1000 + $card->id;
+        $card->save();
         Flash::success('Card updated successfully.');
 
         return redirect(route('cards.index'));
