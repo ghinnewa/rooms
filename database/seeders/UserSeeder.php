@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::findById(3);
+        $role = Role::findById(1);
         $role->syncPermissions(Permission::all());
 
         // Create a new user
