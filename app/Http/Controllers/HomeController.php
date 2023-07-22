@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-use Spatie\Permission\Models\Role;
-=======
 use Illuminate\Support\Facades\DB;
->>>>>>> setup
 
 class HomeController extends Controller
 {
@@ -30,9 +26,6 @@ class HomeController extends Controller
     public function index()
     {
 
-<<<<<<< HEAD
-        return view('home');
-=======
         $approvedCardsCount = Card::where('paid', 1)->count();
         $requestsCount = Card::where('paid', 0)->count();
         $expiredCardsCount = Card::where('expiration', '<', now())->count();
@@ -65,6 +58,5 @@ class HomeController extends Controller
             'expiredCardsCount' => $expiredCardsCount,
             'totalCardsCount' => $totalCardsCount,
         ]);
->>>>>>> setup
     }
 }
