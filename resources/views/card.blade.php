@@ -47,7 +47,6 @@
 
 
 
-
         body {
             line-height: 1.2;
             width: 3.5in;
@@ -65,17 +64,14 @@
             box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
             height: 0.85in;
             width: 0.85in;
-            {{--  border: 1px solid #006ab3;  --}}
-            border-radius: 20%;
+            {{--  border: 1px solid #006ab3;  --}} border-radius: 20%;
             {{--  padding: 0.1in;  --}}
         }
 
         .qr {
             margin: 0.05in;
             border: 0.5px solid #0000001f;
-            {{--  border-radius: 10%;  --}}
-
-            height: 0.70in;
+            {{--  border-radius: 10%;  --}} height: 0.70in;
             width: 0.70in;
             padding: 0.02in;
         }
@@ -177,6 +173,7 @@
 
         }
 
+
         .uperhalf {
             display: flex;
             justify-content: space-evenly;
@@ -184,8 +181,9 @@
             width: 95%;
             padding: 5px;
 
-            padding-top:0px;
+            padding-top: 0px;
         }
+
         .uperhalf1 {
             display: flex;
             justify-content: end;
@@ -207,6 +205,10 @@
             font-weight: 500;
 
         }
+        .print-only {
+            position: absolute;
+            left: -9999px;
+        }
 
         @media print {
             .first-page {
@@ -226,7 +228,10 @@
                 align-items: center;
 
             }
-
+            .print-only {
+                position: static;
+                left: auto;
+            }
             .logo {
                 width: 60%;
                 height: 60%;
@@ -250,7 +255,7 @@
 
     </div>  --}}
 
-    <div class="content ">
+    <div class="content print-only">
         <div class="uperhalf1">
             <div class="images">
                 <img src="{{ asset('storage/profile/' . $card->image) }}" style=" object-fit:cover;"
@@ -260,7 +265,7 @@
             <div class="name" style="">
 
 
-                <span class="head" >
+                <span class="head">
                     <b style="color: rgba(89, 89, 91, 1);">{{ $card->name_ar }}</b>
 
                 </span>
@@ -268,7 +273,8 @@
 
                 <span class="head" dir="">
 
-                    <b style="font-size:10px;color: rgba(89, 89, 91, 0.582);text-transform: uppercase;">{{ $card->name_en }}</b>
+                    <b
+                        style="font-size:10px;color: rgba(89, 89, 91, 0.582);text-transform: uppercase;">{{ $card->name_en }}</b>
 
 
                 </span>
@@ -290,7 +296,8 @@
                         align-items: center;">
                         الشركة/Company
                     </span>
-                    <div class="boxy head" style="background: #315ba5;color:white;text-transform: uppercase;padding:3px;">
+                    <div class="boxy head"
+                        style="background: #315ba5;color:white;text-transform: uppercase;padding:3px;">
                         <div>{{ $card->company_ar }}</div>
                         <div>{{ $card->company_en }}</div>
                     </div>
@@ -307,7 +314,8 @@
                         Title
 
                     </span>
-                    <span class="boxy head" dir="" style="background: #315ba5;color:white;text-transform: uppercase;">
+                    <span class="boxy head" dir=""
+                        style="background: #315ba5;color:white;text-transform: uppercase;">
 
                         {{ $card->job_title_ar }}
 
@@ -320,7 +328,7 @@
 
                 <span class="number">
 
-                    <span dir="rtl"> رقم البطاقة :  </span>
+                    <span dir="rtl"> رقم البطاقة : </span>
                     <span>{{ $card->membership_number }}</span>
 
                 </span>
@@ -331,7 +339,8 @@
 
             </div>
         </div>
-        {{--  <div class="
+    </div>
+    {{--  <div class="
     </div>
 
 <script>
@@ -341,14 +350,16 @@
         doc.save(`{{  $card->name_ar}}.pdf`);
     };  --}}
 
-       <script>
+    <script>
         window.onload = function() {
             var arabicCompany = document.querySelector('.boxy:nth-child(2) div:nth-child(1)');
             var englishCompany = document.querySelector('.boxy:nth-child(2) div:nth-child(2)');
             var arabicCompanyHeight = arabicCompany.offsetHeight;
-            var arabicCompanyLineHeight = parseFloat(window.getComputedStyle(arabicCompany, null).getPropertyValue('line-height'));
+            var arabicCompanyLineHeight = parseFloat(window.getComputedStyle(arabicCompany, null).getPropertyValue(
+                'line-height'));
             var englishCompanyHeight = englishCompany.offsetHeight;
-            var englishCompanyLineHeight = parseFloat(window.getComputedStyle(englishCompany, null).getPropertyValue('line-height'));
+            var englishCompanyLineHeight = parseFloat(window.getComputedStyle(englishCompany, null).getPropertyValue(
+                'line-height'));
 
             if (arabicCompanyHeight > arabicCompanyLineHeight) {
                 arabicCompany.style.textAlign = 'right';
@@ -365,7 +376,8 @@
             var englishName = document.querySelector('.name .head:nth-child(2) b');
             var arabicNameWidth = arabicName.offsetWidth;
             var englishNameWidth = englishName.offsetWidth;
-            var englishNameFontSize = parseFloat(window.getComputedStyle(englishName, null).getPropertyValue('font-size'));
+            var englishNameFontSize = parseFloat(window.getComputedStyle(englishName, null).getPropertyValue(
+                'font-size'));
 
             while (englishNameWidth < arabicNameWidth && englishNameFontSize < 50) {
                 englishNameFontSize += 0.5;
@@ -378,14 +390,12 @@
                 englishName.style.fontSize = englishNameFontSize + 'px';
                 englishNameWidth = englishName.offsetWidth;
             }
+            window.print();
+            window.onafterprint = function() {
+                window.close();
+            }
         }
-
-
-
-
-
-
-       </script>
+    </script>
 
 </body>
 

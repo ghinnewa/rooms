@@ -42,7 +42,8 @@
         </ul>
 <br>
 
-            <a href="#" class="btn btn-primary btn-block"><b>Print</b></a>
+            <button onclick="window.open('/card/{{ $card->id }}')"
+            class="btn btn-primary btn-block"><b>Print</b></button>
 
 
     </div>
@@ -104,7 +105,7 @@
                 @if (!$card->paid)
                     <p class="badge bg-warning text-center"> pending </p>
                 @else
-                    @if ($card->expiration < Carbon::now())
+                    @if ($card->expiration < Carbon\Carbon::now())
                         <p class="badge bg-danger text-center"> expired </p>
                     @else
                         <p class="badge bg-success text-center"> active </p>

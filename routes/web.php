@@ -32,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['role:system admin| admin']);;
     Route::get('attachments/download/{folder}/{name}', [App\Http\Controllers\CardController::class, 'downloadAttachment'])->name('attachments.downloadAttachment');
     // Your authorized routes here...
+    Route::get('/download-pdf/{card}', 'App\Http\Controllers\PDFController@download');
+
     Route::get('/card/{id}', [App\Http\Controllers\CardController::class, 'showpublic'])->name('card');
 });
 // Route::post('store',[  App\Http\Controllers\CardController::class,'store'])->name('store');
