@@ -23,7 +23,7 @@ class Category extends Model
     use HasFactory;
 
     public $table = 'categories';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -58,7 +58,7 @@ class Category extends Model
     public static $rules = [
         'name_ar' => 'required|string|max:255',
         'name_en' => 'required|string|max:255',
-        'image' => 'required|string|max:255',
+        'image' => 'required',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'

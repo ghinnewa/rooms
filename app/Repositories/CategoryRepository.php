@@ -31,7 +31,11 @@ class CategoryRepository extends BaseRepository
     {
         return $this->fieldSearchable;
     }
-
+    public function findWithCards($id)
+    {
+        return Category::with(['cards' => function ($query) {
+            $query->where('paid', 1);
+        }])->find($id);    }
     /**
      * Configure the Model
      **/

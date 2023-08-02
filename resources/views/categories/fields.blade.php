@@ -10,8 +10,30 @@
     {!! Form::text('name_en', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
 </div>
 
-<!-- Image Field -->
+
+<style>
+    #preview {
+        max-width: 100px;
+        //  display: none;
+    }
+</style>
 <div class="form-group col-sm-6">
-    {!! Form::label('image', 'Image:') !!}
-    {!! Form::text('image', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
+    {!! Form::label('image',__('models/cards.fields.image').':' ) !!} <br>
+    {!! Form::label('image', 'Upload', ['class' => 'btn-primary btn btn-block ']) !!}
+    {!! Form::file('image', ['style' => 'display:none;', 'id' => 'image', 'onchange' => 'previewImage(event)']) !!}
+    <img id="preview" src={{ Route::is('cards.edit') ? asset('storage/profile/' . $card->image) : '' }}>
+
 </div>
+@push('img')
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = "block";
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+@endpush

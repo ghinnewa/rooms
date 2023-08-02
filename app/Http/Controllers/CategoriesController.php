@@ -61,6 +61,7 @@ class CategoriesController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['image'] = $this->categoriesRepository->filesFromDashboard($request->file('image'), 'categories');
         $categories = $this->categoriesRepository->create($input);
 
         Flash::success('Categories saved successfully.');
@@ -97,6 +98,7 @@ class CategoriesController extends AppBaseController
      */
     public function edit($id)
     {
+
         $categories = $this->categoriesRepository->find($id);
 
         if (empty($categories)) {
@@ -118,6 +120,7 @@ class CategoriesController extends AppBaseController
      */
     public function update($id, UpdateCategoriesRequest $request)
     {
+
         $categories = $this->categoriesRepository->find($id);
 
         if (empty($categories)) {
@@ -125,8 +128,10 @@ class CategoriesController extends AppBaseController
 
             return redirect(route('categories.index'));
         }
+        $input = $request->all();
 
-        $categories = $this->categoriesRepository->update($request->all(), $id);
+        $input['image'] = $this->categoriesRepository->filesFromDashboard($request->file('image'), 'categories');
+        $categories = $this->categoriesRepository->update( $input, $id);
 
         Flash::success('Categories updated successfully.');
 

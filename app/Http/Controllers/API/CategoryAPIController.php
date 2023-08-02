@@ -44,6 +44,28 @@ class CategoryAPIController extends AppBaseController
         );
     }
 
+
+    /**
+     * Display a listing of the Card.
+     * GET|HEAD /cards
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function categories(Request $request)
+    {
+        $cards = $this->categoryRepository->all(
+            $request->except(['skip', 'limit']),
+            $request->get('skip'),
+            $request->get('limit')
+        );
+
+
+        return $this->sendResponse(
+            $cards->toArray(),
+            __('messages.retrieved', ['model' => __('models/cards.plural')])
+        );
+    }
     /**
      * Store a newly created Category in storage.
      * POST /categories
@@ -75,7 +97,7 @@ class CategoryAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Category $category */
-        $category = $this->categoryRepository->find($id);
+        $category = $this->categoryRepository->findWithCards($id);
 
         if (empty($category)) {
             return $this->sendError(
@@ -83,6 +105,7 @@ class CategoryAPIController extends AppBaseController
             );
         }
 
+        // $category= $category->cards;
         return $this->sendResponse(
             $category->toArray(),
             __('messages.retrieved', ['model' => __('models/categories.singular')])

@@ -23,7 +23,7 @@ class CardDataTable extends DataTable
 
         return $dataTable->addColumn('image', function ($card) {
            $url = asset('storage/profile/'.$card->image);
-            return '<img src='.$url.' style="width:50px; height:50px" class="rounded-circle"/>';
+            return '<img src='.$url.' style="width:50px; height:50px;  object-fit: cover;" class="rounded-circle"/>';
         })->rawColumns(['image', 'action','title'])->addColumn('action', 'cards.datatables_actions');
        }
 

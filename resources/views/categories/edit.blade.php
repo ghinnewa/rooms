@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($categories, ['route' => ['categories.update', $categories->id], 'method' => 'patch']) !!}
+            {!! Form::model($categories, ['route' => ['categories.update', $categories->id], 'method' => 'patch', 'files' => true]) !!}
 
             <div class="card-body">
                 <div class="row">
