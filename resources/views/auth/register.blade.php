@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{--  <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -144,4 +144,4 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
-</html>
+</html>  --}}

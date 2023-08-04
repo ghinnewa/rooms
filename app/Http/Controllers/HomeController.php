@@ -29,7 +29,7 @@ class HomeController extends Controller
 
         $approvedCardsCount = Card::where('paid', 1)->count();
         $requestsCount = Card::where('paid', 0)->count();
-        $expiredCardsCount = Card::where('expiration', '>', Carbon::now())->count();
+        $expiredCardsCount = Card::where('expiration', '<', Carbon::now())->count();
         $totalCardsCount = Card::count();
 
 

@@ -103,16 +103,22 @@
             </div>
             <div class="d-flex item-center justify-content-center">
                 @if (!$card->paid)
-                    <p class="badge bg-warning text-center"> pending </p>
+                    <p class="badge bg-warning text-center"> pending </p> </div>
+
                 @else
-                    @if ($card->expiration < Carbon\Carbon::now())
+                    @if ($card->expiration < Carbon\Carbon::now() &&$card->expiration!=null)
                         <p class="badge bg-danger text-center"> expired </p>
+                          </div>
+                        <h3 class="profile-username text-center">Exp:{{date('Y-m-d ',strtotime($card->expiration))  }}</h3>
                     @else
                         <p class="badge bg-success text-center"> active </p>
+                    </div>
+                    <h3 class="profile-username text-center">Exp:{{date('Y-m-d ',strtotime($card->expiration))  }}</h3>
                     @endif
+
                 @endif
-            </div>
-            <h3 class="profile-username text-center">Exp:{{date('Y-m-d ', strtotime($card->expiration))  }}</h3>
+
+
 
 
 
@@ -121,9 +127,7 @@
             <a href="{{ route('attachments.downloadAttachment', ['identity_file2', $card->identity_file2]) }}"
                 class="btn  btn-outline-primary btn-block"><b>identity file 2</b></a>
 
-            @if ($card->paid)
-                <a href="#" class="btn btn-primary btn-block"><b>Print</b></a>
-            @endif
+
             <div class="d-flex justify-content-center mt-3">
                 <!-- Facebook -->
                 @if ($card->facebook_url)

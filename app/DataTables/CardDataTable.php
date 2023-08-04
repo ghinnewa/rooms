@@ -39,7 +39,7 @@ class CardDataTable extends DataTable
         if(Route::is('cards.index')) return $model->where('paid',1)->newQuery();
         if(Route::is('cards.requests')) return $model->where('paid',0)->newQuery();
         if (Route::is('cards.exp')) {
-            return $model->where('expiration', '>', Carbon::now())->newQuery();
+            return $model->where('expiration', '<', Carbon::now())->newQuery();
         }    }
 
     /**

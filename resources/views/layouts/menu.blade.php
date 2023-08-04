@@ -19,6 +19,15 @@
     </a>
 </li>
 
+
+<li class="nav-item">
+    <a href="{{ route('cards.index') }}"
+       class="nav-link {{ (Request::is('cards') )? 'active' : '' }}">
+       <i class="fa fa-check-circle p-1 text-lg" aria-hidden="true"></i>
+       <p> Active Members</p>
+    </a>
+</li>
+
 <li class="nav-item">
     <a href="{{ route('cards.requests') }}"
        class="nav-link {{ Request::is('requests') ? 'active' : '' }}">
@@ -34,11 +43,5 @@
     </a>
 </li>
 
-<li class="nav-item">
-    <a href="{{ route('cards.index') }}"
-       class="nav-link {{ (Request::is('cards') )? 'active' : '' }}">
-       <i class="fa fa-check-circle p-1 text-lg" aria-hidden="true"></i>
-       <p> Active Members</p>
-    </a>
-</li>
+
 
