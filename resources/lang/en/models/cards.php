@@ -16,6 +16,7 @@ return array (
     'Social_media' => 'social media',
     'email' => 'Email',
     'city' => 'City',
+    'expiration' => 'Expiration Date',
     'website' => 'Website',
     'qrcode' => 'Qrcode',
     'image' => 'Image',

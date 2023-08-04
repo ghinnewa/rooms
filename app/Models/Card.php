@@ -77,7 +77,8 @@ class Card extends Model
         'youtube_url',
         'identity_file1',
         'identity_file2',
-        'city'
+        'city',
+        'expiration'
     ];
 
     /**
@@ -110,6 +111,7 @@ class Card extends Model
         'youtube_url' => 'string',
         'identity_file1' => 'string',
         'identity_file2' => 'string',
+        'expiration' => 'date',
         'city' => 'string'
     ];
 
@@ -130,7 +132,9 @@ class Card extends Model
         'website' => 'nullable|string|max:255',
         'qrcode' => '',
         'image' => '',
-        'paid' => 'required|boolean',
+        'expiration' => 'date|after:now',
+
+        'paid' => 'boolean',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',

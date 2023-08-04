@@ -108,6 +108,11 @@
     {!! Form::label('company_email', __('models/cards.fields.company_email').':') !!}
     {!! Form::text('company_email', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
+<!-- Company Email Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('expiration', __('models/cards.fields.expiration').':') !!}
+    {!! Form::date('expiration', Route::is('cards.edit') ?  $card->expiration: null  , ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
+</div>
 
 
 
@@ -198,7 +203,8 @@
     </script>
 @endpush
 
- {!! Form::hidden('paid', 0) !!}
+
+
 
 
 

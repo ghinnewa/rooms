@@ -346,9 +346,12 @@ class CardController extends AppBaseController
         if (!empty($request->file('identity_file2'))) {
             $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
         }
-        
+        // $input['paid'] =  $card->paid;
+
         $card = $this->cardRepository->update($input, $id);
+        $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
+
         Flash::success('Card updated successfully.');
 
         return redirect(route('cards.index'));
