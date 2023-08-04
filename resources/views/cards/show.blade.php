@@ -23,7 +23,7 @@
                     @include('cards.show_fields')
                 </div>
                 <!-- The approve button -->
-                @if(!$card->paid)
+                @if(!$card->paid || $card->expiration < Carbon\Carbon::now()&& $card->expiration!=null)
                 <button id="approve-button" class="btn btn-primary">Approve</button>
                 @endif
                 <!-- The expiration form (initially hidden) -->
@@ -52,5 +52,5 @@
             </div>
         </div>
     </div>
-    
+
 @endsection

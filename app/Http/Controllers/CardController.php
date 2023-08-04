@@ -65,6 +65,17 @@ class CardController extends AppBaseController
     {
         return $cardDataTable->render('cards.requests');
     }
+    /**
+     * Display a listing of the Card.
+     *
+     * @param CardDataTable $cardDataTable
+     *
+     * @return Response
+     */
+    public function exp(CardDataTable $cardDataTable)
+    {
+        return $cardDataTable->render('cards.exp');
+    }
 
     /**
      * Show the form for creating a new Card.
@@ -172,12 +183,11 @@ class CardController extends AppBaseController
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
+            ->generate('http://glucc.ly/card/?id=' . $card->id . '&lang=ar');
         Storage::disk('local')->put($output_file, $image);
         Flash::success('Card saved successfully.');
 
         return redirect(route('cards.index'));
-
     }
 
     /**
@@ -282,7 +292,7 @@ class CardController extends AppBaseController
                 $expirationDate = Carbon::now()->addYears(2);
                 break;
         }
-// dd($expirationDate);
+        // dd($expirationDate);
         // Save the expiration date to the card
         $card->expiration = $expirationDate;
         $card->paid = 1;
@@ -318,7 +328,7 @@ class CardController extends AppBaseController
      */
     public function update($id, UpdateCardRequest $request)
     {
-         $card = $this->cardRepository->find($id);
+        $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
             Flash::error('Card not found');
@@ -327,12 +337,14 @@ class CardController extends AppBaseController
         }
 
         $input = $request->all();
-        if(!empty($request->file('image'))){
-        $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');}
-        if(!empty($request->file('identity_file1'))){
-        $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');}
-        if(!empty($request->file('identity_file2'))){
-        $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
+        if (!empty($request->file('image'))) {
+            $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
+        }
+        if (!empty($request->file('identity_file1'))) {
+            $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
+        }
+        if (!empty($request->file('identity_file2'))) {
+            $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
         }
         $card = $this->cardRepository->update($input, $id);
         $card->membership_number = '00' + 1000 + $card->id;

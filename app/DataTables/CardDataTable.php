@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Card;
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
 
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -37,7 +38,9 @@ class CardDataTable extends DataTable
     {
         if(Route::is('cards.index')) return $model->where('paid',1)->newQuery();
         if(Route::is('cards.requests')) return $model->where('paid',0)->newQuery();
-    }
+        if (Route::is('cards.exp')) {
+            return $model->where('expiration', '>', Carbon::now())->newQuery();
+        }    }
 
     /**
      * Optional method if you want to use html builder.
@@ -55,11 +58,7 @@ class CardDataTable extends DataTable
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
+
                     [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',

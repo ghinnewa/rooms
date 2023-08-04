@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('cards',  App\Http\Controllers\CardController::class);
 
     Route::get('requests',[ App\Http\Controllers\CardController::class,'requests'])->name('cards.requests');
+    Route::get('exp',[ App\Http\Controllers\CardController::class,'exp'])->name('cards.exp');
     Route::post('paid',[ App\Http\Controllers\CardController::class,'paid'])->name('paid');
     Route::resource('categories', App\Http\Controllers\CategoriesController::class);
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['role:system admin| admin']);;

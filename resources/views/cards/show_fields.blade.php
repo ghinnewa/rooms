@@ -112,7 +112,7 @@
                     @endif
                 @endif
             </div>
-            <h3 class="profile-username text-center">{{ $card->expiration }}</h3>
+            <h3 class="profile-username text-center">Exp:{{date('Y-m-d ', strtotime($card->expiration))  }}</h3>
 
 
 
