@@ -67,8 +67,8 @@ class CardAPIController extends AppBaseController
 
         DB::beginTransaction();
         $input = $request->all();
-        // $input['image'] = $this->cardRepository->files($request->image, 'profile');
-       // $input['identity_file1'] = $this->cardRepository->files($request->identity_file1, 'identity_file1');
+     $input['image'] = $this->cardRepository->files($request->image, 'profile');
+        $input['identity_file1'] = $this->cardRepository->files($request->identity_file1, 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->files($request->identity_file2, 'identity_file2');
 
         $input['paid'] = 0;
