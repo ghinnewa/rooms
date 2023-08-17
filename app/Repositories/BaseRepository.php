@@ -194,11 +194,7 @@ abstract class BaseRepository
 public function files($file, $folder)
 {
     // Validate the $file parameter
-    if (!($file instanceof \Illuminate\Http\UploadedFile)) {
-        // Handle the case where $file is not valid
-        // For example, you can throw an exception or return an error message
-        throw new Exception("Invalid file data");
-    }
+ 
 
     $fileName = str_replace(' ', '_', $file->getClientOriginalName());
     $fileName = $folder . '__' . uniqid() . $fileName;
