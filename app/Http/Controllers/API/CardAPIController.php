@@ -90,9 +90,9 @@ class CardAPIController extends AppBaseController
         //     'error' => 'no'
         // ]);
         return   response()->json([
-            'success' => 'false',
+            'success' => 'true',
             'message' => __('messages.error', ['model' => __('models/cards.singular')]),
-            'error' => 'error'
+            
         ]);
     } catch (\Exception $e) {
         DB::rollBack();
