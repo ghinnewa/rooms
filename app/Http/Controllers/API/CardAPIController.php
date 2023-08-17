@@ -52,14 +52,7 @@ class CardAPIController extends AppBaseController
         );
     }
 
-     /**
-      * Store a newly created Card in storage.
-      * POST /cards
-      *
-      * @param CreateCardAPIRequest $request
-      *
-      * @return Response
-      */
+ 
   /**
      * Store a newly created Card in storage.
      * POST /cards
