@@ -193,8 +193,8 @@ abstract class BaseRepository
  
  public function files($file, $folder)
     {
-        $fileName = str_replace(' ', '_', $file['name']);
-        $fileName = $folder . '__' . uniqid() . $file['name'];
+        
+        $fileName = $folder . '__' . uniqid();
         $output_file = 'public/' . $folder . '/' . $fileName;
 
         if (is_readable($file['tmp_name'])) {
