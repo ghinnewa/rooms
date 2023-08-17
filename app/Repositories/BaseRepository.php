@@ -194,7 +194,7 @@ abstract class BaseRepository
 public function files($file, $folder)
 {
     // Validate the $file parameter
- dd(hi);
+
 
     $fileName = str_replace(' ', '_', $file->getClientOriginalName());
     $fileName = $folder . '__' . uniqid() . $fileName;
