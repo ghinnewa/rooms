@@ -94,7 +94,7 @@ class CardAPIController extends AppBaseController
 
         return response()->json([
             'success' => 'false',
-            'message' => __('messages.error', ['model' => __('models/cards.singular')]),
+            'message' => __('messages.error', ['model' => __('models/cards.singular'),'data'=> $input]),
             'error' => $e->getMessage()
         ]);
     }
