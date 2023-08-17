@@ -190,14 +190,14 @@ abstract class BaseRepository
 
         return $model->delete();
     }
-    public function files($file, $folder)
-    {
-        $fileName = str_replace(' ', '_', $file['name']);
-        $fileName = $folder . '__' . uniqid() . $file['name'];
-        $output_file = 'public/' . $folder . '/' . $fileName;
-        $contents = file_get_contents($file['tmp_name']);
-        Storage::disk('local')->put($output_file, $contents);
-        return $fileName;
+ 
+       public function files($file,$folder){
+    $fileName = str_replace(' ', '_', $file['name']);
+        $fileName = $folder.'__'.uniqid(). $fileName;
+    $output_file='public/'.$folder.'/'.$fileName;
+    $contents = file_get_contents($file['tmp_name']);
+    Storage::disk('local')->put($output_file, $contents);
+    return $fileName;
     }
     public function filesFromDashboard($file, $folder)
     {
