@@ -61,7 +61,7 @@ class CardAPIController extends AppBaseController
      *
      * @return Response
      */
-       public function store(Request $request)
+       public function store(CreateCardAPIRequest $request)
 {
     try {
 
