@@ -191,17 +191,23 @@ abstract class BaseRepository
         return $model->delete();
     }
  
-        public function files($file, $folder)
-    {
-        $fileName = str_replace(' ', '_', $file['name']);
-        $fileName = $folder . '__' . uniqid() . $file['name'];
-        $output_file = 'public/' . $folder . '/' . $fileName;
-        var_dump(file_exists('https://gucc.nofoodpr.com/rooms/public/tmp/phpCd6PgW'));
+   public function files($file, $folder)
+{
+    $fileName = str_replace(' ', '_', $file['name']);
+    $fileName = $folder . '__' . uniqid() . $file['name'];
+    $output_file = 'public/' . $folder . '/' . $fileName;
+
+    if (is_readable($file['tmp_name'])) {
         $contents = file_get_contents($file['tmp_name']);
-        
         Storage::disk('local')->put($output_file, $contents);
         return $fileName;
+    } else {
+        // Handle the case where the file is not accessible
+        // For example, you can throw an exception or return an error message
+        throw new Exception("The file is not accessible");
     }
+}
+
 
 
     public function filesFromDashboard($file, $folder)
