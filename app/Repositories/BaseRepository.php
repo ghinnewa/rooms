@@ -204,7 +204,7 @@ abstract class BaseRepository
     } else {
         // Handle the case where the file is not accessible
         // For example, you can throw an exception or return an error message
-        throw new Exception("The file is not accessible");
+        dd('nope');
     }
 }
 
