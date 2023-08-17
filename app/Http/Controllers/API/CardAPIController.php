@@ -60,7 +60,15 @@ class CardAPIController extends AppBaseController
       *
       * @return Response
       */
-    public function store(CreateCardAPIRequest $request)
+  /**
+     * Store a newly created Card in storage.
+     * POST /cards
+     *
+     * @param CreateCardAPIRequest $request
+     *
+     * @return Response
+     */
+       public function store(CreateCardAPIRequest $request)
 {
     try {
 
@@ -85,16 +93,16 @@ class CardAPIController extends AppBaseController
 
         DB::commit();
 
-        return   response()->json([
-            'success' => 'false',
-            'message' => __('messages.error', ['model' => __('models/cards.singular')]),
-            'error' => 'error'
-        ]);
+      
+         return $this->sendResponse(
+            $card->toArray(),
+            __('messages.saved', ['model' => __('models/cards.singular')])
+        );
     } catch (\Exception $e) {
         DB::rollBack();
 
         return response()->json([
-            'success' => false,
+            'success' => 'false',
             'message' => __('messages.error', ['model' => __('models/cards.singular')]),
             'error' => $e->getMessage()
         ]);
