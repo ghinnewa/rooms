@@ -85,15 +85,6 @@ class CardAPIController extends AppBaseController
 
         DB::commit();
 
-        // return $this->sendResponse(
-        //     $card->toArray(),
-        //     __('messages.saved', ['model' => __('models/cards.singular')])
-        // );
-        // return response()->json([
-        //     'success' => false,
-        //     'message' => __('messages.error', ['model' => __('models/cards.singular')]),
-        //     'error' => 'no'
-        // ]);
         return   response()->json([
             'success' => 'false',
             'message' => __('messages.error', ['model' => __('models/cards.singular')]),
