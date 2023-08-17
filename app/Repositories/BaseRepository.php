@@ -192,14 +192,29 @@ abstract class BaseRepository
     }
  
 public function files($file, $folder)
-    {
-        $fileName = str_replace(' ', '_', $file['name']);
-        $fileName = $folder . '__' . uniqid() . $file['name'];
-        $output_file = 'public/' . $folder . '/' . $fileName;
-        $contents = file_get_contents($file['tmp_name']);
+{
+    // Validate the $file parameter
+    if (!($file instanceof \Illuminate\Http\UploadedFile)) {
+        // Handle the case where $file is not valid
+        // For example, you can throw an exception or return an error message
+        throw new Exception("Invalid file data");
+    }
+
+    $fileName = str_replace(' ', '_', $file->getClientOriginalName());
+    $fileName = $folder . '__' . uniqid() . $fileName;
+    $output_file = 'public/' . $folder . '/' . $fileName;
+
+    if ($file->isValid()) {
+        $contents = file_get_contents($file->getRealPath());
         Storage::disk('local')->put($output_file, $contents);
         return $fileName;
+    } else {
+        // Handle the case where the file is not valid
+        // For example, you can throw an exception or return an error message
+        throw new Exception("The file is not valid");
     }
+}
+
 
 
 
