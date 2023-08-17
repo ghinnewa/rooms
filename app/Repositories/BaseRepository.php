@@ -191,16 +191,29 @@ abstract class BaseRepository
         return $model->delete();
     }
  
-       public function files($file,$folder){
+      public function files($file, $folder)
+{
     $fileName = str_replace(' ', '_', $file['name']);
-        $fileName = $folder.'__'.uniqid(). $fileName;
-    $output_file='public/'.$folder.'/'.$fileName;
-          
-    $contents = file_get_contents($file['tmp_name']);
-           
+    $fileName = $folder . '__' . uniqid() . $fileName;
+    $output_file = 'public/' . $folder . '/' . $fileName;
+
+    // Open the file for reading
+    $handle = fopen($file['tmp_name'], 'r');
+    if ($handle === false) {
+        // Handle error
+        return null;
+    }
+
+    // Read the contents of the file
+    $contents = fread($handle, filesize($file['tmp_name']));
+
+    // Close the file handle
+    fclose($handle);
+
     Storage::disk('local')->put($output_file, $contents);
     return $fileName;
-    }
+}
+
     public function filesFromDashboard($file, $folder)
     {
         if (!empty($file)) {
