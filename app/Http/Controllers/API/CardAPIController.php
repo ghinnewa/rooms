@@ -91,7 +91,7 @@ class CardAPIController extends AppBaseController
             __('messages.saved', ['model' => __('models/cards.singular')])
         );
     } catch (\Exception $e) {
-        DB::rollBack();
+        //DB::rollBack();
 
         return response()->json([
             'success' => 'false',
