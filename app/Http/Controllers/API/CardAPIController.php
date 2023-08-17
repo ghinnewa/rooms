@@ -76,7 +76,7 @@ class CardAPIController extends AppBaseController
         $card = $this->cardRepository->create($input);
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
-
+dd( $card);
         $image = QrCode::size(200)->errorCorrection('H')
            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
