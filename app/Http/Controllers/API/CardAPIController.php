@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Facades\Storage;
 use Response;
+use Illuminate\Http\Request;
+
 use SimpleSoftwareIO\QrCode\Generator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -61,7 +63,7 @@ class CardAPIController extends AppBaseController
      *
      * @return Response
      */
-       public function store(CreateCardAPIRequest $request)
+       public function store(Request $request)
 {
     try {
 
@@ -85,8 +87,6 @@ class CardAPIController extends AppBaseController
         Storage::disk('local')->put($output_file, $image);
 
         DB::commit();
-
-      
          return $this->sendResponse(
             $card->toArray(),
             __('messages.saved', ['model' => __('models/cards.singular')])
