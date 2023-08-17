@@ -191,22 +191,22 @@ abstract class BaseRepository
         return $model->delete();
     }
  
-   public function files($file, $folder)
-{
-    $fileName = str_replace(' ', '_', $file['name']);
-    $fileName = $folder . '__' . uniqid() . $file['name'];
-    $output_file = 'public/' . $folder . '/' . $fileName;
+ public function files($file, $folder)
+    {
+        $fileName = str_replace(' ', '_', $file['name']);
+        $fileName = $folder . '__' . uniqid() . $file['name'];
+        $output_file = 'public/' . $folder . '/' . $fileName;
 
-    if (is_readable($file['tmp_name'])) {
-        $contents = file_get_contents($file['tmp_name']);
-        Storage::disk('local')->put($output_file, $contents);
-        return $fileName;
-    } else {
-        // Handle the case where the file is not accessible
-        // For example, you can throw an exception or return an error message
-        dd('nope');
+        if (is_readable($file['tmp_name'])) {
+            $contents = file_get_contents($file['tmp_name']);
+            Storage::disk('local')->put($output_file, $contents);
+            return $fileName;
+        } else {
+            // Handle the case where the file is not accessible
+            // For example, you can throw an exception or return an error message
+            dd('nope');
+        }
     }
-}
 
 
 
