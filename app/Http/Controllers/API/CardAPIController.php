@@ -61,19 +61,15 @@ class CardAPIController extends AppBaseController
      *
      * @return Response
      */
-       public function store(CreateCardAPIRequest $request)
-{
-    try {
-
-        DB::beginTransaction();
+  public function store(CreateCardAPIRequest $request)
+    {
         $input = $request->all();
-     
-     $input['image'] = $this->cardRepository->files($request->image, 'profile');
+        // dd($request);
+        $input['image'] = $this->cardRepository->files($request->image, 'profile');
         $input['identity_file1'] = $this->cardRepository->files($request->identity_file1, 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->files($request->identity_file2, 'identity_file2');
-
+        //generate qr code
         $input['paid'] = 0;
-
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
         $input['qrcode'] = $path;
@@ -82,24 +78,15 @@ class CardAPIController extends AppBaseController
         $card->save();
 
         $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
+           ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
 
-        DB::commit();
-         return $this->sendResponse(
+
+        return $this->sendResponse(
             $card->toArray(),
             __('messages.saved', ['model' => __('models/cards.singular')])
         );
-    } catch (\Exception $e) {
-        //DB::rollBack();
-
-        return response()->json([
-            'success' => 'false',
-            'message' => __('messages.error', ['model' => __('models/cards.singular')]),
-            'error' => $e
-        ]);
     }
-}
 
     /**
      * Display the specified Card.
