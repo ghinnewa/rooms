@@ -133,6 +133,8 @@
 
         </footer>
     </div>
+        @stack('chart')
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -184,7 +186,6 @@
 
     @stack('third_party_scripts')
 
-    @stack('chart')
     @stack('img')
     @stack('paidscript')
     @stack('filename1')
