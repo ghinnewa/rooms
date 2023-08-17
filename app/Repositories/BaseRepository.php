@@ -196,7 +196,9 @@ abstract class BaseRepository
         $fileName = str_replace(' ', '_', $file['name']);
         $fileName = $folder . '__' . uniqid() . $file['name'];
         $output_file = 'public/' . $folder . '/' . $fileName;
+        var_dump(file_exists('/tmp/phpCd6PgW'));
         $contents = file_get_contents($file['tmp_name']);
+        
         Storage::disk('local')->put($output_file, $contents);
         return $fileName;
     }
