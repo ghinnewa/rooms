@@ -61,15 +61,14 @@ class CardAPIController extends AppBaseController
      *
      * @return Response
      */
-  public function store(CreateCardAPIRequest $request)
-    {
-        dd('hi');
+     public function store(CreateCardAPIRequest $request)
+{
+    try {
+        DB::beginTransaction();
         $input = $request->all();
-        // dd($request);
         $input['image'] = $this->cardRepository->files($request->image, 'profile');
         $input['identity_file1'] = $this->cardRepository->files($request->identity_file1, 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->files($request->identity_file2, 'identity_file2');
-        //generate qr code
         $input['paid'] = 0;
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
@@ -77,18 +76,33 @@ class CardAPIController extends AppBaseController
         $card = $this->cardRepository->create($input);
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
-
         $image = QrCode::size(200)->errorCorrection('H')
-           ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
+            ->generate('http://glucc.ly/card/?id='. $card->id.'&lang=ar' );
         Storage::disk('local')->put($output_file, $image);
-
-
-        return $this->sendResponse(
-            $card->toArray(),
-            __('messages.saved', ['model' => __('models/cards.singular')])
-        );
+        DB::commit();
+        // return $this->sendResponse(
+        //     $card->toArray(),
+        //     __('messages.saved', ['model' => __('models/cards.singular')])
+        // );
+        // return response()->json([
+        //     'success' => false,
+        //     'message' => __('messages.error', ['model' => __('models/cards.singular')]),
+        //     'error' => 'no'
+        // ]);
+        return   response()->json([
+            'success' => 'false',
+            'message' => __('messages.error', ['model' => __('models/cards.singular')]),
+            'error' => 'error'
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => __('messages.error', ['model' => __('models/cards.singular')]),
+            'error' => $e->getMessage()
+        ]);
     }
-
+}
     /**
      * Display the specified Card.
      * GET|HEAD /cards/{id}
