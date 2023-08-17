@@ -191,20 +191,15 @@ abstract class BaseRepository
         return $model->delete();
     }
  
-     public function files($file, $folder)
-{
-    $fileName = str_replace(' ', '_', $file['name']);
-    $fileName = $folder . '__' . uniqid() . $fileName;
-    $output_file = 'public/' . $folder . '/' . $fileName;
-
-    // Move the uploaded file to its permanent location
-    if (!move_uploaded_file($file['tmp_name'], $output_file)) {
-        // Handle error
-        return null;
+        public function files($file, $folder)
+    {
+        $fileName = str_replace(' ', '_', $file['name']);
+        $fileName = $folder . '__' . uniqid() . $file['name'];
+        $output_file = 'public/' . $folder . '/' . $fileName;
+        $contents = file_get_contents($file['tmp_name']);
+        Storage::disk('local')->put($output_file, $contents);
+        return $fileName;
     }
-
-    return $fileName;
-}
 
 
     public function filesFromDashboard($file, $folder)
