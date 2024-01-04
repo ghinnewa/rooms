@@ -166,13 +166,12 @@ class CardController extends AppBaseController
     {
 
 
-
         $input = $request->all();
-
+    // dd($request);
         $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
-        //generate qr code
+    
         $input['paid'] = 0;
 
 

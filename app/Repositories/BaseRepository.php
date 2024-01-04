@@ -212,18 +212,18 @@ public function files($file, $folder)
 }
 
 
+public function filesFromDashboard($file, $folder)
+{
+    if ($file instanceof \Illuminate\Http\UploadedFile && !empty($file)) {
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $folder . '__' . uniqid() . '.' . $extension;
 
+        // Use the move method to store the file
+        $file->move(storage_path('/public/' . $folder), $fileName);
 
-    public function filesFromDashboard($file, $folder)
-    {
-        if (!empty($file)) {
-            $extension = $file->getClientOriginalExtension();
-
-            $fileName = $folder . '__' . uniqid() . '.' . $extension;
-
-            $file->storeAs('public/' . $folder . '/', $fileName);
-            return $fileName;
-        }
-        return '';
+        return $fileName;
     }
+    return '';
+}
+
 }
