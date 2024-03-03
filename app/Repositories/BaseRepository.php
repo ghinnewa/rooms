@@ -219,7 +219,7 @@ public function filesFromDashboard($file, $folder)
         $fileName = $folder . '__' . uniqid() . '.' . $extension;
 
         // Use the move method to store the file
-        $file->move(storage_path('/public/' . $folder), $fileName);
+        $file->move(storage_path('app/public/' . $folder), $fileName);
 
         return $fileName;
     }

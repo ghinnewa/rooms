@@ -13,29 +13,32 @@ return [
     |
     */
 
-    'failed'   => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'بيانات الدخول هذه غير متطابقة للبيانات المسجلة لدينا.',
+    'throttle' => 'لقد تعديت الحد المسموح لعمليات الدخول المتكررة. يرجى المحاولة مرة أخرى بعد :seconds ثانية.',
 
-    'full_name'        => 'Full Name',
-    'email'            => 'Email',
-    'password'         => 'Password',
-    'confirm_password' => 'Confirm Password',
-    'remember_me'      => 'Remember Me',
-    'sign_in'          => 'Sign In',
-    'sign_out'         => 'Sign out',
-    'register'         => 'Register',
+    'full_name'        => 'الاسم الكامل',
+    'email'            => 'البريد الالكتروني',
+    'profile'            => 'الصفحة الشخصية',
+    'password'         => 'كلمة المرور',
+    'new_password'     => 'كلمة المرور الجديدة',
+    'phone'         => 'رقم الهاتف',
+    'confirm_password' => 'تاكيد كلمة المرور',
+    'remember_me'      => 'تذكرني',
+    'sign_in'          => 'تسجيل الدخول',
+    'sign_out'         => 'تسجيل الخروج',
+    'register'         => 'تسجيل',
 
     'login' => [
-        'title'               => 'Sign in to start your session',
-        'forgot_password'     => 'I forgot my password',
-        'register_membership' => 'Register a new membership',
+        'title'               => 'تسجيل الدخول',
+        'forgot_password'     => 'نسيت كلمة السر',
+        'register_membership' => 'تسجيل مستخدم جديد',
     ],
 
     'registration' => [
-        'title'           => 'Register a new membership',
-        'i_agree'         => 'I agree to',
-        'terms'           => 'the terms',
-        'have_membership' => 'I already have a membership',
+        'title'           => 'تسجيل مستخدم جديد',
+        'i_agree'         => 'انا موافق على',
+        'terms'           => 'الشروط',
+        'have_membership' => 'امتلك حساب بالفعل',
     ],
 
     'forgot_password' => [
@@ -67,17 +70,20 @@ return [
     ],
 
     'app' => [
-        'member_since' => 'Member since',
-        'messages'     => 'Messages',
-        'settings'     => 'Settings',
-        'lock_account' => 'Lock Account',
-        'profile'      => 'Profile',
-        'online'       => 'Online',
-        'search'       => 'Search',
-        'create'       => 'Create',
-        'export'       => 'Export',
-        'print'        => 'Print',
-        'reset'        => 'Reset',
-        'reload'       => 'Reload',
+        'member_since' => 'عضو منذ',
+        'messages'     => 'رسائل',
+        'settings'     => 'اعدادات',
+        'lock_account' => 'قفل الحساب',
+        'profile'      => 'الملف الشخصي',
+        'online'       => 'اونلاين',
+        'search'       => 'بحث',
+        'export' => 'استخراج',
+        'print' => 'طباعة',
+        'create' => 'انشاء',
+        'reset' => 'إعادة تعيين',
+        'reload' => 'اعادة تحميل',
+        'municipality' => 'بلدية: ',
+        'noMunicipality' => 'لايوجد',
+
     ],
 ];

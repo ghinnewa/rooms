@@ -26,8 +26,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
         integrity="sha512-aEe/ZxePawj0+G2R+AaIxgrQuKT68I28qh+wgLrcAJOz3rxCP+TwrK5SPN+E5I+1IQjNtcfvb96HDagwrKRdBw=="
         crossorigin="anonymous" />  --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </head>
@@ -47,12 +47,12 @@
 
 
 
+
         body {
             line-height: 1.2;
             width: 3.5in;
             direction: rtl;
             font-family: Cairo;
-            font-weight: 600;
             font-size: 8pt;
             box-sizing: 0;
             margin: 0;
@@ -60,39 +60,34 @@
 
         .profile {
             margin: 0.05in;
-            margin-left: 8px;
-            box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-            height: 0.85in;
-            width: 0.85in;
-            {{--  border: 1px solid #006ab3;  --}} border-radius: 20%;
+            height: 0.75in;
+            width: 0.75in;
+            border: 1px solid #006ab3;
+            border-radius: 10%;
             {{--  padding: 0.1in;  --}}
-        }
 
+        }
         .qr {
             margin: 0.05in;
-            border: 0.5px solid #0000001f;
-            {{--  border-radius: 10%;  --}} height: 0.70in;
-            width: 0.70in;
+            border: 1px solid #006ab3;
+            border-radius: 10%;
+
+            height: 0.71in;
+            width: 0.71in;
             padding: 0.02in;
         }
 
         b {
             color: #006ab3;
             font-size: 1rem;
-            line-height: 22px;
+            line-height: 20px;
         }
 
         .head {
             display: inline-block;
-            {{--  margin-bottom: .5rem;
-            margin-top: .4rem;  --}} width: 100%;
-        }
-
-        .boxy {
-            padding: 2px;
-            margin: 2px;
-            font-size: 7px;
-            text-align: center;
+            margin-bottom: .5rem;
+            margin-top: .4rem;
+            width: 100%;
         }
 
 
@@ -124,44 +119,46 @@
 
         .number {
             display: flex;
-            justify-content: end;
+            justify-content: space-between;
             align-items: center;
-            font-size: 7px;
-            font-weight: 500;
-            height: 0.2in;
-
+             font-size: 7px;
+            font-weight: 400;
+            height:0.2in;
+            border-top: solid 0.01in #006ab3;
+            border-bottom: solid 0.01in #006ab3;
         }
 
         .number p {
             padding: 5px;
         }
-
         .number img {
-            height: 15px;
-            wedith: 15px;
+        height: 15px;
+        wedith: 15px;
         }
 
         .textt {
             padding: 0;
-            {{--  margin-right: 0.5in;  --}} {{--  border: 1px solid #006ab3;  --}} width: 60%;
+            {{--  margin-right: 0.5in;  --}}
+            {{--  border: 1px solid #006ab3;  --}}
+            width: 60%;
 
         }
 
         .images {
             padding: 0;
             margin: 0;
-            {{--  border: 1px solid #006ab3;  --}} display: flex;
+            {{--  border: 1px solid #006ab3;  --}}
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
+            height:100%;
         }
 
         .content {
             display: flex;
-            justify-content: end;
+            justify-content: space-evenly;
             align-items: center;
-            flex-direction: column;
             padding: 0;
             margin: 0;
             width: 3.5in;
@@ -170,26 +167,6 @@
             background-size: cover;
             background-repeat: no-repeat;
 
-
-        }
-
-
-        .uperhalf {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 95%;
-            padding: 5px;
-
-            padding-top: 0px;
-        }
-
-        .uperhalf1 {
-            display: flex;
-            justify-content: end;
-            align-items: flex-end;
-            width: 95%;
-            top: 10px;
 
         }
 
@@ -204,10 +181,6 @@
             color: white;
             font-weight: 500;
 
-        }
-        .print-only {
-            position: absolute;
-            left: -9999px;
         }
 
         @media print {
@@ -228,10 +201,7 @@
                 align-items: center;
 
             }
-            .print-only {
-                position: static;
-                left: auto;
-            }
+
             .logo {
                 width: 60%;
                 height: 60%;
@@ -255,100 +225,51 @@
 
     </div>  --}}
 
-    <div class="content print-only">
-        <div class="uperhalf1">
-            <div class="images">
-                <img src="{{ asset('storage/profile/' . $card->image) }}" style=" object-fit:cover;"
-                    class="img-fluid profile" alt="">
+    <div class="content ">
+        <div class="textt">
+            <span class="head">
+                <b>{{ $card->name_ar }}</b>
 
-            </div>
-            <div class="name" style="">
+                <br />
+                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:8px;">{{ $card->job_title_ar }}</span>
+
+                <br />
+                {{ $card->company_ar }}
+            </span>
+
+            <span class="number">
+
+                <img src="{{ asset('glucc.png') }}" style=" object-fit:cover;"
+                class="img-fluid " alt="">
+                <p dir="rtl">رقم العضويــــــة </p>
+                <p>{{ $card->membership_number }}</p>
+                <p>.Membership No</p>
+                <img src="{{ asset('glucc.png') }}" style=" object-fit:cover;"
+                class="img-fluid " alt="">
+            </span>
+
+            <span class="head" dir="ltr">
+
+                <b>{{ $card->name_en }}</b>
+                <br />
+                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:9px;">{{ $card->job_title_en }}</span>
+
+                <br />
+                {{ $card->company_en }}
 
 
-                <span class="head">
-                    <b style="color: rgba(89, 89, 91, 1);">{{ $card->name_ar }}</b>
 
-                </span>
-
-
-                <span class="head" dir="">
-
-                    <b
-                        style="font-size:10px;color: rgba(89, 89, 91, 0.582);text-transform: uppercase;">{{ $card->name_en }}</b>
-
-
-                </span>
-            </div>
+            </span>
 
         </div>
-        {{--  <div class="images">
-
-
-        </div>  --}}
-
-        <div class="uperhalf ">
-
-            <div class="name" style="width:75%;">
-
-                <div style="display: flex; ">
-                    <span class="boxy head"
-                        style="background:  rgba(89, 89, 91, 1);color:white; width:50%;font-size:8px;display: flex;   justify-content: center;
-                        align-items: center;">
-                        الشركة/Company
-                    </span>
-                    <div class="boxy head"
-                        style="background: #315ba5;color:white;text-transform: uppercase;padding:3px;">
-                        <div>{{ $card->company_ar }}</div>
-                        <div>{{ $card->company_en }}</div>
-                    </div>
-                </div>
-
-
-
-                <div style="display: flex;">
-                    <span class="boxy head" dir=""
-                        style="background: rgba(89, 89, 91, 1);color:white; width:50%;;font-size:8px;padding-top:5px;">
-
-                        الصفة/
-
-                        Title
-
-                    </span>
-                    <span class="boxy head" dir=""
-                        style="background: #315ba5;color:white;text-transform: uppercase;">
-
-                        {{ $card->job_title_ar }}
-
-                        <br />
-                        {{ $card->job_title_en }}
-
-                    </span>
-
-                </div>
-
-                <span class="number">
-
-                    <span dir="rtl"> رقم البطاقة : </span>
-                    <span>{{ $card->membership_number }}</span>
-
-                </span>
-            </div>
-            <div class="images ">
-                <img src="{{ asset('storage/qr-code/' . $card->qrcode) }}" style=" object-fit:cover;"
-                    class="img-fluid qr" alt="">
-
-            </div>
+        <div class="images">
+            <img src="{{ asset('storage/profile/' . $card->image) }}" style=" object-fit:cover;"
+                class="img-fluid profile" alt="">
+            <img src="{{ asset('storage/qr-code/' . $card->qrcode) }}" style=" object-fit:cover;"
+                class="img-fluid qr" alt="">
         </div>
     </div>
-    {{--  <div class="
-    </div>
 
-<script>
-    {{--  window.onload = function() {
-        var doc = new jsPDF();
-        doc.text(20, 20, 'This is the default text.');
-        doc.save(`{{  $card->name_ar}}.pdf`);
-    };  --}}
 
     <script>
         window.onload = function() {
