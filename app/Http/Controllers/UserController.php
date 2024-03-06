@@ -109,14 +109,14 @@ class UserController extends AppBaseController
     public function edit($id)
     {
         $user = $this->userRepository->find($id);
-
+        $roles = Role::pluck('name', 'id')->toArray();
         if (empty($user)) {
             Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        return view('users.edit')->with('user', $user)->with('roles', $roles);
     }
 
     /**
@@ -130,6 +130,10 @@ class UserController extends AppBaseController
     public function update($id, UpdateUserRequest $request)
     {
         $user = $this->userRepository->find($id);
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+
+
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -137,8 +141,11 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        $user = $this->userRepository->update($input, $id);
 
+        $role=Role::findById($input['role_id']);
+        $user->assignRole($role);
+        $user->save();
         Flash::success('User updated successfully.');
 
         return redirect(route('users.index'));
