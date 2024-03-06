@@ -48,9 +48,11 @@ class HomeController extends Controller
             if ($category) {
                 $labels[] = $category->name_en;
                 $data[] = $card->total;
+              
             }
-        }
 
+        }
+  $data[] += 0;
         return view('home', [
             'labels' => $labels,
             'data' => $data,

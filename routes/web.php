@@ -25,6 +25,7 @@ Route::auth();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('cards',  App\Http\Controllers\CardController::class);
+    
 
     Route::get('requests',[ App\Http\Controllers\CardController::class,'requests'])->name('cards.requests');
     Route::get('exp',[ App\Http\Controllers\CardController::class,'exp'])->name('cards.exp');

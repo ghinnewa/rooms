@@ -111,7 +111,7 @@
             @endif
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="pt-8 sm:pt-0">
-                    <img src="{{ asset('glucc.jpg') }}" alt="GLUCC Logo" class="h-32 w-auto rounded-full">
+                    <img src="{{ asset('glucc.png') }}" alt="GLUCC Logo" class="h-32 w-auto rounded-full">
                 </div>
                 <div class="mt-8 text-2xl font-bold">
                     Welcome to the GLUCC Dashboard!

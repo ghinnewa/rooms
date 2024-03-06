@@ -52,6 +52,8 @@ class CardController extends AppBaseController
      */
     public function index(CardDataTable $cardDataTable)
     {
+    //  dd("stop");
+    
         return $cardDataTable->render('cards.index');
     }
     /**
@@ -85,6 +87,7 @@ class CardController extends AppBaseController
     public function create()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+       
         $cities = [
             "Tripoli" => "طرابلس",
             "Benghazi" => "بنغازي",
@@ -124,6 +127,7 @@ class CardController extends AppBaseController
     public function publicForm()
     {
         $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+        ddd( $categories );
         $cities = [
             "Tripoli" => "طرابلس",
             "Benghazi" => "بنغازي",
@@ -164,23 +168,24 @@ class CardController extends AppBaseController
      */
     public function store(CreateCardRequest $request)
     {
+        // ddd($request);
 
 
         $input = $request->all();
-    // dd($request);
         $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
     
         $input['paid'] = 0;
 
-
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
         $input['qrcode'] = $path;
         $card = $this->cardRepository->create($input);
         $card->membership_number = '00' + 1000 + $card->id;
+       
         $card->save();
+     
         $image = QrCode::size(200)->errorCorrection('H')
             ->generate('http://glucc.ly/card/?id=' . $card->id . '&lang=ar');
         Storage::disk('local')->put($output_file, $image);

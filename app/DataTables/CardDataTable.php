@@ -99,7 +99,8 @@ class CardDataTable extends DataTable
             'name_ar' => new Column(['title' => __('models/cards.fields.name_ar'), 'data' => 'name_ar']),
             'email' => new Column(['title' => __('models/cards.fields.email'), 'data' => 'email']),
             'phone1' => new Column(['title' => __('models/cards.fields.phone1'), 'data' => 'phone1']),
-            'company_ar' => new Column(['title' => __('models/cards.fields.company_ar'), 'data' => 'company_ar']),
+            
+            // 'company_ar' => new Column(['title' => __('models/cards.fields.company_ar'), 'data' => 'company_ar']),
            ];
     }
 

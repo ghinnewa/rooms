@@ -6,7 +6,7 @@
        class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
        <i class="fa fa-user p-1 text-lg" aria-hidden="true"></i>
 
-       <p>Users</p>
+       <p>المستخدمين</p>
     </a>
 </li>
 @endrole
@@ -15,7 +15,7 @@
     <a href="{{ route('categories.index') }}"
        class="nav-link {{ Request::is('categories*') ? 'active' : '' }}">
        <i class="fa fa-folder p-1 text-lg" aria-hidden="true"></i>
-       <p>Categories</p>
+       <p>التخصصات</p>
     </a>
 </li>
 
@@ -24,7 +24,7 @@
     <a href="{{ route('cards.index') }}"
        class="nav-link {{ (Request::is('cards') )? 'active' : '' }}">
        <i class="fa fa-check-circle p-1 text-lg" aria-hidden="true"></i>
-       <p> Active Members</p>
+       <p> البطاقات الفعالة</p>
     </a>
 </li>
 
@@ -32,14 +32,14 @@
     <a href="{{ route('cards.requests') }}"
        class="nav-link {{ Request::is('requests') ? 'active' : '' }}">
        <i class="fa fa-bell p-1 text-lg" aria-hidden="true"></i>
- <p>Requests</p>
+ <p>طلبات البطاقات</p>
     </a>
 </li>
 <li class="nav-item">
     <a href="{{ route('cards.exp') }}"
        class="nav-link {{ Request::is('exp') ? 'active' : '' }}">
        <i class="fa fa-clock-o p-1 text-lg" aria-hidden="true"></i>
- <p> Expired members</p>
+ <p>بطاقات منتهية الصلاحية</p>
     </a>
 </li>
 

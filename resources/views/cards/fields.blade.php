@@ -11,16 +11,16 @@
 </div>
 
 <!-- Job Title Ar Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('job_title_ar', __('models/cards.fields.job_title_ar').':') !!}
     {!! Form::text('job_title_ar', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+</div> -->
 
 <!-- Job Title En Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('job_title_en', __('models/cards.fields.job_title_en').':') !!}
     {!! Form::text('job_title_en', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+</div> -->
     {!! Form::hidden('membership_number', '0000000') !!}
 
 
@@ -91,28 +91,28 @@
 </div>
 
 <!-- Company En Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('company_en', __('models/cards.fields.company_en').':') !!}
     {!! Form::text('company_en', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+</div> -->
 <!-- Company En Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
 
     {!! Form::label('company_ar', __('models/cards.fields.company_ar').':') !!}
     {!! Form::text('company_ar', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 
-</div>
+</div> -->
 
 <!-- Company Email Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('company_email', __('models/cards.fields.company_email').':') !!}
     {!! Form::text('company_email', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+</div> -->
 <!-- Company Email Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('expiration', __('models/cards.fields.expiration').':') !!}
     {!! Form::date('expiration', Route::is('cards.edit') ?  $card->expiration: null  , ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+</div> -->
 
 
 
@@ -178,12 +178,12 @@
         </div>
         {!! Form::text('instagram_url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
     </div>
-    <div class="input-group mb-3">
+    <!-- <div class="input-group mb-3">
         <div class="input-group-prepend ">
           <span class="input-group-text " style="width : 50px; justify-content:center; "> <i  class="fa fa-youtube"></i></span>
         </div>
         {!! Form::text('youtube_url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-    </div>
+    </div> -->
 
 
 </div>

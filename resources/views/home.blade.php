@@ -28,7 +28,7 @@
                 <span style="background:#006ab3;"class="info-box-icon text-white elevation-1"><i class="fas fa-check"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Approved Cards Count</span>
+                  <span class="info-box-text">عدد البطاقات الفعالة</span>
                   <span class="info-box-number">
                     {{ $approvedCardsCount }}
                     <small></small>
@@ -44,7 +44,7 @@
                 <span style="background:#006ab3;"class="info-box-icon text-white elevation-1"><i class="fas fas fa-bell"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Requests Count</span>
+                  <span class="info-box-text">عدد طلبات البطاقات</span>
                   <span class="info-box-number">{{ $requestsCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -61,7 +61,7 @@
                 <span style="background:#006ab3;"class="info-box-icon text-white elevation-1"><i class="fas fas fa-calendar"></i></span>
                 {{--  <i class="fa-solid fa-calendar-xmark"></i>  --}}
                 <div class="info-box-content">
-                  <span class="info-box-text">Expired Cards Count</span>
+                  <span class="info-box-text">عدد البطاقات المنتهية الصلاحية</span>
                   <span class="info-box-number">{{ $expiredCardsCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -74,7 +74,7 @@
                 <span style="background:#006ab3;"class="info-box-icon text-white elevation-1"><i class="fas fa-users "></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Total Cards Count</span>
+                  <span class="info-box-text">عدد جميع البطاقات</span>
                   <span class="info-box-number">{{ $totalCardsCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -869,7 +869,7 @@
           </div>  --}}
           <div class="card card-success">
             <div style="background:#006ab3;" class="card-header" >
-              <h3 class="card-title">Members for each category</h3>
+              <h3 class="card-title">البطاقات لكل قسم</h3>
 
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -901,9 +901,9 @@
 
 <!-- Page specific script -->
 
-<script src={{ asset("assets/plugins/jquery/jquery.min.js") }}></script>
+<script src="{{ asset("assets/plugins/jquery/jquery.min.js") }}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src={{ asset("assets/plugins/jquery-ui/jquery-ui.min.js") }}></script>
+<script src="{{ asset("assets/plugins/jquery-ui/jquery-ui.min.js") }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
  <script>
        $.widget.bridge('uibutton', $.ui.button)
@@ -911,28 +911,29 @@
 </script>
 
 <!-- Bootstrap 4 -->
-<script src={{ asset("assets/plugins/bootstrap/js/bootstrap.bundle.min.js") }}></script>
+<script src="{{ asset("assets/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
 <!-- ChartJS -->
-<script src={{ asset("assets/plugins/chart.js/Chart.min.js") }}></script>
+<script src="{{ asset("assets/plugins/chart.js/Chart.min.js") }}"></script>
 <!-- Sparkline -->
-<script src={{ asset("assets/plugins/sparklines/sparkline.js") }}></script>
+<script src="{{ asset("assets/plugins/sparklines/sparkline.js") }}"></script>
 <!-- JQVMap -->
-<script src={{ asset("assets/plugins/jqvmap/jquery.vmap.min.js") }}></script>
-<script src={{ asset("assets/plugins/jqvmap/maps/jquery.vmap.usa.js") }}></script>
+<script src="{{ asset("assets/plugins/jqvmap/jquery.vmap.min.js") }}"></script>
+<script src="{{ asset("assets/plugins/jqvmap/maps/jquery.vmap.usa.js") }}"></script>
 <!-- jQuery Knob Chart -->
-<script src={{ asset("assets/plugins/jquery-knob/jquery.knob.min.js") }}></script>
+<script src="{{ asset("assets/plugins/jquery-knob/jquery.knob.min.js") }}"></script>
 <!-- daterangepicker -->
-<script src={{ asset("assets/plugins/moment/moment.min.js") }}></script>
-<script src={{ asset("assets/plugins/daterangepicker/daterangepicker.js") }}></script>
+<script src="{{ asset("assets/plugins/moment/moment.min.js") }}"></script>
+<script src="{{ asset("assets/plugins/daterangepicker/daterangepicker.js") }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src={{ asset("assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js") }}></script>
+<script src="{{ asset("assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js") }}"></script>
 <!-- Summernote -->
-<script src={{ asset("assets/plugins/summernote/summernote-bs4.min.js") }}></script>
+<script src="{{ asset("assets/plugins/summernote/summernote-bs4.min.js") }}"></script>
 <!-- overlayScrollbars -->
-<script src={{ asset("assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") }}></script>
+<script src="{{ asset("assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") }}"></script>
 <!-- AdminLTE App -->
-<script src={{ asset("assets/dist/js/adminlte.js") }}></script>
-<script>
+<script src="{{ asset("assets/dist/js/adminlte.js") }}"></script>
+<script >
+
     $(function () {
       /* ChartJS
        * -------
@@ -944,10 +945,10 @@
       //--------------
 
       // Get context with jQuery - using jQuery's .get() method.
-      {{--  var areaChartCanvas = $('#areaChart').get(0).getContext('2d')  --}}
-
+        // var areaChartCanvas = $('#areaChart').get(0).getContext('2d')  
+        console.log({!! json_encode($data) !!});
       var areaChartData = {
-        labels  : {!! json_encode($labels) !!},
+labels  : {!! json_encode($labels) !!},
         datasets: [
           {
             label               : 'members',
@@ -958,10 +959,10 @@
             pointStrokeColor    : 'rgba(60,141,188,1)',
             pointHighlightFill  : '#fff',
             pointHighlightStroke: 'rgba(60,141,188,1)',
-            data: {!! json_encode($data) !!},
+            data:{!! json_encode($data) !!},
           }
         ]
-      }
+      };
 
       var areaChartOptions = {
         maintainAspectRatio : false,
@@ -1013,27 +1014,27 @@
       //- DONUT CHART -
       //-------------
       // Get context with jQuery - using jQuery's .get() method.
-      var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-      var donutData        = {
-        labels:{!! json_encode($labels) !!},
-        datasets: [
-          {
-            data: [700,500,400,600,300,100],
-            backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-          }
-        ]
-      }
-      var donutOptions     = {
-        maintainAspectRatio : false,
-        responsive : true,
-      }
-      //Create pie or douhnut chart
-      // You can switch between pie and douhnut using the method below.
-      new Chart(donutChartCanvas, {
-        type: 'doughnut',
-        data: donutData,
-        options: donutOptions
-      })
+      // var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+      // var donutData        = {
+      //   labels:{!! json_encode($labels) !!},
+      //   datasets: [
+      //     {
+      //       data: [700,500,600,300,100],
+      //       backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+      //     }
+      //   ]
+      // }
+      // var donutOptions     = {
+      //   maintainAspectRatio : false,
+      //   responsive : true,
+      // }
+      // //Create pie or douhnut chart
+      // // You can switch between pie and douhnut using the method below.
+      // new Chart(donutChartCanvas, {
+      //   type: 'doughnut',
+      //   data: donutData,
+      //   options: donutOptions
+      // })
 
       //-------------
       //- PIE CHART -
@@ -1116,6 +1117,7 @@
         data: stackedBarChartData,
         options: stackedBarChartOptions
       })
-    })
+    });
+   
   </script>
 @endpush
