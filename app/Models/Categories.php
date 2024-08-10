@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Categories
+ * Class Category
  * @package App\Models
  * @version May 11, 2023, 12:28 pm UTC
  *
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $name_en
  * @property string $image
  */
-class Categories extends Model
+class Category extends Model
 {
     use SoftDeletes;
 

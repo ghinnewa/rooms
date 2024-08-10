@@ -45,3 +45,24 @@
 
 
 
+<li class="nav-item">
+    <a href="{{ route('subjects.index') }}"
+       class="nav-link {{ Request::is('subjects*') ? 'active' : '' }}">
+        <p>@lang('models/subjects.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('examSchedules.index') }}"
+       class="nav-link {{ Request::is('examSchedules*') ? 'active' : '' }}">
+        <p>@lang('models/examSchedules.plural')</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('examScheduleItems.index') }}"
+       class="nav-link {{ Request::is('examScheduleItems*') ? 'active' : '' }}">
+        <p>@lang('models/examScheduleItems.plural')</p>
+    </a>
+</li>
+

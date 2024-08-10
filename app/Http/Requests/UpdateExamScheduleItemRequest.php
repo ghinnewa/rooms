@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Categories;
+use App\Models\ExamScheduleItem;
 
-class UpdateCategoriesRequest extends FormRequest
+class UpdateExamScheduleItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class UpdateCategoriesRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Categories::$rules;
+        $rules = ExamScheduleItem::$rules;
         
         return $rules;
     }

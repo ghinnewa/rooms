@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Categories;
+use App\Models\Category;
 
-class CreateCategoriesRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,6 @@ class CreateCategoriesRequest extends FormRequest
      */
     public function rules()
     {
-        return Categories::$rules;
+        return Category::$rules;
     }
 }

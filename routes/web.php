@@ -24,13 +24,21 @@ Route::get('locale/{locale}', function ($locale){
 Route::auth();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+  
+
+
+
+    Route::get('/categories/{category}/subjects', [App\Http\Controllers\CategoryController::class, 'getSubjects']);
+    Route::get('/categories/{category}/subjects/{subject}', [App\Http\Controllers\CategoryController::class, 'getSubjectDetails']);
+    
+    
     Route::resource('cards',  App\Http\Controllers\CardController::class);
     
 
     Route::get('requests',[ App\Http\Controllers\CardController::class,'requests'])->name('cards.requests');
     Route::get('exp',[ App\Http\Controllers\CardController::class,'exp'])->name('cards.exp');
     Route::post('paid',[ App\Http\Controllers\CardController::class,'paid'])->name('paid');
-    Route::resource('categories', App\Http\Controllers\CategoriesController::class);
+    Route::resource('categories', App\Http\Controllers\CategoryController::class);
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['role:system admin| admin']);;
     Route::get('attachments/download/{folder}/{name}', [App\Http\Controllers\CardController::class, 'downloadAttachment'])->name('attachments.downloadAttachment');
     // Your authorized routes here...
@@ -43,3 +51,12 @@ Route::middleware(['auth'])->group(function () {
 // Route::get('publicForm',[ App\Http\Controllers\CardController::class,'publicForm'])->name('publicForm');
 
 
+
+
+Route::resource('subjects', App\Http\Controllers\SubjectController::class);
+
+
+Route::resource('examSchedules', App\Http\Controllers\ExamScheduleController::class);
+
+
+Route::resource('examScheduleItems', App\Http\Controllers\ExamScheduleItemController::class);

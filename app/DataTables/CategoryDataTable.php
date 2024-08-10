@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Categories;
+use App\Models\Category;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class CategoriesDataTable extends DataTable
+class CategoryDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -27,10 +27,10 @@ class CategoriesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Categories $model
+     * @param \App\Models\Category $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Categories $model)
+    public function query(Category $model)
     {
         return $model->newQuery();
     }

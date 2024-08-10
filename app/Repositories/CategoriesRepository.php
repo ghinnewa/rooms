@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Categories;
+use App\Models\Category;
 use App\Repositories\BaseRepository;
 
 /**
- * Class CategoriesRepository
+ * Class CategoryRepository
  * @package App\Repositories
  * @version May 11, 2023, 12:28 pm UTC
 */
 
-class CategoriesRepository extends BaseRepository
+class CategoryRepository extends BaseRepository
 {
     /**
      * @var array
@@ -37,6 +37,6 @@ class CategoriesRepository extends BaseRepository
      **/
     public function model()
     {
-        return Categories::class;
+        return Category::class;
     }
 }

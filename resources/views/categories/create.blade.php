@@ -23,6 +23,26 @@
 
                 <div class="row">
                     @include('categories.fields')
+
+                    <!-- Subject Section -->
+                    <div class="col-sm-12">
+                        <h4>Add Subject</h4>
+                        <div id="subjects-list">
+                            @foreach($subjects as $subject)
+                                <div class="form-group">
+                                    <label>
+                                        {!! Form::checkbox('subjects['.$subject->id.'][selected]', true, false, ['class' => 'subject-checkbox']) !!}
+                                        {{ $subject->title }}
+                                    </label>
+                                    <div class="semester-select" style="display:none;">
+                                        {!! Form::label('subjects['.$subject->id.'][semester]', 'Select Semester:') !!}
+                                        {!! Form::select('subjects['.$subject->id.'][semester]', [3 => '3rd', 4 => '4th', 5 => '5th', 6 => '6th', 7 => '7th'], null, ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -37,3 +57,17 @@
         </div>
     </div>
 @endsection
+
+@push('scriptss')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.subject-checkbox').change(function() {
+                if ($(this).is(':checked')) {
+                    $(this).closest('.form-group').find('.semester-select').show();
+                } else {
+                    $(this).closest('.form-group').find('.semester-select').hide();
+                }
+            });
+        });
+    </script>
+@endpush

@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 
 use App\DataTables\CardDataTable;
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Support\Facades\URL;
 // use Illuminate\Support\Facades\Request;
 use App\Http\Requests\CreateCardRequest;
@@ -86,7 +86,7 @@ class CardController extends AppBaseController
      */
     public function create()
     {
-        $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+        $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
        
         $cities = [
             "Tripoli" => "طرابلس",
@@ -126,7 +126,7 @@ class CardController extends AppBaseController
      */
     public function publicForm()
     {
-        $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+        $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
         ddd( $categories );
         $cities = [
             "Tripoli" => "طرابلس",
@@ -223,7 +223,7 @@ class CardController extends AppBaseController
      */
     public function edit($id)
     {
-        $categories = ['' => 'Please Select a '] + Categories::pluck('name_ar', 'id')->toArray();
+        $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
         $cities = [
             "Tripoli" => "طرابلس",
             "Benghazi" => "بنغازي",

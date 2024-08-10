@@ -71,4 +71,11 @@ class Category extends Model
     {
         return $this->hasMany(\App\Models\Card::class, 'category_id');
     }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'category_subject', 'category_id', 'subject_id')
+                    ->withPivot('semester')
+                    ->withTimestamps();
+    }
+
 }

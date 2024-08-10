@@ -163,8 +163,10 @@
             margin: 0;
             width: 3.5in;
             height: 2in;
-            background-image: url('{{ asset('cardback1.png') }} ');
+            background-image: url('{{ asset('back1-01-01-01.jpg') }} ');
             background-size: cover;
+            
+            background-position:left;
             background-repeat: no-repeat;
 
 
@@ -231,7 +233,7 @@
                 <b>{{ $card->name_ar }}</b>
 
                 <br />
-                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:8px;">{{ $card->job_title_ar }}</span>
+                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:8px;">{{ $card->category->name_ar }}</span>
 
                 <br />
                 {{ $card->company_ar }}
@@ -241,7 +243,7 @@
 
                 <img src="{{ asset('glucc.png') }}" style=" object-fit:cover;"
                 class="img-fluid " alt="">
-                <p dir="rtl">رقم العضويــــــة </p>
+                <p dir="rtl">رقم القيــــــــد </p>
                 <p>{{ $card->membership_number }}</p>
                 <p>.Membership No</p>
                 <img src="{{ asset('glucc.png') }}" style=" object-fit:cover;"
@@ -252,7 +254,7 @@
 
                 <b>{{ $card->name_en }}</b>
                 <br />
-                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:9px;">{{ $card->job_title_en }}</span>
+                <span style="color:rgb(99, 99, 99); font-style: italic;font-size:9px;">{{$card->category->name_en }}</span>
 
                 <br />
                 {{ $card->company_en }}

@@ -58,10 +58,10 @@ as "categories" on the axis object, e.g. plot.getAxes().xaxis.categories.
         // auto-transformation to numbers so the strings are intact
         // for later processing
 
-        var xCategories = series.xaxis.options.mode === "categories",
-            yCategories = series.yaxis.options.mode === "categories";
+        var xCategory = series.xaxis.options.mode === "categories",
+            yCategory = series.yaxis.options.mode === "categories";
 
-        if (!(xCategories || yCategories)) {
+        if (!(xCategory || yCategory)) {
             return;
         }
 
@@ -87,11 +87,11 @@ as "categories" on the axis object, e.g. plot.getAxes().xaxis.categories.
         }
 
         for (var m = 0; m < format.length; ++m) {
-            if (format[m].x && xCategories) {
+            if (format[m].x && xCategory) {
                 format[m].number = false;
             }
 
-            if (format[m].y && yCategories) {
+            if (format[m].y && yCategory) {
                 format[m].number = false;
                 format[m].computeRange = false;
             }
@@ -124,7 +124,7 @@ as "categories" on the axis object, e.g. plot.getAxes().xaxis.categories.
         return res;
     }
 
-    function setupCategoriesForAxis(series, axis, datapoints) {
+    function setupCategoryForAxis(series, axis, datapoints) {
         if (series[axis].options.mode !== "categories") {
             return;
         }
@@ -184,8 +184,8 @@ as "categories" on the axis object, e.g. plot.getAxes().xaxis.categories.
     }
 
     function processDatapoints(plot, series, datapoints) {
-        setupCategoriesForAxis(series, "xaxis", datapoints);
-        setupCategoriesForAxis(series, "yaxis", datapoints);
+        setupCategoryForAxis(series, "xaxis", datapoints);
+        setupCategoryForAxis(series, "yaxis", datapoints);
     }
 
     function init(plot) {

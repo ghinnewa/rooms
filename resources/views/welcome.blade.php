@@ -117,7 +117,7 @@
                     Welcome to the GLUCC Dashboard!
                 </div>
                 <div class="mt-6 text-gray-500">
-                    This is the place where you can access all the features and information available to GLUCC members. To get started, please log in using the button below.
+                    This is the place where you can access all the features and information available to CET CARDS. To get started, please log in using the button below.
                 </div>
                 <div class="mt-6">
                     <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
