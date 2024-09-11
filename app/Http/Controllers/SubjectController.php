@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Subject;
+use App\Models\Category;
 
 use App\DataTables\SubjectDataTable;
 use App\Http\Requests;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\CreateSubjectRequest;
 use App\Http\Requests\UpdateSubjectRequest;
 use App\Repositories\SubjectRepository;
@@ -72,6 +75,12 @@ class SubjectController extends AppBaseController
      */
     public function show($id)
     {
+        $user = auth()->user();
+    $card = $user->card;
+
+    if (!$card && Auth::user()->hasRole('student') ) {
+        return view('subjects.locked'); // A special view for when the card is missing
+    }
         $subjects = $this->subjectsRepository->find($id);
 
         if (empty($subjects)) {
@@ -152,4 +161,58 @@ class SubjectController extends AppBaseController
 
         return redirect(route('subjects.index'));
     }
+    public function showAddSubjectsForm()
+    {
+        
+        $user = auth()->user();
+        $categoryId = $user->card->category_id;
+      
+        $card = $user->card;
+    
+        if (!$card) {
+            return view('subjects.locked'); // A special view for when the card is missing
+        }
+        // Get subjects related to the user's category
+        $subjects = Subject::whereHas('categories', function ($query) use ($categoryId) {
+            $query->where('categories.id', $categoryId);
+        })->get();
+    
+        // Prepare prerequisite mapping
+        $prerequisiteMapping = [];
+        foreach ($subjects as $subject) {
+            if ($subject->prerequisite_subject_id) {
+                $prerequisiteMapping[$subject->prerequisite_subject_id][] = $subject->id;
+            }
+        }
+    
+        // Get the subjects the student has already selected
+        $studentSubjects = $user->subjects()->pluck('subject_id')->toArray();
+    
+        return view('subjects.student', compact('subjects', 'studentSubjects', 'prerequisiteMapping'));
+    }
+    
+    
+
+    public function addSubject(Request $request)
+{
+    // Validate that subject_id is provided and exists in the subjects table
+    $request->validate([
+        'subject_id' => 'required|array', // Ensure it's an array of subject IDs
+        'subject_id.*' => 'exists:subjects,id', // Ensure each ID exists in the subjects table
+    ]);
+
+    // Get the authenticated user (student)
+    $student = auth()->user();
+
+    // Delete all existing subjects related to the student
+    $student->subjects()->detach();
+
+    // Attach the new subjects to the student
+    $student->subjects()->attach($request->input('subject_id'));
+
+    // Redirect or return with a success message
+    return redirect()->route('my.subjects')->with('success', 'Subjects updated successfully!');
+}
+
+    
 }

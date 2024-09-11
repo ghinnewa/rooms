@@ -24,13 +24,13 @@ class CategoryController extends AppBaseController
     public function __construct(CategoryRepository $categoriesRepo)
     {
         $this->categoriesRepository = $categoriesRepo;
-        $this->middleware('permission:categories index')->only('index');
-        $this->middleware('permission:categories show')->only('show');
-        $this->middleware('permission:categories create')->only('create');
-        $this->middleware('permission:categories edit')->only('edit');
-        $this->middleware('permission:categories destroy')->only('destroy');
-        $this->middleware('permission:categories store')->only('store');
-        $this->middleware('permission:categories update')->only('update');
+        $this->middleware('permission:categories.index')->only('index');
+        $this->middleware('permission:categories.show')->only('show');
+        $this->middleware('permission:categories.create')->only('create');
+        $this->middleware('permission:categories.edit')->only('edit');
+        $this->middleware('permission:categories.destroy')->only('destroy');
+        $this->middleware('permission:categories.store')->only('store');
+        $this->middleware('permission:categories.update')->only('update');
     }
 
     /**

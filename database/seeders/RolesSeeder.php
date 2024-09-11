@@ -18,7 +18,10 @@ class RolesSeeder extends Seeder
         $role =Role::findOrCreate('system admin','web');
         $role->syncPermissions(Permission::all());
         $role =Role::findOrCreate('data_entry','web');
-        $role->syncPermissions(['cards show', 'cards index','cards edit','categories index']);
+
+        $role->syncPermissions(['cards.show', 'cards.index','cards.edit','categories.index']);
+        $studentRole = Role::create(['name' => 'student']);
+
 
 
     }

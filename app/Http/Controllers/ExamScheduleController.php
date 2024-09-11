@@ -11,6 +11,7 @@ use Flash;
 use App\DataTables\ExamScheduleItemDataTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\ExamSchedule;
 use App\Models\ExamScheduleItem;
@@ -203,4 +204,45 @@ class ExamScheduleController extends AppBaseController
 
         return redirect(route('examSchedules.index'));
     }
+
+    public function mySchedule()
+{
+    // Ensure the user is authenticated and has the 'student' role
+    $user = auth()->user();
+    if (!$user->hasRole('student')) {
+        abort(403, 'Unauthorized action.');
+    }
+    $user = auth()->user();
+    $card = $user->card;
+
+    if (!$card && Auth::user()->hasRole('student') ) {
+        return view('subjects.locked'); // A special view for when the card is missing
+    }
+    // Get the student's subjects
+    $subjectIds = $user->subjects()->pluck('subjects.id')->toArray();
+
+    // Get the latest exam schedule
+    $examSchedule = ExamSchedule::latest()->first();
+// dd($examSchedule->items()->pluck('id')->toArray());;
+    // Check if an exam schedule exists
+    if (!$examSchedule) {
+        return view('exam_schedules.my_schedule', [
+            'examSchedule' => null,
+            'examScheduleItems' => [],
+        ]);
+    }
+
+    // Get the future exam schedule items for the student's subjects
+    $examScheduleItems = $examSchedule->items()
+        ->whereIn('subject_id', $subjectIds)
+        ->where('exam_date', '>=', now())
+        ->get();
+
+    // Render the view with the filtered exam schedule items
+    return view('exam_schedules.my_schedule', [
+        'examSchedule' => $examSchedule,
+        'examScheduleItems' => $examScheduleItems,
+    ]);
+}
+
 }

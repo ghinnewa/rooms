@@ -60,4 +60,9 @@ class CardRepository extends BaseRepository
     {
         return Card::class;
     }
+    public function findWhere(array $conditions)
+{
+    return $this->model->where($conditions)->get();
+}
+
 }

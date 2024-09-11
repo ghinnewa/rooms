@@ -88,5 +88,13 @@ class User extends Authenticatable
         'updated_at' => 'nullable'
     ];
 
-
+    public function card()
+    {
+        return $this->hasOne(Card::class);
+    }
+    
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'user_subject');
+    }
 }

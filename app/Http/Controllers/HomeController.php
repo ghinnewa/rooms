@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -32,6 +33,19 @@ class HomeController extends Controller
         $expiredCardsCount = Card::where('expiration', '<', Carbon::now())->count();
         $totalCardsCount = Card::count();
 
+
+
+        $user = auth()->user();
+        $card = $user->card;
+        if (!$card && Auth::user()->hasRole('student') ) {
+            return view('subjects.locked'); // A special view for when the card is missing
+        }
+        if (auth()->user()->hasRole('student')) {
+            return view('home', compact('card'));
+        }
+        // assuming a 'card' relationship exists in the User model
+    
+     
 
         $cards = DB::table('cards')
             ->select('category_id', DB::raw('count(*) as total'))

@@ -8,10 +8,17 @@
                    @lang('models/subjects.plural')
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('subjects.create') }}">
-                         @lang('crud.add_new')
-                    </a>
+                    @role('student')
+                        <a class="btn btn-secondary float-right"
+                           href="{{ route('student.subjects.add') }}">
+                             Add Subject to My Profile
+                        </a>
+                    @else
+                        <a class="btn btn-primary float-right"
+                           href="{{ route('subjects.create') }}">
+                             @lang('crud.add_new')
+                        </a>
+                    @endrole
                 </div>
             </div>
         </div>
@@ -37,5 +44,3 @@
     </div>
 
 @endsection
-
-

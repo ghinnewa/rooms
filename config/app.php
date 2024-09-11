@@ -170,6 +170,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Yajra\Datatables\ButtonsServiceProvider::class,
         Yajra\Datatables\HtmlServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
 

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
+use App\Notifications\CardApprovalNotification;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 
 use App\DataTables\CardDataTable;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\URL;
 // use Illuminate\Support\Facades\Request;
 use App\Http\Requests\CreateCardRequest;
@@ -34,13 +37,13 @@ class CardController extends AppBaseController
         $this->cardRepository = $cardRepo;
         $this->middleware('CheckAdminRoles')->only('edit');
 
-        $this->middleware('permission:cards index')->only('index');
-        $this->middleware('permission:cards show')->only('show');
-        $this->middleware('permission:cards create')->only('create');
-        // $this->middleware('permission:cards edit')->only('edit');
-        $this->middleware('permission:cards store')->only('store');
-        // $this->middleware('permission:cards destroy')->only('destroy');
-        $this->middleware('permission:cards update')->only('update');
+        $this->middleware('permission:cards.index')->only('index');
+        $this->middleware('permission:cards.show')->only('show');
+        $this->middleware('permission:cards.create')->only('create');
+        // $this->middleware('permission:cards.edit')->only('edit');
+        $this->middleware('permission:cards.store')->only('store');
+        // $this->middleware('permission:cards.destroy')->only('destroy');
+        $this->middleware('permission:cards.update')->only('update');
     }
 
     /**
@@ -52,8 +55,8 @@ class CardController extends AppBaseController
      */
     public function index(CardDataTable $cardDataTable)
     {
-    //  dd("stop");
-    
+        //  dd("stop");
+
         return $cardDataTable->render('cards.index');
     }
     /**
@@ -87,7 +90,7 @@ class CardController extends AppBaseController
     public function create()
     {
         $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
-       
+
         $cities = [
             "Tripoli" => "طرابلس",
             "Benghazi" => "بنغازي",
@@ -116,6 +119,17 @@ class CardController extends AppBaseController
             "Shahhat" =>  "شحات",
 
         ];
+        // Check if the user is an admin or system admin
+        if (auth()->user()->hasRole(['admin', 'system admin'])) {
+            $students = User::role('student')->pluck('name', 'id'); // Get all students
+            return view('cards.create', compact('students', 'categories', 'cities'));
+        }
+        $user = auth()->user();
+        if ($user->card  && auth()->user()->hasRole('student')) {
+            // Redirect the user back with an error message
+            return redirect()->route('my.card')->with('error', 'You already have a card.');
+        }
+
 
         return view('cards.create', compact('categories', 'cities'));
     }
@@ -127,7 +141,7 @@ class CardController extends AppBaseController
     public function publicForm()
     {
         $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
-        ddd( $categories );
+        ddd($categories);
         $cities = [
             "Tripoli" => "طرابلس",
             "Benghazi" => "بنغازي",
@@ -168,31 +182,62 @@ class CardController extends AppBaseController
      */
     public function store(CreateCardRequest $request)
     {
-        // ddd($request);
-
-
+        // Handle file uploads
         $input = $request->all();
         $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
-    
+
+        // Assign user_id if the role is student
+        if (auth()->user()->hasRole('student')) {
+            $input['user_id'] = auth()->id();
+        }
+
+        // Set default values
         $input['paid'] = 0;
 
+        // Prepare the QR code path
         $path = 'qrcode-' . time() . '.svg';
         $output_file = 'public/qr-code/' . $path;
+
+        // Include the QR code path in the input array before creating the card
         $input['qrcode'] = $path;
+
+        // Create the card and generate its ID
         $card = $this->cardRepository->create($input);
+
+        // Generate the membership number
         $card->membership_number = '00' + 1000 + $card->id;
-       
+
+        // Save the card with the updated membership number
         $card->save();
-     
-        $image = QrCode::size(200)->errorCorrection('H')
-            ->generate('http://glucc.ly/card/?id=' . $card->id . '&lang=ar');
-        Storage::disk('local')->put($output_file, $image);
+        // Assign user_id if the role is student
+        if (auth()->user()->hasRole('student')) {
+
+            // Notify system admins about the new card
+            $systemAdmins = User::role('system admin')->get();
+            Notification::send($systemAdmins, new CardCreatedNotification($card));
+        }
+
+        // Prepare data for the QR code (without expiration date)
+        $cardData = [
+            'id' => $card->id,
+            'name' => $card->name_ar, // or name_en depending on your use case
+            'hash' => hash('sha256', $card->id . $card->name_ar . config('app.key'))
+        ];
+
+        // Convert data to JSON
+        $qrData = json_encode($cardData);
+
+        // Generate the QR code image
+        $qrCodeImage = QrCode::size(200)->errorCorrection('H')->generate($qrData);
+        Storage::disk('local')->put($output_file, $qrCodeImage);
+
         Flash::success('Card saved successfully.');
 
-        return redirect(route('cards.index'));
+        return view('cards.show')->with('card', $card);
     }
+
 
     /**
      * Display the specified Card.
@@ -203,12 +248,19 @@ class CardController extends AppBaseController
      */
     public function show($id)
     {
+
+
         $card = $this->cardRepository->find($id);
 
-        if (empty($card)) {
-            Flash::error('Card not found');
+        if (Auth::user()->hasRole('system admin') || $card->user_id === Auth::id()) {
+            if (empty($card)) {
+                Flash::error('Card not found');
 
-            return redirect(route('cards.index'));
+                return redirect(route('cards.index'));
+            }
+            return view('cards.show', compact('card'));
+        } else {
+            abort(403, 'Unauthorized action.');
         }
 
         return view('cards.show')->with('card', $card);
@@ -223,6 +275,7 @@ class CardController extends AppBaseController
      */
     public function edit($id)
     {
+
         $categories = ['' => 'Please Select a '] + Category::pluck('name_ar', 'id')->toArray();
         $cities = [
             "Tripoli" => "طرابلس",
@@ -254,13 +307,17 @@ class CardController extends AppBaseController
         ];
 
         $card = $this->cardRepository->find($id);
-
+        if (auth()->user()->hasRole('student') && $card->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
         if (empty($card)) {
             Flash::error('Card not found');
-
             return redirect(route('cards.index'));
         }
-
+        if (auth()->user()->hasRole(['admin', 'system admin'])) {
+            $students = User::role('student')->pluck('name', 'id'); // Get all students
+            return view('cards.edit', compact('card', 'students', 'categories', 'cities'));
+        }
         return view('cards.edit')->with('card', $card)->with('categories', $categories)->with('cities', $cities);
     }
     /**
@@ -270,39 +327,71 @@ class CardController extends AppBaseController
      *
      * @return Response
      */
-    public function paid(Request $request)
+   
+public function paid(Request $request)
+{
+    $card = $this->cardRepository->find($request->id);
+
+    if (empty($card)) {
+        Flash::error('Card not found');
+        return redirect(route('cards.index'));
+    }
+
+    // Get the selected expiration period from the form input
+    $expirationPeriod = $request->expiration;
+
+    // Calculate the expiration date based on the selected expiration period
+    switch ($expirationPeriod) {
+        case '6m':
+            $expirationDate = Carbon::now()->addMonths(6);
+            break;
+        case '1y':
+            $expirationDate = Carbon::now()->addYears(1);
+            break;
+        case '2y':
+            $expirationDate = Carbon::now()->addYears(2);
+            break;
+        default:
+            $expirationDate = Carbon::now(); // Default to the current date if none is selected
+    }
+
+    // Save the expiration date and mark the card as paid (approved)
+    $card->expiration = $expirationDate;
+    $card->paid = 1;
+    $card->save();
+
+    // Send a notification to the student that the card has been approved
+    $card->user->notify(new CardApprovalNotification($card, 'approved'));
+
+    Flash::success('Card approved successfully.');
+    return view('cards.show')->with('card', $card);
+}
+
+public function reject(Request $request, $id)
     {
-        $card = $this->cardRepository->find($request->id);
+        $card = $this->cardRepository->find($id);
 
         if (empty($card)) {
             Flash::error('Card not found');
-
             return redirect(route('cards.index'));
         }
 
-
-        // Get the selected expiration period from the form input
-        $expirationPeriod = $request->expiration;
-
-        // Calculate the expiration date based on the selected expiration period
-        switch ($expirationPeriod) {
-            case '6m':
-                $expirationDate = Carbon::now()->addMonths(6);
-                break;
-            case '1y':
-                $expirationDate = Carbon::now()->addYears(1);
-                break;
-            case '2y':
-                $expirationDate = Carbon::now()->addYears(2);
-                break;
-        }
-        // dd($expirationDate);
-        // Save the expiration date to the card
-        $card->expiration = $expirationDate;
-        $card->paid = 1;
+        // Set the card as rejected
+        $card->paid = 0; // Mark as not approved
+        $card->comment = $request->input('comment'); // Save the rejection comment
         $card->save();
-        return view('cards.show')->with('card', $card);
+
+        // Notify the student about the rejection
+        $card->user->notify(new CardApprovalNotification($card, 'rejected', $card->comment));
+
+        Flash::success('Card rejected successfully.');
+        return redirect()->route('cards.show', $card->id);
     }
+
+
+
+
+
     /**
      * Display the specified Card.
      *
@@ -322,6 +411,8 @@ class CardController extends AppBaseController
 
         return view('card')->with('card', $card);
     }
+
+
     /**
      * Update the specified Card in storage.
      *
@@ -336,11 +427,12 @@ class CardController extends AppBaseController
 
         if (empty($card)) {
             Flash::error('Card not found');
-
             return redirect(route('cards.index'));
         }
 
         $input = $request->all();
+
+        // Handle file uploads
         if (!empty($request->file('image'))) {
             $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         }
@@ -350,16 +442,31 @@ class CardController extends AppBaseController
         if (!empty($request->file('identity_file2'))) {
             $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
         }
-        // $input['paid'] =  $card->paid;
 
+        // Check if the user is a student
+        if (auth()->user()->hasRole('student')) {
+            // Set the card to "request" state (unapproved)
+            $input['paid'] = false;
+
+            // Notify admin or system admin about the update
+            // Assuming you have a notification system set up
+            // $adminUsers = \App\Models\User::role(['admin', 'system admin'])->get();
+            // \Notification::send($adminUsers, new \App\Notifications\CardUpdatedByStudent($card));
+        }
+
+        // Update the card
         $card = $this->cardRepository->update($input, $id);
+
+        // Update the membership number if needed
         $card->membership_number = '00' + 1000 + $card->id;
         $card->save();
 
         Flash::success('Card updated successfully.');
 
-        return redirect(route('cards.index'));
+        return redirect()->route('cards.show', ['card' => $card->id]);
     }
+
+
 
     /**
      * Remove the specified Card from storage.
@@ -390,5 +497,25 @@ class CardController extends AppBaseController
         // TODO: handel file not found error.
         // TODO: remove this unnecessary method
         return Storage::download('public/' . $folder . '/' . $attachURL);
+    }
+    public function myCard()
+    {
+        $user = auth()->user();
+        $card = $user->card;
+
+        if (!$card && Auth::user()->hasRole('student')) {
+            return view('subjects.locked'); // A special view for when the card is missing
+        }
+        // Retrieve the card associated with the currently authenticated user
+        $card = $this->cardRepository->findWhere(['user_id' => auth()->id()])->first();
+
+        // If the card is not found, redirect back with an error
+        if (empty($card)) {
+            Flash::error('Card not found');
+            return redirect()->back();
+        }
+
+        // Return the view with the user's card
+        return view('cards.show')->with('card', $card);
     }
 }

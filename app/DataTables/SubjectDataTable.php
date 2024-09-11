@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataTables;
 
 use App\Models\Subject;
@@ -18,10 +19,15 @@ class SubjectDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'subjects.datatables_actions')
-                         ->addColumn('prerequisite_subject.title', function($subject) {
-                             return $subject->prerequisiteSubject ? $subject->prerequisiteSubject->title : 'None';
-                         });
+        // Check if the user has the 'student' role
+        if (!auth()->user()->hasRole('student')) {
+            // Add the action column only if the user is not a student
+            $dataTable->addColumn('action', 'subjects.datatables_actions');
+        }
+
+        return $dataTable->addColumn('prerequisite_subject.title', function($subject) {
+            return $subject->prerequisiteSubject ? $subject->prerequisiteSubject->title : 'None';
+        });
     }
 
     /**
@@ -32,7 +38,23 @@ class SubjectDataTable extends DataTable
      */
     public function query(Subject $model)
     {
-        return $model->newQuery()->with('prerequisiteSubject');
+        $user = auth()->user();
+
+    // Check if the user has the 'student' role
+    if ($user->hasRole('student')) {
+        // Get the subjects associated with the student's profile
+        return $model->newQuery()
+            ->whereHas('users', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with('prerequisiteSubject');
+    }
+
+    // Default query for other roles
+    return $model->newQuery()->with('prerequisiteSubject');
+
+        // Default query for other roles
+    
     }
 
     /**
@@ -45,7 +67,6 @@ class SubjectDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,

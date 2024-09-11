@@ -81,6 +81,11 @@ class Subject extends Model
                      ->withPivot('semester')
                      ->withTimestamps();
      }
+     public function users()
+{
+    return $this->belongsToMany(User::class, 'user_subject');
+}
+
      
     
 }

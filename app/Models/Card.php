@@ -65,6 +65,7 @@ class Card extends Model
         'website',
         'qrcode',
         'image',
+        'comment',
         'paid',
         'category_id',
         'facebook_url',
@@ -77,6 +78,7 @@ class Card extends Model
         'youtube_url',
         'identity_file1',
         'identity_file2',
+        'user_id',
         'city',
         'expiration'
     ];
@@ -88,6 +90,7 @@ class Card extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'user_id' => 'integer',
         'name_ar' => 'string',
         'name_en' => 'string',
         'job_title_ar' => 'string',
@@ -99,6 +102,7 @@ class Card extends Model
         'website' => 'string',
         'qrcode' => 'string',
         'image' => 'string',
+        'comment' => 'string',
         'paid' => 'boolean',
         'category_id' => 'integer',
         'facebook_url' => 'string',
@@ -139,6 +143,8 @@ class Card extends Model
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
         'category_id' => 'nullable',
+        'user_id' => 'nullable',
+        'comment' => 'nullable',
         'facebook_url' => 'nullable|string|max:255',
         'twitter_url' => 'nullable|string|max:255',
         'linkedin_url' => 'nullable|string|max:255',
@@ -159,4 +165,9 @@ class Card extends Model
     {
         return $this->belongsTo(\App\Models\Category::class, 'category_id');
     }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
 }
