@@ -29,8 +29,8 @@
                 @include('cards.show_fields')
             </div>
 
-            <!-- Approve button, only for admin/system admin -->
-            @role('admin|system admin')
+            <!-- Approve button, only for admin/super admin | admin -->
+            @role('admin|super admin | admin')
             @if(!$card->paid || $card->expiration < Carbon\Carbon::now() && $card->expiration != null)
                 <button id="approve-button" class="btn btn-primary">Approve</button>
                 @endif
@@ -58,7 +58,7 @@
         @endrole
 
         <!-- The expiration form (initially hidden) -->
-        @role('admin|system admin')
+        @role('admin|super admin | admin')
         <form class="form-group " id="expiration-form" action="{{ route('paid') }}" method="POST" style="display: none;">
             @csrf
             <input type="hidden" name="id" value={{ $card->id }}>

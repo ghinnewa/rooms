@@ -184,8 +184,8 @@
         </div>
         {!! Form::text('youtube_url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
     </div> -->
-<!-- User Selection Field (only for admin/system admin) -->
-@role('admin|system admin')
+<!-- User Selection Field (only for admin/super admin | admin) -->
+@role('admin|super admin | admin')
 <div class="form-group col-sm-6">
     {!! Form::label('user_id', __('models/cards.fields.user_id').':') !!}
     {!! Form::select('user_id', $students, null, ['class' => 'form-control']) !!}

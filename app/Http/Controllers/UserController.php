@@ -137,7 +137,7 @@ class UserController extends AppBaseController
         }
     
         // Get roles only if the current user is an admin
-        $roles = auth()->user()->hasRole('admin|system admin') ? Role::pluck('name', 'id')->toArray() : [];
+        $roles = auth()->user()->hasRole('admin|super admin | admin') ? Role::pluck('name', 'id')->toArray() : [];
     
         return view('users.edit')->with('user', $user)->with('roles', $roles);
     }
@@ -179,7 +179,7 @@ class UserController extends AppBaseController
         $user = $this->userRepository->update($input, $id);
     
         // Update role only if the current user is an admin
-        if (auth()->user()->hasRole('admin|system admin') && !empty($input['role_id'])) {
+        if (auth()->user()->hasRole('admin|super admin') && !empty($input['role_id'])) {
             $role = Role::findById($input['role_id']);
             $user->syncRoles($role);
         }

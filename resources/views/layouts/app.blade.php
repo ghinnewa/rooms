@@ -67,13 +67,12 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         @auth
+
         <script>
-            var userId = {
-                {
-                    auth() - > id()
-                }
-            };
+            // Embed the user ID from Laravel into a JavaScript variable
+            var userId = {{auth()->id()}};
         </script>
+
         <style>
             .dropdown-item.notification-approved {
                 background-color: #d4edda;
@@ -97,6 +96,18 @@
                 font-size: 1.8rem;
                 /* Increase the size of the bell icon */
             }
+            .dataTables_wrapper {
+    padding: 20px!important;
+  }
+            .unread {
+    background-color: #D2E0FB; /* Light red for unread */
+}
+
+.read {
+    background-color: white; /* Light green for read */
+}
+
+
         </style>
         @endauth
 
@@ -113,38 +124,63 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge" id="notification-count">
-                            {{ auth()->user()->unreadNotifications->count() }}
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">
-                            You have <span id="notification-count-text">{{ auth()->user()->unreadNotifications->count() }}</span> notifications
-                        </span>
-                        <div class="dropdown-divider"></div>
-                        <div id="notification-list">
-                            @foreach(auth()->user()->unreadNotifications->sortByDesc('created_at') as $notification)
-                            <a href="#" class="dropdown-item notification-{{ $notification->data['status'] ?? 'default' }}"
-                                data-toggle="modal"
-                                data-target="#notificationModal"
-                                data-message="{{ $notification->data['message'] }}"
-                                data-comment="{{ $notification->data['comment'] ?? '' }}"
-                                data-card-id="{{ $notification->data['card_id'] }}">
-                                <i class="fas fa-envelope mr-2"></i> {{ Str::limit($notification->data['message'], 30) }}
-                                <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            @endforeach
+            <li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="fa fa-bell"></i>
+        <span class="badge badge-warning navbar-badge" id="notification-count">
+            {{ auth()->user()->unreadNotifications->count() }}
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow" id="notification-list" style="width: 350px;">
+      
+        <div class="dropdown-divider"></div>
+
+        <!-- Scrollable Notification List -->
+        <div style="max-height: 300px; overflow-y: auto; padding: 5px;">
+            @foreach(auth()->user()->notifications->sortByDesc('created_at') as $notification)
+                @if ($notification->type === 'App\\Notifications\\CardCreatedNotification')
+                    <!-- Link type notification for card creation -->
+                    <a href="{{ route('notifications.readAndRedirect', ['id' => $notification->id, 'url' => $notification->data['url'] ?? '#']) }}"
+                       class="dropdown-item d-flex align-items-start notification-item {{ $notification->read_at ? 'read' : 'unread' }}"
+                       data-id="{{ $notification->id }}"
+                       id="notification-{{ $notification->id }}">
+                        <i class="fas fa-envelope mr-3 text-primary"></i>
+                        <div class="flex-grow-1">
+                            <p class="mb-0 text-truncate" style="font-size: 14px; font-weight: 500;">
+                                {{ Str::limit($notification->data['message'], 50) }}
+                            </p>
+                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
                         </div>
+                    </a>
+                @elseif ($notification->type === 'App\\Notifications\\CardApprovalNotification')
+                    <!-- Modal type notification for card approval or rejection -->
+                    <a href="#" class="dropdown-item d-flex align-items-start notification-item {{ $notification->read_at ? 'read' : 'unread' }}"
+                       data-toggle="modal"
+                       data-target="#notificationModal"
+                       data-message="{{ $notification->data['message'] }}"
+                       data-comment="{{ $notification->data['comment'] ?? '' }}"
+                       data-card-id="{{ $notification->data['card_id'] }}"
+                       id="notification-{{ $notification->id }}">
+                        <i class="fas fa-envelope mr-3 text-danger"></i>
+                        <div class="flex-grow-1">
+                            <p class="mb-0 text-truncate" style="font-size: 14px; font-weight: 500;">
+                                {{ Str::limit($notification->data['message'], 50) }}
+                            </p>
+                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                        </div>
+                    </a>
+                @endif
+                <div class="dropdown-divider"></div>
+            @endforeach
+        </div>
+        @role('admin|super admin | admin')
+        <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer text-center text-primary">See All Notifications</a>
+        @endrole
+    </div>
+</li>
 
 
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
 
-                </li>
 
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -177,7 +213,7 @@
                 </li>
             </ul>
         </nav>
-        <!-- Notification Modal -->
+        <!-- Modal Structure in app.blade.php -->
         <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -189,10 +225,10 @@
                     </div>
                     <div class="modal-body">
                         <p id="notificationMessage"></p>
-                        <p id="notificationComment" class="text-muted"></p>
+                        <p id="notificationComment"></p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#" id="editCardButton" class="btn btn-primary">Edit Your Card</a>
+                        <a href="#" id="editCardButton" class="btn btn-primary">Edit Card</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -267,6 +303,7 @@
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 
     <script>
+
         $(function() {
             bsCustomFileInput.init();
         });
@@ -285,21 +322,91 @@
     @stack('filename2')
     @stack('page_scripts')
     <script>
-        $('#notificationModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var message = button.data('message'); // Extract info from data-* attributes
-            var comment = button.data('comment');
-            var cardId = button.data('card-id');
+      // Handle showing the modal and updating its content based on the clicked notification
+// Handle showing the modal and updating its content based on the clicked notification
+$('#notificationModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var message = button.data('message'); // Extract message from data-* attributes
+    var comment = button.data('comment'); // Extract comment if present
+    var cardId = button.data('card-id'); // Extract card ID for the edit button
 
-            // Update the modal's content.
-            var modal = $(this);
-            modal.find('#notificationMessage').text(message);
-            modal.find('#notificationComment').text(comment ? 'Comment: ' + comment : '');
+    // Update the modal's content.
+    var modal = $(this);
+    modal.find('#notificationMessage').text(message); // Set the message
+    modal.find('#notificationComment').text(comment ? 'Comment: ' + comment : ''); // Set the comment if present
 
-            // Update the edit button's href
-            modal.find('#editCardButton').attr('href', '/cards/' + cardId + '/edit');
-        });
+    // Update the edit button's href to link to the correct card
+    modal.find('#editCardButton').attr('href', '/cards/' + cardId + '/edit');
+});
+
+
+        $(document).on('click', '.notification-item', function (e) {
+    e.preventDefault(); // Prevent the link from navigating immediately
+
+    const notificationId = $(this).data('id');
+    const url = $(this).attr('href'); // Store the URL to navigate to later
+
+    // Mark the notification as read using AJAX
+    $.ajax({
+        url: `/notifications/${notificationId}/read`, // Ensure this route exists in your Laravel app
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token header
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                // Change the appearance of the notification to indicate it's been read
+                $(`#notification-${notificationId}`).removeClass('unread').addClass('read');
+
+                // Update the notification count
+                updateNotificationCount();
+
+                // Now navigate to the link after the AJAX call is successful
+                window.location.href = url;
+            } else {
+                console.error('Error:', response.message);
+                // If marking as read fails, you may still want to navigate
+                window.location.href = url;
+            }
+        },
+        error: function (error) {
+            console.error('Error marking notification as read:', error);
+            // Navigate to the link even if there's an error
+            window.location.href = url;
+        }
+    });
+});
+
+// Function to update the notification count
+function updateNotificationCount() {
+    let unreadCount = $('.notification-item.unread').length;
+    $('#notification-count').text(unreadCount);
+    $('#notification-count-text').text(unreadCount);
+}
+
+
+    // Optional: Redirect to the notification's URL (if applicable)
+    const url = $(this).attr('href');
+    if (url && url !== '#') {
+        window.location.href = url;
+    }
+
+
+
+
+$(document).on('click', '.nav-link[data-toggle="dropdown"]', function () {
+    // Reset the notification count to 0 when the dropdown is opened
+    $('#notification-count').text(0);
+    $('#notification-count-text').text(0);
+
+    // Optional: mark all notifications as read when dropdown is opened
+  
+});
+
+
+
     </script>
+
 </body>
 
 </html>

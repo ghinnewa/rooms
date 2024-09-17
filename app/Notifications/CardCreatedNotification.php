@@ -24,19 +24,38 @@ class CardCreatedNotification extends Notification
         return ['database', 'broadcast'];
     }
 
-    public function toDatabase($notifiable)
-    {
-        return new DatabaseMessage([
-            'card_id' => $this->card->id,
-            'message' => 'A new card has been created by ' . $this->card->user->name,
-        ]);
+    // App\Notifications\CardCreatedNotification.php
+// App\Notifications\CardCreatedNotification.php
+public function toDatabase($notifiable)
+{
+    return [
+        'card_id' => $this->card->id,
+        'message' => 'A new card has been created by ' . $this->card->user->name,
+        'url' => route('cards.show', $this->card->id), // Ensure this route exists and points to the correct page
+        'type' => 'App\\Notifications\\CardCreatedNotification', // Type identifier
+    ];
+}
+
+public function toBroadcast($notifiable)
+{
+    return new BroadcastMessage([
+        'card_id' => $this->card->id,
+        'message' => 'A new card has been created by ' . $this->card->user->name,
+        'url' => route('cards.show', $this->card->id), // Ensure this is correct
+        'type' => 'App\\Notifications\\CardCreatedNotification',
+    ]);
+}
+
+public function markAsRead($id)
+{
+    $notification = auth()->user()->notifications()->find($id);
+
+    if ($notification) {
+        $notification->markAsRead(); // This method will update the `read_at` timestamp
+        return response()->json(['status' => 'success']);
     }
 
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'card_id' => $this->card->id,
-            'message' => 'A new card has been created by ' . $this->card->user->name,
-        ]);
-    }
+    return response()->json(['status' => 'error'], 404);
+}
+
 }

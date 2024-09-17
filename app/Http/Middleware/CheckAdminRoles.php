@@ -24,7 +24,7 @@ class CheckAdminRoles
 // dd(FacadesRoute::getRoutes()->get());
 
 
-        if ($request->routeIs('cards.edit') && !$card->paid ||($request->user()->hasRole('system admin') || $request->user()->hasRole('admin') )) {
+        if ($request->routeIs('cards.edit') && !$card->paid ||($request->user()->hasRole('super admin | admin') || $request->user()->hasRole('admin') )) {
             return $next($request);
         }
       

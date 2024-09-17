@@ -22,12 +22,12 @@ class UserSeeder extends Seeder
 
         // Create a new user
         $user = ModelsUser::create([
-            'name' => 'System Admin',
+            'name' => 'super admin | admin',
             'email' => 'admin@glucc.com',
             'password' => bcrypt('glucc2023glucc')
         ]);
 
-        // Assign the 'system admin' role to the user
+        // Assign the 'super admin | admin' role to the user
         $user->assignRole($role);
 
     }

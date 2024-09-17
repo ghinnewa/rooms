@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    @if(auth()->user()->hasRole('system admin'))
+    @if(auth()->user()->hasRole('super admin | admin'))
         <div class="text-center mt-5">
             <h2>Scan QR Code</h2>
             <div class="card mx-auto" style="max-width: 400px;">

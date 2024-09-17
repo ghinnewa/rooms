@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Notifications\CardApprovalNotification;
+use App\Notifications\CardCreatedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -119,8 +120,8 @@ class CardController extends AppBaseController
             "Shahhat" =>  "شحات",
 
         ];
-        // Check if the user is an admin or system admin
-        if (auth()->user()->hasRole(['admin', 'system admin'])) {
+        // Check if the user is an admin or super admin | admin
+        if (Auth::user()->hasAnyRole(['admin', 'super admin'])) {
             $students = User::role('student')->pluck('name', 'id'); // Get all students
             return view('cards.create', compact('students', 'categories', 'cities'));
         }
@@ -214,8 +215,8 @@ class CardController extends AppBaseController
         // Assign user_id if the role is student
         if (auth()->user()->hasRole('student')) {
 
-            // Notify system admins about the new card
-            $systemAdmins = User::role('system admin')->get();
+            // Notify super admin | admins about the new card
+            $systemAdmins = User::role('admin')->get();
             Notification::send($systemAdmins, new CardCreatedNotification($card));
         }
 
@@ -252,7 +253,7 @@ class CardController extends AppBaseController
 
         $card = $this->cardRepository->find($id);
 
-        if (Auth::user()->hasRole('system admin') || $card->user_id === Auth::id()) {
+        if (Auth::user()->hasAnyRole(['admin', 'super admin']) || $card->user_id === Auth::id()) {
             if (empty($card)) {
                 Flash::error('Card not found');
 
@@ -314,7 +315,7 @@ class CardController extends AppBaseController
             Flash::error('Card not found');
             return redirect(route('cards.index'));
         }
-        if (auth()->user()->hasRole(['admin', 'system admin'])) {
+        if (Auth::user()->hasAnyRole(['admin', 'super admin'])) {
             $students = User::role('student')->pluck('name', 'id'); // Get all students
             return view('cards.edit', compact('card', 'students', 'categories', 'cities'));
         }
@@ -328,66 +329,67 @@ class CardController extends AppBaseController
      * @return Response
      */
    
-public function paid(Request $request)
-{
-    $card = $this->cardRepository->find($request->id);
+     public function paid(Request $request)
+     {
+         $card = $this->cardRepository->find($request->id);
+     
+         if (empty($card)) {
+             Flash::error('Card not found');
+             return redirect(route('cards.index'));
+         }
+     
+         // Calculate the expiration date based on the selected expiration period
+         $expirationPeriod = $request->expiration;
 
-    if (empty($card)) {
-        Flash::error('Card not found');
-        return redirect(route('cards.index'));
-    }
-
-    // Get the selected expiration period from the form input
-    $expirationPeriod = $request->expiration;
-
-    // Calculate the expiration date based on the selected expiration period
-    switch ($expirationPeriod) {
-        case '6m':
-            $expirationDate = Carbon::now()->addMonths(6);
-            break;
-        case '1y':
-            $expirationDate = Carbon::now()->addYears(1);
-            break;
-        case '2y':
-            $expirationDate = Carbon::now()->addYears(2);
-            break;
-        default:
-            $expirationDate = Carbon::now(); // Default to the current date if none is selected
-    }
-
-    // Save the expiration date and mark the card as paid (approved)
-    $card->expiration = $expirationDate;
-    $card->paid = 1;
-    $card->save();
-
-    // Send a notification to the student that the card has been approved
-    $card->user->notify(new CardApprovalNotification($card, 'approved'));
-
-    Flash::success('Card approved successfully.');
-    return view('cards.show')->with('card', $card);
+// Calculate the expiration date based on the selected expiration period
+switch ($expirationPeriod) {
+    case '6m':
+        $expirationDate = Carbon::now()->addMonths(6);
+        break;
+    case '1y':
+        $expirationDate = Carbon::now()->addYears(1);
+        break;
+    case '2y':
+        $expirationDate = Carbon::now()->addYears(2);
+        break;
+    default:
+        $expirationDate = Carbon::now(); // Default to the current date if none is selected
+        break;
 }
+     
+         // Save the expiration date and mark the card as paid (approved)
+         $card->expiration = $expirationDate;
+         $card->paid = 1;
+         $card->save();
+     
+         // Send the notification to the student that the card has been approved
+         $card->user->notify(new CardApprovalNotification($card, 'approved'));
+     
+         Flash::success('Card approved successfully.');
+         return view('cards.show')->with('card', $card);
+     }
+     
 
-public function reject(Request $request, $id)
-    {
-        $card = $this->cardRepository->find($id);
-
-        if (empty($card)) {
-            Flash::error('Card not found');
-            return redirect(route('cards.index'));
-        }
-
-        // Set the card as rejected
-        $card->paid = 0; // Mark as not approved
-        $card->comment = $request->input('comment'); // Save the rejection comment
-        $card->save();
-
-        // Notify the student about the rejection
-        $card->user->notify(new CardApprovalNotification($card, 'rejected', $card->comment));
-
-        Flash::success('Card rejected successfully.');
-        return redirect()->route('cards.show', $card->id);
-    }
-
+     public function reject(Request $request, $id)
+     {
+         $card = $this->cardRepository->find($id);
+     
+         if (empty($card)) {
+             Flash::error('Card not found');
+             return redirect(route('cards.index'));
+         }
+     
+         // Mark as not approved and add a rejection comment
+         $card->paid = 0;
+         $card->comment = $request->input('comment');
+         $card->save();
+     
+         // Notify the student about the rejection
+         $card->user->notify(new CardApprovalNotification($card, 'rejected', $card->comment));
+     
+         Flash::success('Card rejected successfully.');
+         return redirect()->route('cards.show', $card->id);
+     }
 
 
 
@@ -448,9 +450,9 @@ public function reject(Request $request, $id)
             // Set the card to "request" state (unapproved)
             $input['paid'] = false;
 
-            // Notify admin or system admin about the update
+            // Notify admin or super admin | admin about the update
             // Assuming you have a notification system set up
-            // $adminUsers = \App\Models\User::role(['admin', 'system admin'])->get();
+            // $adminUsers = \App\Models\User::role(['admin', 'super admin | admin'])->get();
             // \Notification::send($adminUsers, new \App\Notifications\CardUpdatedByStudent($card));
         }
 

@@ -1,7 +1,7 @@
 <ul class="navbar-nav">
 
-    {{-- Admin/System Admin Menu --}}
-    @role('admin|system admin')
+    {{-- Admin/super admin | admin Menu --}}
+    @role('super admin')
     <li class="nav-item">
         <a href="{{ route('users.index') }}"
            class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
@@ -9,6 +9,9 @@
            <p>المستخدمين</p>
         </a>
     </li>
+    @endrole
+    @role('admin|super admin')
+   
     <li class="nav-item">
         <a href="{{ route('categories.index') }}"
            class="nav-link {{ Request::is('categories*') ? 'active' : '' }}">
@@ -65,6 +68,13 @@
            <p>   كود QR   مسح</p>
         </a>
     </li>
+    <li class="nav-item">
+        <a href="{{ route('notifications.index') }}" 
+           class="nav-link {{ Request::is('notifications*') ? 'active' : '' }}">
+           <i class="fa fa-bell p-1 text-lg"></i>
+           <p class="ml-1">الإشعارات</p>
+        </a>
+    </li>  
     @endrole
 
     {{-- Student Menu --}}
@@ -96,6 +106,7 @@
             <p>حسابي</p>
         </a>
     </li>
-    @endrole
 
+    @endrole
 </ul>
+

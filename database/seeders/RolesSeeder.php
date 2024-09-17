@@ -15,12 +15,32 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $role =Role::findOrCreate('system admin','web');
-        $role->syncPermissions(Permission::all());
-        $role =Role::findOrCreate('data_entry','web');
+            // Create or find the Super Admin role and assign all permissions
+            $superAdminRole = Role::findOrCreate('super admin', 'web');
+            $superAdminRole->syncPermissions(Permission::all()); // Grant all permissions
+    
+            // Create or find the Admin role
+            $adminRole = Role::findOrCreate('admin', 'web');
+    
+            // Define permissions that Admin should NOT have (related to user management)
+            $restrictedPermissions = [
+                'users.create', // Permission to create users
+                'users.edit',   // Permission to edit users
+                'users.delete', // Permission to delete users
+                'users.show',   // Permission to view users
+                'users.index',  // Permission to list users
+            ];
+    
+            // Get all permissions except the restricted ones for the Admin role
+            $allowedPermissions = Permission::whereNotIn('name', $restrictedPermissions)->get();
+    
+            // Sync the allowed permissions with the Admin role
+            $adminRole->syncPermissions($allowedPermissions);
 
-        $role->syncPermissions(['cards.show', 'cards.index','cards.edit','categories.index']);
-        $studentRole = Role::create(['name' => 'student']);
+      
+
+
+     
 
 
 
