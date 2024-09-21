@@ -14,13 +14,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \App\Models\Category $category
  * @property string $name_ar
  * @property string $name_en
- * @property string $job_title_ar
- * @property string $job_title_en
+
  * @property string $membership_number
+ * @property string $national_number
  * @property string $phone1
- * @property string $phone2
- * @property string $email
- * @property string $website
+
  * @property string $qrcode
  * @property string $image
  * @property boolean $paid
@@ -28,9 +26,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $facebook_url
  * @property string $twitter_url
  * @property string $linkedin_url
- * @property string $company_ar
- * @property string $company_en
- * @property string $company_email
  * @property string $instagram_url
  * @property string $youtube_url
  * @property string $identity_file1
@@ -56,13 +51,12 @@ class Card extends Model
     public $fillable = [
         'name_ar',
         'name_en',
-        'job_title_ar',
-        'job_title_en',
+       
         'membership_number',
+        'national_number',
         'phone1',
-        'phone2',
-        'email',
-        'website',
+       
+        
         'qrcode',
         'image',
         'comment',
@@ -71,9 +65,7 @@ class Card extends Model
         'facebook_url',
         'twitter_url',
         'linkedin_url',
-        'company_ar',
-        'company_en',
-        'company_email',
+       
         'instagram_url',
         'youtube_url',
         'identity_file1',
@@ -93,13 +85,13 @@ class Card extends Model
         'user_id' => 'integer',
         'name_ar' => 'string',
         'name_en' => 'string',
-        'job_title_ar' => 'string',
-        'job_title_en' => 'string',
+       
         'membership_number' => 'string',
+        'national_number' => 'string',
         'phone1' => 'string',
-        'phone2' => 'string',
-        'email' => 'string',
-        'website' => 'string',
+        
+       
+       
         'qrcode' => 'string',
         'image' => 'string',
         'comment' => 'string',
@@ -108,9 +100,7 @@ class Card extends Model
         'facebook_url' => 'string',
         'twitter_url' => 'string',
         'linkedin_url' => 'string',
-        'company_ar' => 'string',
-        'company_en' => 'string',
-        'company_email' => 'string',
+       
         'instagram_url' => 'string',
         'youtube_url' => 'string',
         'identity_file1' => 'string',
@@ -127,13 +117,12 @@ class Card extends Model
     public static $rules = [
         'name_ar' => 'required|string|max:255',
         'name_en' => 'required|string|max:255',
-        'job_title_ar' => 'nullable|string|max:255',
-        'job_title_en' => 'nullable|string|max:255',
-        'membership_number' => 'required|string|max:255',
+      
+       
         'phone1' => 'required|string|max:255',
-        'phone2' => 'required|string|max:255',
-        'email' => 'required|string|max:255',
-        'website' => 'nullable|string|max:255',
+        
+      
+
         'qrcode' => '',
         'image' => '',
         'expiration' => 'date|after:now',
@@ -148,14 +137,23 @@ class Card extends Model
         'facebook_url' => 'nullable|string|max:255',
         'twitter_url' => 'nullable|string|max:255',
         'linkedin_url' => 'nullable|string|max:255',
-        'company_ar' => 'nullable|string|max:255',
-        'company_en' => 'nullable|string|max:255',
-        'company_email' => 'nullable|string|max:255',
+      
         'instagram_url' => 'nullable|string|max:255',
         'youtube_url' => 'nullable|string|max:255',
         'identity_file1' => '',
         'identity_file2' => '',
-        'city' => 'required|string|max:255'
+        'city' => 'required|string|max:255',
+
+
+
+
+   
+        'membership_number' => 'required|digits:6',  // Ensuring it is exactly 6 digits
+        'national_number' => [
+            'required',
+            'regex:/^(1|2)[0-9]{11}$/',  // Must start with 1 or 2 and have exactly 12 digits
+        ]
+        
     ];
 
     /**

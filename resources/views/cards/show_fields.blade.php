@@ -19,13 +19,11 @@
                 <li class="list-group-item">
                     <b class="float-right">رقم الهاتف الأول</b> <a class="float-left">{{ $card->phone1 }}</a>
                 </li>
-                <li class="list-group-item">
-                    <b class="float-right">رقم الهاتف الثاني</b> <a class="float-left">{{ $card->phone2 }}</a>
-                </li>
+              
 
 
                 <li class="list-group-item">
-                    <b class="float-right">البريد</b> <a class="float-left">{{ $card->email }}</a>
+                    <b class="float-right">البريد</b> <a class="float-left">{{ $card->user->email }}</a>
                 </li>
 
                 <li class="list-group-item">

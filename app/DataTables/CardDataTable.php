@@ -21,12 +21,25 @@ class CardDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
-        return $dataTable->addColumn('image', function ($card) {
-           $url = asset('storage/profile/'.$card->image);
-            return '<img src='.$url.' style="width:50px; height:50px;  object-fit: cover;" class="rounded-circle"/>';
-        })->rawColumns(['image', 'action','title'])->addColumn('action', 'cards.datatables_actions');
-       }
+    
+        return $dataTable->addColumn('checkbox', function ($card) {
+            return '<input type="checkbox" class="card-checkbox" value="' . $card->id . '">';
+        })
+        ->addColumn('image', function ($card) {
+            $url = asset('storage/profile/'.$card->image);
+            return '<img src="'.$url.'" style="width:50px; height:50px;  object-fit: cover;" class="rounded-circle"/>';
+        })
+        ->addColumn('user', function ($card) {
+            if ($card->user) {
+                return '<a href="' . route('users.show', $card->user->id) . '">' . $card->user->name . '</a>';
+            } else {
+                return 'N/A';
+            }
+        })
+        ->rawColumns(['checkbox', 'image', 'action', 'user']) // Include 'checkbox' in rawColumns to render HTML.
+        ->addColumn('action', 'cards.datatables_actions');
+    }
+    
 
     /**
      * Get query source of dataTable.
@@ -40,7 +53,8 @@ class CardDataTable extends DataTable
         if(Route::is('cards.requests')) return $model->where('paid',0)->newQuery();
         if (Route::is('cards.exp')) {
             return $model->where('expiration', '<', Carbon::now())->newQuery();
-        }    }
+        }  
+      }
 
     /**
      * Optional method if you want to use html builder.
@@ -94,16 +108,22 @@ class CardDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'checkbox' => [
+                'data' => 'checkbox', 
+                'title' => '<input type="checkbox" id="select-all" />', 
+                'orderable' => false, 
+                'searchable' => false, 
+                'exportable' => false, 
+                'printable' => false
+            ], 
             'image' => new Column(['title' => __('models/cards.fields.image'), 'data' => 'image']),
             'membership_number' => new Column(['title' => __('models/cards.fields.membership_number'), 'data' => 'membership_number']),
             'name_ar' => new Column(['title' => __('models/cards.fields.name_ar'), 'data' => 'name_ar']),
-            'email' => new Column(['title' => __('models/cards.fields.email'), 'data' => 'email']),
+            'user' => new Column(['title' => 'User', 'data' => 'user', 'searchable' => true, 'orderable' => true]),
             'phone1' => new Column(['title' => __('models/cards.fields.phone1'), 'data' => 'phone1']),
-            
-            // 'company_ar' => new Column(['title' => __('models/cards.fields.company_ar'), 'data' => 'company_ar']),
-           ];
+        ];
     }
-
+    
     /**
      * Get filename for export.
      *

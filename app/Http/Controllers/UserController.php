@@ -336,5 +336,21 @@ public function showQrScanner()
             return response()->json(['exists' => false]);
         }
     }
+    public function search(Request $request)
+    {
+        $query = $request->get('q'); // Get the search query
     
+        // Find users where the name matches the search query
+        $users = User::where('name', 'LIKE', "%$query%")->get();
+    
+        // Return a JSON response with the id and name of the users
+        return response()->json($users->map(function($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name
+            ];
+        }));
+    }
+    
+
 }

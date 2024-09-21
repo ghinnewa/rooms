@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/verify-card', [App\Http\Controllers\UserController::class, 'verifyCard'])->name('admin.verifyCard');
     Route::post('/cards/{id}/reject', [App\Http\Controllers\CardController::class, 'reject'])->name('cards.reject');
     Route::resource('notifications', App\Http\Controllers\NotificationController::class);
+    Route::get('/users/search', [App\Http\Controllers\UserController::class, 'search'])->name('users.search');
+    Route::get('/print-cards', [App\Http\Controllers\CardController::class, 'printCards'])->name('print.cards');
 
     // routes/web.php
 

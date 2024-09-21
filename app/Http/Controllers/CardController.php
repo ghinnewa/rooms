@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\DataTables\CardDataTable;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Card;
 use Illuminate\Support\Facades\URL;
 // use Illuminate\Support\Facades\Request;
 use App\Http\Requests\CreateCardRequest;
@@ -500,6 +501,23 @@ switch ($expirationPeriod) {
         // TODO: remove this unnecessary method
         return Storage::download('public/' . $folder . '/' . $attachURL);
     }
+    public function printCards(Request $request)
+{
+    $cards = Card::query();
+
+    // If card IDs are passed, filter by those IDs
+    if ($request->has('card_ids')) {
+        $cardIds = explode(',', $request->input('card_ids'));
+        $cards->whereIn('id', $cardIds);
+    }
+
+    // Fetch the filtered cards
+    $cards = $cards->get();
+
+    // Pass the cards to the print view
+    return view('cards.print', compact('cards'));
+}
+
     public function myCard()
     {
         $user = auth()->user();

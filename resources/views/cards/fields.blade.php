@@ -9,6 +9,23 @@
     {!! Form::label('name_en', __('models/cards.fields.name_en').':') !!}
     {!! Form::text('name_en', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
+<div class="form-group col-sm-6">
+    {!! Form::label('membership_number', 'Membership Number:') !!}
+    {!! Form::text('membership_number', null, ['class' => 'form-control']) !!}
+    @if ($errors->has('membership_number'))
+        <span class="text-danger">{{ $errors->first('membership_number') }}</span>
+    @endif
+</div>
+
+<!-- National Number Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('national_number', 'National Number:') !!}
+    {!! Form::text('national_number', null, ['class' => 'form-control']) !!}
+    @if ($errors->has('national_number'))
+        <span class="text-danger">{{ $errors->first('national_number') }}</span>
+    @endif
+</div>
+
 
 <!-- Job Title Ar Field -->
 <!-- <div class="form-group col-sm-6">
@@ -21,7 +38,7 @@
     {!! Form::label('job_title_en', __('models/cards.fields.job_title_en').':') !!}
     {!! Form::text('job_title_en', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div> -->
-    {!! Form::hidden('membership_number', '0000000') !!}
+
 
 
 <!-- Phone1 Field -->
@@ -30,30 +47,46 @@
     {!! Form::text('phone1', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 
-<!-- Phone2 Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('phone2', __('models/cards.fields.phone2').':') !!}
-    {!! Form::text('phone2', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
 
-<!-- Email Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('email', __('models/cards.fields.email').':') !!}
-    {!! Form::email('email', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
 
-<!-- Website Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('website', __('models/cards.fields.website').':') !!}
-    {!! Form::text('website', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
-</div>
+
 
 
 
 <style>
     #preview {
         max-width: 100px;
-        //  display: none;
+         /* display: none; */
+    }
+   
+    /* Custom Select2 Styles */
+    .select2-container--bootstrap4 .select2-selection--single {
+        height: calc(2.25rem + 2px); /* Match Bootstrap 4 input height */
+        padding: .375rem .75rem; /* Add padding to match input fields */
+        border: 1px solid #ced4da; /* Border like other inputs */
+        border-radius: .25rem; /* Rounded borders */
+    }
+
+    .select2-container--bootstrap4 .select2-selection__rendered {
+        font-size: 1rem; /* Match font size to inputs */
+        color: #495057; /* Text color */
+    }
+
+    .select2-container--bootstrap4 .select2-selection__arrow {
+        height: calc(2.25rem + 2px); /* Align arrow with the input */
+    }
+    .select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: unset !important;
+    /* user-select: none; */
+    -webkit-user-select: none;
+}
+    /* Style the clear (x) button */
+    .select2-container--bootstrap4 .select2-selection__clear {
+        color: #dc3545; /* Make the clear button red */
+        margin-right: 10px;
     }
 </style>
 <div class="form-group col-sm-6">
@@ -185,12 +218,15 @@
         {!! Form::text('youtube_url', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
     </div> -->
 <!-- User Selection Field (only for admin/super admin | admin) -->
-@role('admin|super admin | admin')
+@hasanyrole('super admin|admin')
 <div class="form-group col-sm-6">
     {!! Form::label('user_id', __('models/cards.fields.user_id').':') !!}
-    {!! Form::select('user_id', $students, null, ['class' => 'form-control']) !!}
+    {!! Form::select('user_id', $students, null, ['class' => 'form-control', 'id' => 'user-select']) !!}
+    @if ($errors->has('user_id'))
+        <span class="text-danger">{{ $errors->first('user_id') }}</span>
+    @endif
 </div>
-@endrole
+@endhasanyrole
 
 
 </div>
@@ -209,7 +245,24 @@
         }
     </script>
 @endpush
+@push('scripts1')
+<!-- Include Select2 CSS and JS from CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Apply Select2 to the user dropdown
+        $('#user-select').select2({
+    theme: 'bootstrap4', // Use Bootstrap 4 theme
+    placeholder: 'Select a user',
+    allowClear: true,
+    width: '100%'
+});
+    });
+</script>
 
+
+@endpush
 
 
 

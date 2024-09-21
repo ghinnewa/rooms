@@ -145,15 +145,30 @@ class CategoryController extends AppBaseController
      {
          $category = $this->categoriesRepository->find($id);
      
+
+         // Validate the form data
+     
+         $input = $request->all();
+
+         // If a new image is uploaded, process it
+         if ($request->hasFile('image')) {
+            $input['image'] = $this->categoriesRepository->filesFromDashboard($request->file('image'), 'categories');
+
+         }
+     
+         // Update other fields
+         $category->name_ar = $request->input('name_ar');
+         $category->name_en = $request->input('name_en');
+     
+         // Save changes
+         $category->save();
+
          if (empty($category)) {
              Flash::error('Category not found');
              return redirect(route('categories.index'));
          }
      
-         $input = $request->all();
-         $input['image'] = $this->categoriesRepository->filesFromDashboard($request->file('image'), 'categories');
  
-         $category = $this->categoriesRepository->update($input, $id);
      
          // Prepare the sync data with semester information
          $syncData = [];
