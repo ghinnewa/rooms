@@ -167,5 +167,13 @@ class Card extends Model
 {
     return $this->belongsTo(User::class);
 }
+// App\Models\Card.php
+
+public function calculateSemester()
+{
+    // Assuming 'subjects' is the relationship between Card and Subject
+    return $this->user->subjects()->max('semester');
+}
+
 
 }

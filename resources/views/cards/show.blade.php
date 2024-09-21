@@ -30,7 +30,7 @@
             </div>
 
             <!-- Approve button, only for admin/super admin | admin -->
-            @role('admin|super admin | admin')
+            @role('admin|super admin')
             @if(!$card->paid || $card->expiration < Carbon\Carbon::now() && $card->expiration != null)
                 <button id="approve-button" class="btn btn-primary">Approve</button>
                 @endif
@@ -58,7 +58,7 @@
         @endrole
 
         <!-- The expiration form (initially hidden) -->
-        @role('admin|super admin | admin')
+           @hasanyrole('super admin | admin')
         <form class="form-group " id="expiration-form" action="{{ route('paid') }}" method="POST" style="display: none;">
             @csrf
             <input type="hidden" name="id" value={{ $card->id }}>
@@ -71,7 +71,7 @@
             <input type="submit" class="btn btn-primary my-3" value="Submit">
         </form>
 
-        @endrole
+        @endhasanyrole
         @endif
 
         @push('paidscript')
