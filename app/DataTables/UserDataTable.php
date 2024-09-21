@@ -18,7 +18,9 @@ class UserDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'users.datatables_actions');
+        return $dataTable->addColumn('role', function (User $user) {
+            return $user->roles->pluck('name')->implode(', '); // Show all roles joined by commas
+        })->addColumn('action', 'users.datatables_actions');
     }
 
     /**
@@ -29,7 +31,18 @@ class UserDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        // Start a new query with the 'roles' relationship loaded
+        $query = $model->newQuery()->with('roles');
+    
+        // If the logged-in user is an admin, restrict them to viewing only students
+        if (auth()->user()->hasRole('admin')) {
+            $query->whereHas('roles', function ($q) {
+                $q->where('name', 'student'); // Only show users with the student role
+            });
+        }
+    
+        // Return the (possibly filtered) query
+        return $query;
     }
 
     /**
@@ -67,8 +80,7 @@ class UserDataTable extends DataTable
         return [
             'name',
             'email',
-            'role'
-
+            'role' // Add role column
         ];
     }
 

@@ -23,13 +23,7 @@ class RolesSeeder extends Seeder
             $adminRole = Role::findOrCreate('admin', 'web');
     
             // Define permissions that Admin should NOT have (related to user management)
-            $restrictedPermissions = [
-                'users.create', // Permission to create users
-                'users.edit',   // Permission to edit users
-                'users.delete', // Permission to delete users
-                'users.show',   // Permission to view users
-                'users.index',  // Permission to list users
-            ];
+         
     
             // Get all permissions except the restricted ones for the Admin role
             $allowedPermissions = Permission::whereNotIn('name', $restrictedPermissions)->get();

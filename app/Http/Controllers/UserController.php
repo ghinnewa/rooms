@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use Flash;
 use Illuminate\Http\Request;
 use App\Models\Card;
+use Illuminate\Database\QueryException;
 
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Hash;
@@ -42,14 +43,19 @@ class UserController extends AppBaseController
      * Display a listing of the User.
      *
      * @param UserDataTable $userDataTable
+     * 
      *
      * @return Response
      */
-    public function index(UserDataTable $userDataTable)
+    public function index(UserDataTable $userDataTable, Request $request)
     {
-        return $userDataTable->render('users.index');
+        
+        // Get all available roles for the filter dropdown
+        $roles = Role::all();
+    
+        // Pass roles to the view, DataTables will handle the rest
+        return $userDataTable->render('users.index', compact('roles'));
     }
-
     /**
      * Show the form for creating a new User.
      *
@@ -57,7 +63,13 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        $roles = Role::pluck('name', 'id')->toArray();
+        if (auth()->user()->hasRole('admin')) {
+            // Ensure admins can only assign the student role
+            $roles = Role::where('name', 'student')->pluck('name', 'id')->toArray();
+        } else {
+            // Super admins can assign any role
+            $roles = Role::pluck('name', 'id')->toArray();
+        }
 
         return view('users.create')->with('roles', $roles);
     }
@@ -69,28 +81,59 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
+
     public function store(CreateUserRequest $request)
     {
-
+        // Wrapping everything in a try-catch block to handle errors gracefully
+        try {
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
+    
+            // Create the user
             $user = $this->userRepository->create($input);
-
-
-                $role=Role::findById($input['role_id']);
-                $user->assignRole($role);
-                $user->save();
-
-
-
-
-
+    
+            // Check if a role is selected and assign the role
+            if (!empty($input['role'])) {
+                $role = Role::findById($input['role']); // Use 'role' instead of 'role_id'
+                $user->assignRole($role); // Assign the role to the user
+            }
+    
+            // Save the user after assigning roles
+            $user->save();
+    
+            // If everything goes well, flash success message
             Flash::success('User saved successfully.');
-
-        return redirect(route('users.index'));
+            return redirect(route('users.index'));
+    
+        } catch (QueryException $e) {
+            // If there's a query error (e.g., database issues or duplicate entry), catch it
+    
+            // Roll back user creation if something went wrong with roles
+            if (isset($user)) {
+                $user->delete(); // Optional: delete the user if roles weren't successfully assigned
+            }
+    
+            // Log the error for debugging purposes (optional)
+            \Log::error($e->getMessage());
+    
+            // Flash an error message for the user
+            Flash::error('An error occurred while saving the user. Please try again.');
+            return redirect()->back()->withInput(); // Return to the form with previous input
+        } catch (\Exception $e) {
+            // Catch any general exceptions
+            \Log::error($e->getMessage()); // Log the error
+    
+            // Roll back user creation if an error occurred
+            if (isset($user)) {
+                $user->delete(); // Optional: remove user if other steps fail
+            }
+    
+            // Flash an error message
+            Flash::error('Something went wrong. Please try again.');
+            return redirect()->back()->withInput(); // Return back to form with input
+        }
     }
-
-
+    
     /**
      * Display the specified User.
      *
@@ -109,6 +152,10 @@ class UserController extends AppBaseController
         }
         if (auth()->user()->hasRole('student') && auth()->user()->id !== $user->id) {
             abort(403, 'Unauthorized access');
+        }
+      
+        if (auth()->user()->hasRole('admin') && !$user->hasRole('student') && $user->id =!auth()->user()->id) {
+            abort(403, 'Unauthorized action.');
         }
 
         return view('users.show')->with('user', $user);
@@ -131,15 +178,25 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
     
-        // If the user is a student, ensure they can only edit their own profile
-        if (auth()->user()->hasRole('student') && auth()->user()->id !== $user->id) {
-            abort(403, 'Unauthorized access');
+        // Get roles to display in the dropdown
+       
+
+        // Ensure that admins can only edit students
+        if (auth()->user()->hasRole('admin') && !$user->hasRole('student')) {
+            abort(403, 'Unauthorized action.');
         }
     
-        // Get roles only if the current user is an admin
-        $roles = auth()->user()->hasRole('admin|super admin | admin') ? Role::pluck('name', 'id')->toArray() : [];
+        $roles = auth()->user()->hasRole('admin') ? Role::where('name', 'student')->pluck('name', 'id')->toArray() : Role::pluck('name', 'id')->toArray();
     
-        return view('users.edit')->with('user', $user)->with('roles', $roles);
+    
+        // Get the user's current role ID
+        $selectedRole = $user->roles->first() ? $user->roles->first()->id : null;
+    
+        return view('users.edit')->with([
+            'user' => $user,
+            'roles' => $roles,
+            'selectedRole' => $selectedRole
+        ]);
     }
     
 
@@ -151,42 +208,39 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update($id, CreateUserRequest $request)
     {
         $user = $this->userRepository->find($id);
     
-        // If user is not found
+        // Check if the user exists
         if (empty($user)) {
             Flash::error('User not found');
             return redirect(route('users.index'));
         }
     
-        // Ensure students can only update their own profiles
-        if (auth()->user()->hasRole('student') && auth()->user()->id !== $user->id) {
-            abort(403, 'Unauthorized access');
-        }
+        // Validate the request, passing the user ID to the validation rules
+        $request->validate(CreateUserRequest::rules($user->id));
     
+        // Update the user's information
         $input = $request->all();
     
-        // Hash the password if it's being updated
+        // Only hash the password if a new one is provided
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
-            unset($input['password']); // Do not update the password if it's not provided
+            unset($input['password']); // Remove the password from the update if it's not being changed
         }
     
-        // Update user information
         $user = $this->userRepository->update($input, $id);
     
-        // Update role only if the current user is an admin
-        if (auth()->user()->hasRole('admin|super admin') && !empty($input['role_id'])) {
-            $role = Role::findById($input['role_id']);
-            $user->syncRoles($role);
+        // Update the role if provided
+        if (!empty($input['role'])) {
+            $role = Role::findById($input['role']);
+            $user->syncRoles([$role]);
         }
     
         Flash::success('User updated successfully.');
-    
-        return redirect(auth()->user()->hasRole('student') ? route('users.show', $user->id) : route('users.index'));
+        return redirect(route('users.index'));
     }
     
 
@@ -206,7 +260,15 @@ class UserController extends AppBaseController
 
             return redirect(route('users.index'));
         }
+ // Ensure that admins can only delete students
+ if (auth()->user()->hasRole('admin') && !$user->hasRole('student')) {
+    abort(403, 'Unauthorized action.');
+}
 
+// Prevent the deletion of super admins
+if ($user->hasRole('super admin')) {
+    abort(403, 'Super admins cannot be deleted.');
+}
         $this->userRepository->delete($id);
 
         Flash::success('User deleted successfully.');

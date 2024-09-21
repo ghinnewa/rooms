@@ -80,9 +80,9 @@ class User extends Authenticatable
      */
     public static $rules = [
         'name' => 'required|string|max:255',
-        'email' => 'required|string|max:255',
-        'email_verified_at' => 'nullable',
-        'password' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' ,  // Ensures the email is unique
+        'password' => 'required|string|min:8|confirmed', // Ensure at least one role is selected
+        'role' => 'required|exists:roles,id', // Ensure each selected role exists in the roles table
         'remember_token' => 'nullable|string|max:100',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'

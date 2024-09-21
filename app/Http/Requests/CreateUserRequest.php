@@ -22,8 +22,21 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules($userId = null)
     {
-        return User::$rules;
+        if ($userId === null) {
+            $userId = request()->route('user');  // Fetch the user ID from the route
+        }
+    
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $userId,  // Unique validation, ignoring the current user's email
+            'password' => 'nullable|string|min:8|confirmed',  // Password optional when editing
+            'role' => 'required|exists:roles,id',  // Role must exist
+            'remember_token' => 'nullable|string|max:100',
+            'created_at' => 'nullable',
+            'updated_at' => 'nullable',
+        ];
     }
+    
 }

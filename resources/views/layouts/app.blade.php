@@ -320,6 +320,7 @@
     @stack('paidscript')
     @stack('filename1')
     @stack('filename2')
+    @stack('scripts1')
     @stack('page_scripts')
     <script>
       // Handle showing the modal and updating its content based on the clicked notification

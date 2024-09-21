@@ -1,7 +1,7 @@
 <ul class="navbar-nav">
 
     {{-- Admin/super admin | admin Menu --}}
-    @role('super admin')
+    @hasanyrole('super admin|admin')
     <li class="nav-item">
         <a href="{{ route('users.index') }}"
            class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
@@ -9,8 +9,8 @@
            <p>المستخدمين</p>
         </a>
     </li>
-    @endrole
-    @role('admin|super admin')
+
+   
    
     <li class="nav-item">
         <a href="{{ route('categories.index') }}"
@@ -75,7 +75,7 @@
            <p class="ml-1">الإشعارات</p>
         </a>
     </li>  
-    @endrole
+    @endhasanyrole
 
     {{-- Student Menu --}}
     @role('student')
