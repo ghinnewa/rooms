@@ -22,6 +22,7 @@ class UpdateCardsTable extends Migration
                 'company_email',
                 'website',
                 'job_title_ar',
+                'job_title_en',
                 'otherCategory'
             ]);
 
