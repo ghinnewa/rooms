@@ -49,6 +49,7 @@ class UpdateCardsTable extends Migration
             $table->string('company_email', 255)->nullable();
             $table->string('website', 255)->nullable();
             $table->string('job_title_ar', 255)->nullable();
+            $table->string('job_title_en', 255)->nullable();
             $table->string('otherCategory', 255)->nullable();
 
             // Reverse membership_number and national_number changes
