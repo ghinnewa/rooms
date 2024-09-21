@@ -61,13 +61,32 @@ class UserDataTable extends DataTable
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+                    [
+                        'extend' => 'export',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
+                     ],
+                     [
+                        'extend' => 'print',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-print"></i> ' .__('auth.app.print').''
+                     ],
+                     [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> ' .__('auth.app.reset').''
+                     ],
+                     [
+                        'extend' => 'reload',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-refresh"></i> ' .__('auth.app.reload').''
+                     ],
                 ],
-            ]);
+                'language' => [
+                    'url' => asset('lang/datatables_ar.json'), // Local path to your JSON file
+                ],
+            ]
+        );
     }
 
     /**

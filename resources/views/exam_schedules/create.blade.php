@@ -47,14 +47,15 @@
         </div>
 
         <div class="col-md-3 mt-2">
-            {!! Form::label('start_time', 'Start Time:') !!}
-            {!! Form::time('exams[0][start_time]', null, ['class' => 'form-control']) !!}
-        </div>
+    {!! Form::label('start_time', 'Start Time:') !!}
+    {!! Form::time('exams[0][start_time]', null, ['class' => 'form-control time-picker']) !!}
+</div>
 
-        <div class="col-md-3 mt-2">
-            {!! Form::label('end_time', 'End Time:') !!}
-            {!! Form::time('exams[0][end_time]', null, ['class' => 'form-control']) !!}
-        </div>
+<div class="col-md-3 mt-2">
+    {!! Form::label('end_time', 'End Time:') !!}
+    {!! Form::time('exams[0][end_time]', null, ['class' => 'form-control time-picker']) !!}
+</div>
+
 
         <div class="col-md-3 mt-2" style="display: flex; align-items: flex-end;">
        
@@ -170,6 +171,34 @@ $(document).ready(function () {
         if (!isValid) {
             e.preventDefault(); // Prevent form submission
         }
+    });
+});
+$(document).ready(function() {
+    // Function to adjust the time picker to only allow 00 or 30 minutes
+    function adjustTimeToInterval($timeInput) {
+        let timeValue = $timeInput.val();
+
+        if (timeValue) {
+            let [hours, minutes] = timeValue.split(':');
+
+            if (minutes >= 0 && minutes < 30) {
+                minutes = '00';
+            } else {
+                minutes = '30';
+            }
+
+            $timeInput.val(`${hours}:${minutes}`);
+        }
+    }
+
+    // When the user changes the time, adjust the minutes to either 00 or 30
+    $(document).on('change', '.time-picker', function() {
+        adjustTimeToInterval($(this));
+    });
+
+    // Also apply this adjustment when the user first clicks into the time picker
+    $(document).on('focusout', '.time-picker', function() {
+        adjustTimeToInterval($(this));
     });
 });
 

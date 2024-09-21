@@ -98,9 +98,9 @@ class SubjectDataTable extends DataTable
                        'text' => '<i class="fa fa-refresh"></i> ' .__('auth.app.reload').''
                     ],
                 ],
-                 'language' => [
-                   'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json'),
-                 ],
+                'language' => [
+                    'url' => asset('lang/datatables_ar.json'), // Local path to your JSON file
+                ],
             ]);
     }
 

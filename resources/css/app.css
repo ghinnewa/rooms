@@ -1,0 +1,7 @@
+html {
+    direction: rtl!important;
+    text-align: right!important;
+  }
+  body{
+    background-color: red!important;
+  }

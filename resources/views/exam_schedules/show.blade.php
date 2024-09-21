@@ -19,8 +19,8 @@
     .formal-exam-table th, .formal-exam-table td {
         border: 1px solid #000;
         padding: 10px;
-        text-align: center;
     }
+        text-align: center;
 
     .thead-dark th {
         background-color: #343a40;
@@ -52,7 +52,9 @@
             font-size: 12pt;
             page-break-inside: avoid;
         }
-
+.form-group{
+    display: none;
+}
         .formal-exam-table th, .formal-exam-table td {
             border: 1px solid #000;
             padding: 12px;

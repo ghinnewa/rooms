@@ -1,13 +1,13 @@
 <?php
 
 return array (
-  'singular' => 'ExamSchedule',
-  'plural' => 'ExamSchedules',
+  'singular' => 'جدول الامتحان',
+  'plural' => 'جداول الامتحانات',
   'fields' => 
   array (
-    'id' => 'Id',
-    'year' => 'Year',
-    'created_at' => 'Created At',
-    'updated_at' => 'Updated At',
+    'id' => 'المعرف',
+    'year' => 'السنة',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
   ),
 );

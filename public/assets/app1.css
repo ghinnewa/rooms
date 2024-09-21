@@ -1,0 +1,26 @@
+.content-wrapper,
+.main-footer {
+    margin-left: 0!important;
+    margin-right: 0px!important;
+}
+/* Example custom CSS */
+body {
+    background-color: #f4f7fc;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+.btn-primary:hover {
+    background-color: #357ABD;
+    border-color: #357ABD;
+}
+.content-wrapper{
+  padding-top: 50px;
+}

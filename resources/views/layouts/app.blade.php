@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -46,6 +45,8 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="{{  asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- JQVMap -->
+   
+
     <link rel="stylesheet" href="{{  asset('assets/plugins/jqvmap/jqvmap.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{  asset('assets/dist/css/adminlte.min.css')}}">
@@ -55,6 +56,8 @@
     <link rel="stylesheet" href="{{  asset('assets/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{  asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css">
+
     @stack('third_party_stylesheets')
 
     @stack('styles')
@@ -62,6 +65,12 @@
 
 
     @stack('page_css')
+    <link rel="stylesheet" href="{{ asset('assets/app1.css') }}">
+
+    @auth
+
+    <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
+    @endauth
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

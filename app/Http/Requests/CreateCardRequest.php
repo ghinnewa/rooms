@@ -43,7 +43,7 @@ class CreateCardRequest extends FormRequest
             'deleted_at' => 'nullable',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
-            'category_id' => 'nullable',
+            'category_id' => 'required',
           
             'comment' => 'nullable',
             'facebook_url' => 'nullable|string|max:255',

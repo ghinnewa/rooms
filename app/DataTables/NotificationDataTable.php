@@ -97,10 +97,10 @@ class NotificationDataTable extends DataTable
                 'order'     => [[4, 'desc']], // Order by 'created_at' column by default
                 'buttons'   => [
                                    ],
-                'language' => [
-                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json'),
-                ],
-            ]);
+                                   'language' => [
+                                    'url' => asset('lang/datatables_ar.json'), // Local path to your JSON file
+                                ],
+                            ]);
     }
 
     /**

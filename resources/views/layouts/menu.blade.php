@@ -54,13 +54,7 @@
             <p>جداول الامتحانات</p>
         </a>
     </li>
-    <li class="nav-item">
-        <a href="{{ route('examScheduleItems.index') }}"
-           class="nav-link {{ Request::is('examScheduleItems*') ? 'active' : '' }}">
-            <i class="fa fa-list p-1 text-lg" aria-hidden="true"></i>
-            <p>عناصر جداول الامتحانات</p>
-        </a>
-    </li>
+
     <li class="nav-item">
         <a href="{{ route('admin.scanQr') }}"
            class="nav-link {{ Request::is('admin/scan-qr*') ? 'active' : '' }}">

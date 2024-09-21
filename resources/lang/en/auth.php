@@ -17,12 +17,12 @@ return [
     'throttle' => 'لقد تعديت الحد المسموح لعمليات الدخول المتكررة. يرجى المحاولة مرة أخرى بعد :seconds ثانية.',
 
     'full_name'        => 'الاسم الكامل',
-    'email'            => 'البريد الالكتروني',
-    'profile'            => 'الصفحة الشخصية',
+    'email'            => 'البريد الإلكتروني',
+    'profile'          => 'الصفحة الشخصية',
     'password'         => 'كلمة المرور',
     'new_password'     => 'كلمة المرور الجديدة',
-    'phone'         => 'رقم الهاتف',
-    'confirm_password' => 'تاكيد كلمة المرور',
+    'phone'            => 'رقم الهاتف',
+    'confirm_password' => 'تأكيد كلمة المرور',
     'remember_me'      => 'تذكرني',
     'sign_in'          => 'تسجيل الدخول',
     'sign_out'         => 'تسجيل الخروج',
@@ -36,54 +36,54 @@ return [
 
     'registration' => [
         'title'           => 'تسجيل مستخدم جديد',
-        'i_agree'         => 'انا موافق على',
+        'i_agree'         => 'أنا موافق على',
         'terms'           => 'الشروط',
         'have_membership' => 'امتلك حساب بالفعل',
     ],
 
     'forgot_password' => [
-        'title'          => 'Enter Email to reset password',
-        'send_pwd_reset' => 'Send Password Reset Link',
+        'title'          => 'أدخل البريد الإلكتروني لإعادة تعيين كلمة المرور',
+        'send_pwd_reset' => 'إرسال رابط إعادة تعيين كلمة المرور',
     ],
 
     'reset_password' => [
-        'title'         => 'Reset your password',
-        'reset_pwd_btn' => 'Reset Password',
+        'title'         => 'إعادة تعيين كلمة المرور الخاصة بك',
+        'reset_pwd_btn' => 'إعادة تعيين كلمة المرور',
     ],
 
     'confirm_passwords' => [
-        'title'                => 'Please confirm your password before continuing.',
-        'forgot_your_password' => 'Forgot Your Password?',
+        'title'                => 'يرجى تأكيد كلمة المرور قبل المتابعة.',
+        'forgot_your_password' => 'نسيت كلمة المرور؟',
     ],
 
     'verify_email' => [
-        'title'       => 'Verify Your Email Address',
-        'success'     => 'A fresh verification link has been sent to your email address',
-        'notice'      => 'Before proceeding, please check your email for a verification link.If you did not receive the email,',
-        'another_req' => 'click here to request another',
+        'title'       => 'تحقق من عنوان بريدك الإلكتروني',
+        'success'     => 'تم إرسال رابط تحقق جديد إلى بريدك الإلكتروني',
+        'notice'      => 'قبل المتابعة، يرجى التحقق من بريدك الإلكتروني للحصول على رابط التحقق. إذا لم تتلق الرسالة،',
+        'another_req' => 'انقر هنا لطلب آخر',
     ],
 
     'emails' => [
         'password' => [
-            'reset_link' => 'Click here to reset your password',
+            'reset_link' => 'انقر هنا لإعادة تعيين كلمة المرور الخاصة بك',
         ],
     ],
 
     'app' => [
         'member_since' => 'عضو منذ',
         'messages'     => 'رسائل',
-        'settings'     => 'اعدادات',
+        'settings'     => 'إعدادات',
         'lock_account' => 'قفل الحساب',
         'profile'      => 'الملف الشخصي',
-        'online'       => 'اونلاين',
+        'online'       => 'متصل',
         'search'       => 'بحث',
-        'export' => 'استخراج',
-        'print' => 'طباعة',
-        'create' => 'انشاء',
-        'reset' => 'إعادة تعيين',
-        'reload' => 'اعادة تحميل',
+        'export'       => 'استخراج',
+        'print'        => 'طباعة',
+        'create'       => 'إنشاء',
+        'reset'        => 'إعادة تعيين',
+        'reload'       => 'إعادة تحميل',
         'municipality' => 'بلدية: ',
-        'noMunicipality' => 'لايوجد',
+        'noMunicipality' => 'لا يوجد',
 
     ],
 ];

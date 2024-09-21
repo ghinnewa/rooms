@@ -1,15 +1,15 @@
 <?php
 
 return array (
-  'singular' => 'Subject',
-  'plural' => 'Subject',
+  'singular' => 'مادة',
+  'plural' => 'المواد',
   'fields' => 
   array (
-    'id' => 'Id',
-    'title' => 'Title',
-    'points' => 'Points',
-    'deleted_at' => 'Deleted At',
-    'created_at' => 'Created At',
-    'updated_at' => 'Updated At',
+    'id' => 'المعرف',
+    'title' => 'العنوان',
+    'points' => 'النقاط',
+    'deleted_at' => 'تاريخ الحذف',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
   ),
 );

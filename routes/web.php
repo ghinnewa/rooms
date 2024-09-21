@@ -27,6 +27,7 @@ Route::get('locale/{locale}', function ($locale) {
 Route::get('/notifications/{id}/redirect', [App\Http\Controllers\NotificationController::class, 'readAndRedirect'])->name('notifications.readAndRedirect');
 
 Route::auth();
+Auth::routes(['register' => true]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -115,3 +116,7 @@ Route::resource('notifications', App\Http\Controllers\NotificationController::cl
 
 
 Route::resource('roles', App\Http\Controllers\RoleController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

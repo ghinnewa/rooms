@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'singular' => 'Role',
-  'plural' => 'Roles',
+  'singular' => 'دور',
+  'plural' => 'الأدوار',
   'fields' => 
   array (
-    'id' => 'Id',
-    'name' => 'Name',
-    'guard_name' => 'Guard Name',
-    'created_at' => 'Created At',
-    'updated_at' => 'Updated At',
+    'id' => 'المعرف',
+    'name' => 'الاسم',
+    'guard_name' => 'اسم الحارس',
+    'created_at' => 'تاريخ الإنشاء',
+    'updated_at' => 'تاريخ التحديث',
   ),
 );
