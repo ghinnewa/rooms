@@ -1,7 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<style>
+    body {
+    direction: rtl;
+    text-align: right;
+    
+}
+.card-header {
+    text-align: right !important;
+    padding-right: 1rem !important;
+    padding-left: 20px !important;
+    display: flex;
+}
+.info-box-content {
+    text-align: right;
+}
+canvas {
+    height: 350px !important;
+}
+
+.card-title {
+    text-align: right;
+}
+
+.modal-title, .modal-footer button {
+    text-align: right;
+}
+
+</style>
+<div class="container-fluid" dir="rtl">
     <!-- Display widgets for non-student users -->
     @if(!auth()->user()->hasRole('student'))
     <!-- Info boxes -->
@@ -11,7 +39,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Total Users</span>
+                    <span class="info-box-text">إجمالي المستخدمين</span>
                     <span class="info-box-number">{{ $totalUsers }}</span>
                 </div>
             </div>
@@ -22,7 +50,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-book"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Total Subjects</span>
+                    <span class="info-box-text">إجمالي المواد</span>
                     <span class="info-box-number">{{ $totalSubjects }}</span>
                 </div>
             </div>
@@ -33,7 +61,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Approved Cards</span>
+                    <span class="info-box-text">البطاقات المعتمدة</span>
                     <span class="info-box-number">{{ $approvedCardsCount }}</span>
                 </div>
             </div>
@@ -44,7 +72,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-bell"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Pending Requests</span>
+                    <span class="info-box-text">طلبات قيد الانتظار</span>
                     <span class="info-box-number">{{ $requestsCount }}</span>
                 </div>
             </div>
@@ -55,7 +83,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Expired Cards</span>
+                    <span class="info-box-text">البطاقات المنتهية</span>
                     <span class="info-box-number">{{ $expiredCardsCount }}</span>
                 </div>
             </div>
@@ -66,7 +94,7 @@
             <div class="info-box">
                 <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-id-card"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Total Cards</span>
+                    <span class="info-box-text">إجمالي البطاقات</span>
                     <span class="info-box-number">{{ $totalCardsCount }}</span>
                 </div>
             </div>
@@ -76,34 +104,27 @@
     <!-- Charts Section -->
     <div class="row">
         <!-- Cards by Category -->
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Cards by Category</h3>
+                    <h3 class="card-title">البطاقات حسب الفئة</h3>
                 </div>
                 <div class="card-body">
-                    <canvas id="cardsByCategoryChart"></canvas>
+                    <canvas id="cardsByCategoryChart"style="height:300px;"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Cards by Semester -->
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Cards by Semester</h3>
+                    <h3 class="card-title">البطاقات حسب الفصل الدراسي</h3>
                 </div>
                 <div class="card-body">
-                    <canvas id="cardsBySemesterChart"></canvas>
+                    <canvas id="cardsBySemesterChart"style="height:400px;"></canvas>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Export Report Button -->
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <a href="{{ route('reports.export') }}" class="btn btn-primary">Generate Full Report</a>
         </div>
     </div>
     @endif
@@ -172,7 +193,7 @@
         data: {
             labels: semesterLabels,
             datasets: [{
-                label: 'Cards',
+                label: 'البطاقات',
                 data: semesterData,
                 backgroundColor: '#36A2EB'
             }]

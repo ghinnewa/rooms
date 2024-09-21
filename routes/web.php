@@ -54,7 +54,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Users (Only accessible by super admin | admin and admin)
     Route::resource('users', App\Http\Controllers\UserController::class);
-      
+    
+    Route::get('reports/export/pdf', [App\Http\Controllers\ReportController::class, 'exportPdf'])->name('reports.export.pdf');
+
+    Route::get('/reports/export', [App\Http\Controllers\ReportController::class, 'export'])->name('reports.export');
+    
 
     // Attachments
     Route::get('attachments/download/{folder}/{name}', [App\Http\Controllers\CardController::class, 'downloadAttachment'])

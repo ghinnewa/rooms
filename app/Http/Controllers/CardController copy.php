@@ -95,14 +95,14 @@ class CardController extends AppBaseController
     public function show($id)
     {
         $card = $this->cardRepository->find($id);
-
+        $semester = $card->calculateSemester(); 
         if (empty($card)) {
             Flash::error('Card not found');
 
             return redirect(route('cards.index'));
         }
 
-        return view('cards.show')->with('card', $card);
+        return view('cards.show', compact('card', 'semester'));
     }
 
     /**

@@ -1,5 +1,34 @@
 {
     "cairo": {
         "normal": "cairo_normal_4639f1f4e50270ee30718870ec2ad43a"
+    },
+    "font awesome 6 brands": {
+        "normal": "font_awesome_6_brands_normal_36faa0e194d3288643f7144dedd8e1b1"
+    },
+    "font awesome 6 free": {
+        "normal": "C:\\laragon\\www\\rooms\\storage\\fonts\/font_awesome_6_free_normal_cf2d7daaeabedac0226ae26fc7e4f075",
+        "900": "font_awesome_6_free_900_665c8d2ea728525da852b5cd3a1d51a5"
+    },
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_d5b3e29359ab3dd00ee5b47bd182d538"
+    },
+    "font awesome 5 free": {
+        "900": "font_awesome_5_free_900_e6470bdde9fb8aa9dac1be9b63fb710d",
+        "normal": "C:\\laragon\\www\\rooms\\storage\\fonts\/font_awesome_5_free_normal_df35b1d801ee78956d25ab7ef3cf8f95"
+    },
+    "fontawesome": {
+        "normal": "fontawesome_normal_6aa5cc0b95be2651581a2d7ad4a9d038"
+    },
+    "source sans pro": {
+        "italic": "C:\\laragon\\www\\rooms\\storage\\fonts\/source_sans_pro_italic_af17c8440088929b38c5cfe930d7915d",
+        "300": "C:\\laragon\\www\\rooms\\storage\\fonts\/source_sans_pro_300_c6077ec99d149827fee17e2ea27788e4",
+        "normal": "C:\\laragon\\www\\rooms\\storage\\fonts\/source_sans_pro_normal_a331146e176a0c94e64a58f063c4f2b5",
+        "bold": "source_sans_pro_bold_cfebb083c1921633494989255bc500d0"
+    },
+    "ionicons": {
+        "normal": "ionicons_normal_1b2b773bb3197b577cecee8d68579952"
+    },
+    "summernote": {
+        "normal": "summernote_normal_c88f3fe692be254cff86871ee27f5cd2"
     }
 }

@@ -33,6 +33,11 @@
                     <b class="float-right"> التخصص</b>
                     <p class="float-left">{{ $card->category->name_ar }}/{{ $card->category->name_en }}</p>
                 </li>
+                <li class="list-group-item">
+                    <b class="float-right"> الفصل</b>
+                    <p>Semester: {{ $semester }}</p>
+                    </li>
+
 
 
             </ul>

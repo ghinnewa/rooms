@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Facades\DB;
 /**
  * Class Card
  * @package App\Models
@@ -169,10 +169,17 @@ class Card extends Model
 }
 // App\Models\Card.php
 
+// App\Models\Card.php
+
 public function calculateSemester()
 {
-    // Assuming 'subjects' is the relationship between Card and Subject
-    return $this->user->subjects()->max('semester');
+    // Assuming the relationship between user and subjects is already set up
+    // We will use the category_subject table to get the maximum semester
+
+    return DB::table('category_subject')
+        ->join('user_subject', 'category_subject.subject_id', '=', 'user_subject.subject_id')
+        ->where('user_subject.user_id', $this->user->id)
+        ->max('category_subject.semester');
 }
 
 
