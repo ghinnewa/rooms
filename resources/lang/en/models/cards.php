@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'البطاقات',
-  'plural' => 'بطاقة',
+  'singular' => 'بطاقة',
+  'plural' => 'البطاقات',
   'fields' =>
   array (
     'id' => 'رقم',

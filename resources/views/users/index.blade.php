@@ -5,13 +5,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Users</h1>
+                    <h1>المستخدمين</h1>
                 </div>
                 <div class="col-sm-6">
                     @role('admin|super admin')
-                    <a class="btn btn-primary float-right"
+                    <a class="btn btn-primary float-left"
                        href="{{ route('users.create') }}">
-                        Add New
+                       <i class="fas fa-plus-circle"></i> <!-- Plus Circle Icon -->
+                       @lang('crud.add_new')
                     </a>
                     @endrole
                 </div>

@@ -1,5 +1,5 @@
 <!-- Profile Image -->
-<div class="container col-sm-8 " dir="rtl" lang="ar">
+<div class="container col-sm-8 " dir="ltr" lang="ar">
     <div class="card card card-outline ">
         <div class="card-body box-profile " dir="rtl" lang="ar">
 
@@ -7,34 +7,34 @@
            
             <ul class="list-group  list-group-unbordered mb-3" dir="rtl">
                 <li class="list-group-item" dir="rtl" lang="ar">
-                <h3 class="profile-username text-right" dir="rtl" lang="ar">{{ $card->name_ar }}</h3>
+                <h3 class="profile-username text-left" dir="rtl" lang="ar">{{ $card->name_ar }}</h3>
 
-                    <p class="text-muted text-right">{{ $card->name_en }}</p>
+                    <p class="text-muted text-left">{{ $card->name_en }}</p>
 
                 </li>
                 <li class="list-group-item" dir="rtl" lang="ar">
-                <a class="float-left">{{ $card->membership_number }}</a>  
-                <b  class="float-right">رقم القيد</b> 
+                <a class="float-right">{{ $card->membership_number }}</a>  
+                <b  class="float-left">رقم القيد</b> 
                 </li>
                 <li class="list-group-item">
-                    <b class="float-right">رقم الهاتف الأول</b> <a class="float-left">{{ $card->phone1 }}</a>
+                    <b class="float-left">رقم الهاتف الأول</b> <a class="float-right">{{ $card->phone1 }}</a>
                 </li>
               
 
 
                 <li class="list-group-item">
-                    <b class="float-right">البريد</b> <a class="float-left">{{ $card->user->email }}</a>
+                    <b class="float-left">البريد</b> <a class="float-right">{{ $card->user->email }}</a>
                 </li>
 
                 <li class="list-group-item">
-                    <b class="float-right">المدينة</b> <a class="float-left">{{ $card->city }}</a>
+                    <b class="float-left">المدينة</b> <a class="float-right">{{ $card->city }}</a>
                 </li>
                 <li class="list-group-item">
-                    <b class="float-right"> التخصص</b>
-                    <p class="float-left">{{ $card->category->name_ar }}/{{ $card->category->name_en }}</p>
+                    <b class="float-left"> التخصص</b>
+                    <p class="float-right">{{ $card->category->name_ar }}/{{ $card->category->name_en }}</p>
                 </li>
                 <li class="list-group-item">
-                    <b class="float-right"> الفصل</b>
+                    <b class="float-left"> الفصل</b>
                     </li>
 
 
@@ -54,7 +54,7 @@
 <div class="container   col-sm-4 ">
     <div class="card  m1 ">
         <div class="card-header">
-            <h3 class="card-title text-right float-right">التفاصيل</h3>
+            <h3 class="card-title text-left float-left">التفاصيل</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body row ">

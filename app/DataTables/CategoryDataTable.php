@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DataTables;
+use Yajra\DataTables\Html\Column;
 
 use App\Models\Category;
 use Yajra\DataTables\Services\DataTable;
@@ -50,6 +51,12 @@ class CategoryDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
+                'responsive' => true, // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '10%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '30%', 'targets' => 1]
+                ],
                 'buttons'   => [
                     [
                         'extend' => 'export',
@@ -86,13 +93,13 @@ class CategoryDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'image',
-            'name_ar',
-            'name_en'
-
+            'id' => new Column(['title' => 'الرقم التعريفي', 'data' => 'id']),
+            'image' => new Column(['title' => 'الصورة', 'data' => 'image']),
+            'name_ar' => new Column(['title' => 'الاسم بالعربية', 'data' => 'name_ar']),
+            'name_en' => new Column(['title' => 'الاسم بالإنجليزية', 'data' => 'name_en']),
         ];
     }
+    
 
     /**
      * Get filename for export.

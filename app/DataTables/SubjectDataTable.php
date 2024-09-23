@@ -18,18 +18,21 @@ class SubjectDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
+    
         // Check if the user has the 'student' role
         if (!auth()->user()->hasRole('student')) {
             // Add the action column only if the user is not a student
             $dataTable->addColumn('action', 'subjects.datatables_actions');
         }
-
-        return $dataTable->addColumn('prerequisite_subject.title', function($subject) {
+    
+        // Add the prerequisite subject title column
+        $dataTable->addColumn('prerequisite_subject.title', function($subject) {
             return $subject->prerequisiteSubject ? $subject->prerequisiteSubject->title : 'None';
         });
+    
+        return $dataTable;
     }
-
+    
     /**
      * Get query source of dataTable.
      *
@@ -67,10 +70,18 @@ class SubjectDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
+                'responsive' => true,
+                 // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '30%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '10%', 'targets' => 1]
+                ],
                 'buttons'   => [
                     [
                        'extend' => 'create',

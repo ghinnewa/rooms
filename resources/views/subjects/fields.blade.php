@@ -17,5 +17,5 @@
 <!-- Prerequisite Subject Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('prerequisite_subject_id', __('models/subjects.fields.prerequisite_subject_id').':') !!}
-    {!! Form::select('prerequisite_subject_id', $subjects, null, ['class' => 'form-control', 'placeholder' => 'Select Prerequisite Subject']) !!}
+    {!! Form::select('prerequisite_subject_id', $subjects, null, ['class' => 'form-control', 'placeholder' => 'اختيار مادة ']) !!}
 </div>

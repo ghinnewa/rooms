@@ -249,25 +249,37 @@ class CardController extends AppBaseController
      * @return Response
      */
     public function show($id)
-    {
+{
+    // Find the card by ID
+    $card = $this->cardRepository->find($id);
 
-
-        $card = $this->cardRepository->find($id);
-        $semester = $card->calculateSemester(); 
-if($semester==null)$semester='no data available';
-        if (Auth::user()->hasAnyRole(['admin', 'super admin']) || $card->user_id === Auth::id()) {
-            if (empty($card)) {
-                Flash::error('Card not found');
-
-                return redirect(route('cards.index'));
-            }
-            return view('cards.show', compact('card', 'semester'));
-        } else {
-            abort(403, 'Unauthorized action.');
-        }
-
-        return view('cards.show', compact('card', 'semester'));
+    // Check if the card exists
+    if (empty($card)) {
+        Flash::error('Card not found');
+        return redirect(route('cards.index'));
     }
+
+    // Calculate the semester based on the card's data
+    $semester = $card->calculateSemester();
+    if ($semester == null) {
+        $semester = 'no data available';
+    }
+
+    // Fetch the user who owns the card
+    $user = User::find($card->user_id);
+
+    // Load the subjects assigned to this user (student)
+    $subjects = $user->subjects;
+
+    // Check if the logged-in user is authorized to view the card
+    if (Auth::user()->hasAnyRole(['admin', 'super admin']) || $card->user_id === Auth::id()) {
+        return view('cards.show', compact('card', 'semester', 'subjects'));
+    } else {
+        // If unauthorized, abort with 403
+        abort(403, 'Unauthorized action.');
+    }
+}
+
 
     /**
      * Show the form for editing the specified Card.

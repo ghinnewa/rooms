@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}"  dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="{{  asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- JQVMap -->
    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{  asset('assets/plugins/jqvmap/jqvmap.min.css')}}">
     <!-- Theme style -->
@@ -56,7 +57,9 @@
     <link rel="stylesheet" href="{{  asset('assets/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{  asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
-    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.css.com/bootstrap/v4.5.3/css/bootstrap.min.css"> -->
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
     @stack('third_party_stylesheets')
 
@@ -65,12 +68,13 @@
 
 
     @stack('page_css')
+
     <link rel="stylesheet" href="{{ asset('assets/app1.css') }}">
 
-    @auth
+@auth
 
-    <link rel="stylesheet" href="{{ asset('assets/app.css') }}">
-    @endauth
+<link rel="stylesheet" href="{{ asset('assets/app.css') }}">
+@endauth
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -132,7 +136,7 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto ">
             <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="fa fa-bell"></i>
@@ -260,15 +264,21 @@
         </footer>
     </div>
 
-    @stack('chart')
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @stack('scriptss')
-    @stack('scripts')
-    @stack('scripts_subject')
-    @stack('subjects')
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- DataTables Responsive CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+
+<!-- jQuery -->
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables Responsive JS -->
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
@@ -310,21 +320,33 @@
         integrity="sha512-DAc/LqVY2liDbikmJwUS1MSE3pIH0DFprKHZKPcJC7e3TtAOzT55gEMTleegwyuIWgCfOPOM8eLbbvFaG9F/cA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+<!-- jQuery -->
 
-    <script>
+<!-- BootstrapSwitch -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-switch@3.6.1/dist/js/bootstrap-switch.min.js"></script>
 
-        $(function() {
-            bsCustomFileInput.init();
-        });
-
+<!-- Your Custom Scripts that use BootstrapSwitch -->
+<script>
+    $(function() {
         $("input[data-bootstrap-switch]").each(function() {
             $(this).bootstrapSwitch('state', $(this).prop('checked'));
         });
-    </script>
+    });
+</script>
+
+   
     <script src="{{ mix('js/app.js') }}"></script>
 
     @stack('third_party_scripts')
 
+
+    @stack('chart')
+
+   
+    @stack('scriptss')
+    @stack('scripts')
+    @stack('scripts_subject')
+    @stack('subjects')
     @stack('img')
     @stack('paidscript')
     @stack('filename1')

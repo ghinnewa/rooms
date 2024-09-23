@@ -94,7 +94,13 @@ class NotificationDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[4, 'desc']], // Order by 'created_at' column by default
+                'order'     => [[4, 'desc']], 
+                'responsive' => true, // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '10%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '30%', 'targets' => 1]
+                ],// Order by 'created_at' column by default
                 'buttons'   => [
                                    ],
                                    'language' => [

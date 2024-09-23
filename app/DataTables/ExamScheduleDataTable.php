@@ -48,6 +48,12 @@ class ExamScheduleDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
+                'responsive' => true, // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '10%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '30%', 'targets' => 1]
+                ],
                 'buttons'   => [
                     [
                        'extend' => 'create',

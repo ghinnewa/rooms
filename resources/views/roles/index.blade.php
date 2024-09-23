@@ -8,7 +8,7 @@
                    @lang('models/roles.plural')
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
+                    <a class="btn btn-primary float-left"
                        href="{{ route('roles.create') }}">
                          @lang('crud.add_new')
                     </a>

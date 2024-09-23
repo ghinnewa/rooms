@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-                <h1>Select Subjects</h1>
+                <h1>حدد المواد</h1>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
 @endforeach
 
 
-                <button type="submit" class="btn btn-primary">Add Subjects to My Profile</button>
+                <button type="submit" class="btn btn-primary">اضف مواد إلى حسابي</button>
             </form>
         </div>
     </div>

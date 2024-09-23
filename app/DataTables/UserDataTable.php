@@ -60,6 +60,12 @@ class UserDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
+                'responsive' => true, // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '30%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '30%', 'targets' => 1]
+                ],
                 'buttons'   => [
                     [
                         'extend' => 'export',
@@ -97,11 +103,12 @@ class UserDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name',
-            'email',
-            'role' // Add role column
+            'name' => ['title' => __('models/users.fields.name')],
+            'email' => ['title' => __('models/users.fields.email')],
+            'role' => ['title' => __('models/users.fields.role')],
         ];
     }
+    
 
     /**
      * Get filename for export.

@@ -1,43 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    body {
-    direction: rtl;
-    text-align: right;
-    
-}
-.card-header {
-    text-align: right !important;
-    padding-right: 1rem !important;
-    padding-left: 20px !important;
-    display: flex;
-}
-.info-box-content {
-    text-align: right;
-}
-canvas {
-    height: 350px !important;
-}
 
-.card-title {
-    text-align: right;
-}
 
-.modal-title, .modal-footer button {
-    text-align: right;
-}
-
-</style>
-<div class="container-fluid" dir="rtl">
     <!-- Display widgets for non-student users -->
+    <div class="container-fluid" dir="rtl">
     @if(!auth()->user()->hasRole('student'))
     <!-- Info boxes -->
     <div class="row">
         <!-- Total Users -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-users"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">إجمالي المستخدمين</span>
                     <span class="info-box-number">{{ $totalUsers }}</span>
@@ -46,9 +20,9 @@ canvas {
         </div>
 
         <!-- Total Subjects -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-book"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-book"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">إجمالي المواد</span>
                     <span class="info-box-number">{{ $totalSubjects }}</span>
@@ -57,9 +31,9 @@ canvas {
         </div>
 
         <!-- Approved Cards -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-check"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">البطاقات المعتمدة</span>
                     <span class="info-box-number">{{ $approvedCardsCount }}</span>
@@ -68,9 +42,9 @@ canvas {
         </div>
 
         <!-- Pending Requests -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-bell"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-bell"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">طلبات قيد الانتظار</span>
                     <span class="info-box-number">{{ $requestsCount }}</span>
@@ -79,9 +53,9 @@ canvas {
         </div>
 
         <!-- Expired Cards -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-times-circle"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">البطاقات المنتهية</span>
                     <span class="info-box-number">{{ $expiredCardsCount }}</span>
@@ -90,9 +64,9 @@ canvas {
         </div>
 
         <!-- Total Cards -->
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="info-box">
-                <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-id-card"></i></span>
+                <span class="info-box-icon elevation-1" style="background-color: #B9D9EB;"><i class="fas fa-id-card"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">إجمالي البطاقات</span>
                     <span class="info-box-number">{{ $totalCardsCount }}</span>
@@ -128,6 +102,7 @@ canvas {
         </div>
     </div>
     @endif
+</div>
 
     <!-- Student-Specific View -->
     @if(auth()->user()->hasRole('student'))

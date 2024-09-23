@@ -5,13 +5,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Category</h1>
+                    <h1>التخصصات</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
+                    <a class="btn btn-primary float-left"
                        href="{{ route('categories.create') }}">
-                        Add New
-                    </a>
+                       <i class="fas fa-plus-circle"></i> <!-- Plus Circle Icon -->
+                       @lang('crud.add_new')                    </a>
                 </div>
             </div>
         </div>

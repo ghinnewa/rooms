@@ -75,7 +75,7 @@
         </div>
 
         <div class="card-footer">
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('حفظ', ['class' => 'btn btn-primary']) !!}
             <a href="{{ route('examSchedules.index') }}" class="btn btn-default">Cancel</a>
         </div>
 

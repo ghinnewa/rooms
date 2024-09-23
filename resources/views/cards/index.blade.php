@@ -1,34 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                   @lang('models/cards.plural')
-                </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right" href="{{ route('cards.create') }}">
-                         @lang('crud.add_new')
-                    </a>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <!-- Title with an Icon -->
+            <div class="col-sm-6 ">
+                <h1>
+                   <!-- Card Icon -->
+                    @lang('models/cards.plural')
+                </h1>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-sm-6">
+                <!-- Add New Button with Icon -->
+                <a class="btn btn-primary float-left" href="{{ route('cards.create') }}">
+                    <i class="fas fa-plus-circle"></i> <!-- Plus Circle Icon -->
+                    @lang('crud.add_new')
+                </a>
+                
+                <!-- Print Button with Icon -->
+                <div class="d-flex justify-content-end">
+                    <button id="print-selected" class="btn btn-primary ml-2 mb-3">
+                        <i class="fas fa-print"></i> <!-- Print Icon -->
+                        طباعة
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Print Selected Button -->
    
 
     <div class="content px-3">
-    <div class="d-flex justify-content-start">
-        <button id="print-selected" class="btn btn-primary mb-3">Print Selected</button>
-    </div>
+   
         @include('flash::message')
 
         <div class="clearfix"></div>
 
         <div class="card">
             <div class="card-body">
+                
                 @include('cards.table')
 
                 <div class="card-footer clearfix">

@@ -23,7 +23,10 @@ class CardDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
     
         return $dataTable->addColumn('checkbox', function ($card) {
-            return '<input type="checkbox" class="card-checkbox" value="' . $card->id . '">';
+            return '<label class="custom-checkbox">
+    <input type="checkbox" class="card-checkbox"  value="' . $card->id . '" >
+    <span></span>
+</label>';
         })
         ->addColumn('image', function ($card) {
             $url = asset('storage/profile/'.$card->image);
@@ -71,8 +74,15 @@ class CardDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
+                'responsive' => true, // Enable responsive behavior
+                'autoWidth' => false, // Disable automatic width for better mobile adaptation
+                'columnDefs' => [
+                    ['width' => '10%', 'targets' => 0], // You can adjust column widths here
+                    ['width' => '10%', 'targets' => 1],
+                    ['width' => '10%', 'targets' => 2],
+                    ['width' => '30%', 'targets' => 3]
+                ],
                 'buttons'   => [
-
                     [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
@@ -99,6 +109,7 @@ class CardDataTable extends DataTable
                 ],
             ]);
     }
+    
 
     /**
      * Get columns.
@@ -110,7 +121,10 @@ class CardDataTable extends DataTable
         return [
             'checkbox' => [
                 'data' => 'checkbox', 
-                'title' => '<input type="checkbox" id="select-all" />', 
+                'title' => '<label class="custom-checkbox">
+    <input type="checkbox" class="card-checkbox" id="select-all"  >
+    <span></span>
+</label> ', 
                 'orderable' => false, 
                 'searchable' => false, 
                 'exportable' => false, 

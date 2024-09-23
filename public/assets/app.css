@@ -3,6 +3,10 @@ html {
     text-align: right!important!important;
   }
 /* Custom RTL fixes for AdminLTE */
+/* Apply Cairo font globally */
+body, h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select {
+    font-family: 'Cairo', sans-serif;
+}
 
 body {
     direction: rtl!important;
@@ -14,22 +18,21 @@ body {
 }
 
 /* Reverse sidebar to be on the right */
-.main-sidebar {
-    right: 0!important;
-    left: unset!important;
-}
+
 
 .main-header .navbar {
     padding-right: 0!important;
     padding-left: 1rem!important;
+    
 }
-
+.nav-sidebar {
+    padding-right: 0!important;
+    padding-left: 1rem!important;
+}
+.navbar-nav{
+    padding-right: 0!important;
+}
 /* Adjust content margin */
-.content-wrapper,
-.main-footer {
-    margin-left: 0!important;
-    margin-right: 250px!important;
-}
 
 .control-sidebar {
     right: unset!important;
@@ -48,9 +51,10 @@ body {
 }
 
 .card-header {
+display: flex;
     text-align: right!important;
     padding-right: 1rem!important;
-    padding-left: 0!important;
+   
 }
 
 .nav-item {
@@ -71,16 +75,9 @@ body {
     text-align: right!important;
 }
 /* RTL Sidebar Fix */
-.main-sidebar {
-    right: 0!important; /* Align the sidebar to the right */
-    left: unset!important; /* Remove left property */
-}
 
-/* Content Wrapper Fix */
-.content-wrapper {
-    margin-right: 250px!important; /* Adjust according to the sidebar width */
-    margin-left: 0!important;
-}
+
+
 
 /* Make sure the body direction is RTL */
 body {
@@ -113,7 +110,379 @@ div.dataTables_wrapper div.dataTables_filter label {
         transition: margin-left .3s ease-in-out!important;
         margin-left: 0px!important;
     }
+    .main-sidebar {
+        right: 0!important; /* Align the sidebar to the right */
+        left: unset!important; /* Remove left property */
+    }
+    .content-wrapper,
+.main-footer {
+    margin-left: 0!important;
+    margin-right: 250px!important;
+}
+
+}
+   /* padding-left: 0 !important; */
 }
 .content-wrapper{
     padding-top: 10px!important;
   }
+  @media (min-width: 768px) {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+        transition: margin-left .3s ease-in-out;
+        margin-right: 250px;
+    }
+}
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
+        margin-right: 4.6rem !important;
+    }
+}
+/* General Table Styling */
+table.dataTable {
+    border-collapse: separate;
+    border-spacing: 0 15px; /* Adds space between rows */
+}
+
+table.dataTable thead th {
+    background-color: #b2d3f7; /* Header background color */
+    color: white;              /* Header text color */
+    text-align: center;
+    font-size: 14px;
+    padding: 12px;
+    border-radius: 5px 5px 0 0; /* Rounded corners for the header */
+}
+
+table.dataTable tbody tr {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for rows */
+}
+
+table.dataTable tbody td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #f1f1f1; /* Change row color on hover */
+    cursor: pointer;
+}
+
+/* Style for Pagination and Search */
+.dataTables_wrapper .dataTables_filter input {
+    border-radius: 50px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 250px;
+    transition: width 0.3s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    width: 300px; /* Grows when focused */
+    border-color: #669cd6; /* Change border on focus */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 8px 16px;
+    border-radius: 50px;
+    background-color: rgb(146, 188, 233);
+    color: white;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #80b7f1; /* Darker blue on hover */
+}
+
+/* Action Button Styling */
+.btn {
+    border-radius: 10px !important; /* Rounded buttons */
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-left : 0px !important;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ffc107; /* Yellow */
+    color: white;
+}
+
+.btn-primary {
+    background-color: #80b7f1; /* Blue */
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.85; /* Slight transparency on hover */
+}
+
+/* Image Styling in Table */
+table.dataTable td img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%; /* Circular images */
+}
+
+/* Custom Style for Search and Pagination Containers */
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    margin-right: 20px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    float: right;
+    margin-right: 20px;
+}
+
+/* Custom Style for Responsive Mobile View */
+@media (max-width: 768px) {
+    table.dataTable {
+        font-size: 12px;
+    }
+
+    table.dataTable td, table.dataTable th {
+        padding: 8px;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+/* Container for the checkbox */
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Create a custom checkbox appearance */
+.custom-checkbox span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    border-radius: 4px; /* Rounded corners */
+    border: 2px solid #007bff; /* Blue border */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom checkmark (hidden by default) */
+.custom-checkbox span:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* When the checkbox is checked, show the checkmark */
+.custom-checkbox input:checked + span {
+    background-color: #28a745; /* Green background when checked */
+    border-color: #28a745;
+}
+
+.custom-checkbox input:checked + span:after {
+    display: block;
+}
+
+/* Add a subtle hover effect */
+.custom-checkbox:hover input ~ span {
+    background-color: #f1f1f1; /* Light grey on hover */
+    border-color: #007bff; /* Blue border on hover */
+}
+
+/* Checkbox focus (keyboard navigation) */
+.custom-checkbox input:focus + span {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+/* Global Styles */
+body {
+    background-color: #f4f6f9; /* Lightest blue shade from the palette */
+    font-family: 'Cairo', sans-serif; /* Apply the Cairo font */
+}
+
+.content-wrapper {
+    padding-top: 20px;
+}
+/* Navbar Styles */
+.navbar {
+    background-color: #122b55; /* Medium blue for the navbar */
+    border-bottom: 2px solid #10356f; /* Dark blue for the border */
+}
+
+.navbar a {
+    color: #fff !important; /* Ensure navbar links are white */
+}
+
+.navbar .dropdown-menu {
+    background-color: #7fc7d9; /* Soft blue for dropdown */
+    border-color: #365486;
+}
+
+/* Sidebar Styles */
+.main-sidebar {
+    background-color: #05193a; /* Darkest blue for the sidebar */
+    color: #fff; /* White text */
+}
+
+.main-sidebar .nav-link {
+    color: #7fa4d9; /* Light blue for sidebar links */
+}
+
+.main-sidebar .nav-link.active {
+    background-color: #365486; /* Medium blue for active link */
+    color: #fff;
+}
+
+/* Sidebar Hover */
+.main-sidebar .nav-link:hover {
+    background-color: #10356f; /* Dark blue on hover */
+}
+
+/* Brand Link */
+.brand-link {
+    background-color: #365486;
+    color: #fff;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #5a86bc; /* Light blue from the palette */
+    border-color: #365486; /* Medium blue border */
+}
+
+.btn-secondary {
+    background-color: #365486; /* Medium blue for secondary */
+    border-color: #10356f; /* Dark blue border */
+}
+
+.btn-danger {
+    background-color: #f1035d; /* Accent pinkish-red from the palette */
+    border-color: #c0024d;
+}
+
+.btn-default {
+    background-color: #dce2f2; /* Light blue background */
+    color: #365486; /* Medium blue text */
+    border-color: #365486;
+}
+
+.btn-primary:hover, .btn-secondary:hover, .btn-default:hover {
+    background-color: #10356f; /* Dark blue on hover */
+    border-color: #365486;
+}
+
+/* Table Styles */
+.table {
+    background-color: #fff; /* White table background */
+    border-color: #8cb0ff; /* Light blue border */
+}
+
+.table th {
+    /* background-color: #365486; Medium blue for table headers */
+    color: #fff;
+    border-bottom: 2px solid #6e9be3; /* Dark blue border for headers */
+}
+
+.table td {
+    color: #213d6d;
+    border-color: #dcf2f1; /* Light blue cell borders */
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background-color: #bfd1f1; /* Active page blue */
+    border-color: #365486;
+}
+
+.pagination .page-link {
+    color: #365486;
+    border-color: #7fc7d9;
+}
+
+/* Custom Checkboxes */
+.custom-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.custom-checkbox span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #365486; /* Medium blue checkbox border */
+    border-radius: 4px;
+    background-color: #dcf2f1; /* Light blue background */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + span {
+    background-color: #7fc7d9; /* Light blue when checked */
+    border-color: #7fc7d9;
+}
+
+/* Modals */
+.modal-header {
+    background-color: #365486;
+    color: #fff;
+}
+
+.modal-footer .btn {
+    background-color: #7fc7d9;
+    color: #fff;
+}
+
+/* Notification List */
+.dropdown-item.notification-approved {
+    background-color: #d4edda; /* Green for approved notifications */
+    border-left: 5px solid #28a745;
+}
+
+.dropdown-item.notification-rejected {
+    background-color: #f8d7da; /* Red for rejected notifications */
+    border-left: 5px solid #dc3545;
+}
+
+.dropdown-item.read {
+    background-color: #dcf2f1; /* Light blue for read notifications */
+}
+
+.dropdown-item.unread {
+    background-color: #7fc7d9; /* Slightly darker blue for unread */
+}
+
+/* Footer */
+.main-footer {
+    background-color: #dce7fa;
+    color: #fff;
+    border-top: 2px solid #ffffff;
+}
