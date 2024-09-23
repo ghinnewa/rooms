@@ -4,7 +4,7 @@
         <i class="fa fa-eye"></i>
     </a>
     {{--  @if (Route::currentRouteName() == 'cards.index')
-        @role('admin|super admin | admin')  --}}
+        @role('admin|super admin')  --}}
             <a href="{{ route('cards.edit', $id) }}" class='btn btn-default btn-xs'>
                 <i class="fa fa-edit"></i>
             </a>
@@ -14,7 +14,7 @@
             <i class="fa fa-edit"></i>
         </a>  --}}
     {{--  @endif  --}}
-    @role('admin|super admin | admin')
+    @role('admin|super admin')
         {!! Form::button('<i class="fa fa-trash"></i>', [
             'type' => 'submit',
             'class' => 'btn btn-danger btn-xs',

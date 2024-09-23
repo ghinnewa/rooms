@@ -3,7 +3,7 @@
     <a href="{{ route('categories.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="fa fa-eye"></i>
     </a>
-    @role('admin|super admin | admin')
+    @role('admin|super admin')
 
     <a href="{{ route('categories.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="fa fa-edit"></i>

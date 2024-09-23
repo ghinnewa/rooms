@@ -35,7 +35,6 @@
                 </li>
                 <li class="list-group-item">
                     <b class="float-right"> الفصل</b>
-                    <p>Semester: {{ $semester }}</p>
                     </li>
 
 

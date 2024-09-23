@@ -182,7 +182,7 @@
                 <div class="dropdown-divider"></div>
             @endforeach
         </div>
-        @role('admin|super admin | admin')
+        @role('admin|super admin')
         <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer text-center text-primary">See All Notifications</a>
         @endrole
     </div>

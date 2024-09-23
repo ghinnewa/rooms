@@ -58,8 +58,8 @@
         @endrole
 
         <!-- The expiration form (initially hidden) -->
-           @hasanyrole('super admin | admin')
-        <form class="form-group " id="expiration-form" action="{{ route('paid') }}" method="POST" style="display: none;">
+        @role('admin|super admin')
+        <form class="form-group " id="expiration-form" action="{{ route('paid') }}" method="POST" style="display: none; margin-right: 20px;">
             @csrf
             <input type="hidden" name="id" value={{ $card->id }}>
             <label for="expiration">Expiration:</label>
@@ -71,7 +71,7 @@
             <input type="submit" class="btn btn-primary my-3" value="Submit">
         </form>
 
-        @endhasanyrole
+        @endrole
         @endif
 
         @push('paidscript')
