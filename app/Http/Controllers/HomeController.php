@@ -36,7 +36,14 @@ class HomeController extends Controller
     $totalCardsCount = Card::count();
     $totalUsers = User::count();
     $totalSubjects = Subject::count(); // Count total subjects
-
+    $user = auth()->user();
+    $card = $user->card;
+    if (!$card && Auth::user()->hasRole('student') ) {
+        return view('subjects.locked'); // A special view for when the card is missing
+    }
+    if (auth()->user()->hasRole('student')) {
+        return view('home', compact('card'));
+    }
     // Get the data for Cards by Category
     $cards = DB::table('cards')
         ->select('category_id', DB::raw('count(*) as total'))

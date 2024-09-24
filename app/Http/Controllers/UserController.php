@@ -84,6 +84,7 @@ class UserController extends AppBaseController
 
     public function store(CreateUserRequest $request)
     {
+
         // Wrapping everything in a try-catch block to handle errors gracefully
         try {
             $input = $request->all();
@@ -208,7 +209,7 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, CreateUserRequest $request)
+    public function update($id, UpdateUserRequest $request)
     {
         $user = $this->userRepository->find($id);
     
@@ -219,7 +220,7 @@ class UserController extends AppBaseController
         }
     
         // Validate the request, passing the user ID to the validation rules
-        $request->validate(CreateUserRequest::rules($user->id));
+        $request->validate(UpdateUserRequest::rules($user->id));
     
         // Update the user's information
         $input = $request->all();
@@ -275,8 +276,13 @@ if ($user->hasRole('super admin')) {
 
         return redirect(route('users.index'));
     }
-    public function updateProfile(Request $request)
+
+
+
+
+    public function updateProfile(CreateUserRequest $request)
 {
+    dd('hi');
     $user = auth()->user();
     
     $input = $request->except('roles');
