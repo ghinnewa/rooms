@@ -189,10 +189,13 @@ class CardController extends AppBaseController
         $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
+        $subjects = $user->subjects;
 
         // Assign user_id if the role is student
         if (auth()->user()->hasRole('student')) {
             $input['user_id'] = auth()->id();
+            $user = auth()->user();
+            $subjects = $user->subjects;
         }
 
         // Set default values
@@ -209,15 +212,16 @@ class CardController extends AppBaseController
         $card = $this->cardRepository->create($input);
 
         // Generate the membership number
-        $card->membership_number = '00' + 1000 + $card->id;
 
         // Save the card with the updated membership number
         $card->save();
+      
         // Assign user_id if the role is student
         if (auth()->user()->hasRole('student')) {
 
             // Notify super admin | admins about the new card
             $systemAdmins = User::role('admin')->get();
+           
             Notification::send($systemAdmins, new CardCreatedNotification($card));
         }
 
@@ -230,14 +234,22 @@ class CardController extends AppBaseController
 
         // Convert data to JSON
         $qrData = json_encode($cardData);
+        $semester = $card->calculateSemester();
+        if (!$semester) {
+            $semester = 'no data available';
+        }
+        // Fetch the user who owns the card
+   
 
+    // Load the subjects assigned to this user (student)
+  
         // Generate the QR code image
         $qrCodeImage = QrCode::size(200)->errorCorrection('H')->generate($qrData);
         Storage::disk('local')->put($output_file, $qrCodeImage);
 
         Flash::success('Card saved successfully.');
 
-        return view('cards.show')->with('card', $card);
+        return view('cards.show')->with('card', $card)->with('semester', $semester)->with('subjects', $subjects);
     }
 
 
@@ -261,7 +273,8 @@ class CardController extends AppBaseController
 
     // Calculate the semester based on the card's data
     $semester = $card->calculateSemester();
-    if (!$semester) {
+    
+    if ($semester===null) {
         $semester = 'no data available';
     }
 
@@ -543,13 +556,19 @@ switch ($expirationPeriod) {
     {
         $user = auth()->user();
         $card = $user->card;
-
+        $semester = $card->calculateSemester();
+    
+        if ($semester===null) {
+            $semester = 'no data available';
+        }
         if (!$card && Auth::user()->hasRole('student')) {
-            return view('subjects.locked'); // A special view for when the card is missing
+            return view('subjects.locked'); 
+            // A special view for when the card is missing
         }
         // Retrieve the card associated with the currently authenticated user
         $card = $this->cardRepository->findWhere(['user_id' => auth()->id()])->first();
-
+        $user = auth()->user();
+        $subjects = $user->subjects;
         // If the card is not found, redirect back with an error
         if (empty($card)) {
             Flash::error('Card not found');
@@ -557,6 +576,6 @@ switch ($expirationPeriod) {
         }
 
         // Return the view with the user's card
-        return view('cards.show')->with('card', $card);
+        return view('cards.show')->with('card', $card)->with('subjects', $subjects)->with('semester', $semester);
     }
 }

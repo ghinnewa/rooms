@@ -66,14 +66,24 @@ class CreateCardRequest extends FormRequest
                 'regex:/^(1|2)[0-9]{11}$/',  // Must start with 1 or 2 and have exactly 12 digits
             ],
             'user_id' => [
-                'required',
-                'exists:users,id',
-                function ($attribute, $value, $fail) use ($cardId) {
-                    if (\App\Models\Card::where('user_id', $value)->where('id', '!=', $cardId)->exists()) {
-                        $fail('This user already has a card.');
-                    }
-                },
-            ],
+    function ($attribute, $value, $fail) use ($cardId) {
+        // Check if the user has the 'student' role
+        $user = \App\Models\User::find($value);
+        
+        if ($user && $user->hasRole('student')) {
+            // If the user is a student, bypass validation
+            return;
+        }
+
+        // If the user is not a student, apply validation
+        if (!$value) {
+            $fail('The user ID is required.');
+        } elseif (\App\Models\Card::where('user_id', $value)->where('id', '!=', $cardId)->exists()) {
+            $fail('This user already has a card.');
+        }
+    },
+]
+
             // Other validation rules...
         ];
         return Card::$rules;

@@ -64,15 +64,24 @@ class UpdateCardRequest extends FormRequest
                 'required',
                 'regex:/^(1|2)[0-9]{11}$/',  // Must start with 1 or 2 and have exactly 12 digits
             ],
-            'user_id' => [
-                'required',
-                'exists:users,id',
-                function ($attribute, $value, $fail) {
-                    if (\App\Models\Card::where('user_id', $value)->exists()) {
-                        $fail('This user already has a card.');
-                    }
-                },
-            ],
+           'user_id' => [
+    function ($attribute, $value, $fail) {
+        // Check if the user exists
+        $user = \App\Models\User::find($value);
+        
+        // If the user has the 'student' role, bypass validation
+        if ($user && $user->hasRole('student')) {
+            return;
+        }
+
+        // If the user is not a student, apply the validation
+        if (!$value) {
+            $fail('The user ID is required.');
+        } elseif (\App\Models\Card::where('user_id', $value)->exists()) {
+            $fail('This user already has a card.');
+        }
+    },
+]
             // Other validation rules...
         ];
        

@@ -78,21 +78,28 @@
             </form>
             @endrole
 
+
             @endif
+
             @role('admin|super admin')
         <form class="form-group " id="expiration-form" action="{{ route('paid') }}" method="POST" style="display: none;">
             @csrf
             <input type="hidden" name="id" value={{ $card->id }}>
-            <label for="expiration">Expiration:</label>
+            <label for="expiration">مدة انتهاء الصلاحية:</label>
             <select id="expiration" name="expiration" class="form-control">
-                <option value="6m">6 months</option>
-                <option value="1y">1 year</option>
-                <option value="2y">2 years</option>
+                <option value="6m"> 6 فصل</option>
+                <option value="1y">1 سنة</option>
+                <option value="2y">2 سنتين</option>
             </select>
             <input type="submit" class="btn btn-primary my-3" value="Submit">
         </form>
 
         @endrole
+        @role('student')
+        <a href="{{ route('cards.edit', $card->id) }}" class="btn btn-primary">تعديل بياناتي </a>
+        <p class="text-warning mt-3">*ملاحظة : اذا قمت بالتعديل على بياناتك فسترجع بطاقتك الى وضع الانتظار</p>
+        @endrole
+
             @push('paidscript')
         <script>
             // Show the expiration form when the approve button is clicked
