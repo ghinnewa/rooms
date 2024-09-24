@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 use App\Models\Card;
 
 class UpdateCardRequest extends FormRequest
@@ -24,66 +25,61 @@ class UpdateCardRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Card::$rules;
+        $cardId = $this->route('card'); // Get the card ID from the route
+
         return [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-          
-           
             'phone1' => 'required|string|max:255',
-            
-          
-    
             'qrcode' => '',
             'image' => '',
             'expiration' => 'date|after:now',
-    
             'paid' => 'boolean',
             'deleted_at' => 'nullable',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
             'category_id' => 'nullable',
-           
             'comment' => 'nullable',
             'facebook_url' => 'nullable|string|max:255',
             'twitter_url' => 'nullable|string|max:255',
             'linkedin_url' => 'nullable|string|max:255',
-          
             'instagram_url' => 'nullable|string|max:255',
             'youtube_url' => 'nullable|string|max:255',
             'identity_file1' => '',
             'identity_file2' => '',
             'city' => 'required|string|max:255',
-    
-    
-    
-    
-       
-            'membership_number' => 'required|digits:6',  // Ensuring it is exactly 6 digits
+            'membership_number' => 'required|digits:6',  // Ensure it's exactly 6 digits
             'national_number' => [
                 'required',
                 'regex:/^(1|2)[0-9]{11}$/',  // Must start with 1 or 2 and have exactly 12 digits
             ],
-           'user_id' => [
-    function ($attribute, $value, $fail) {
-        // Check if the user exists
-        $user = \App\Models\User::find($value);
-        
-        // If the user has the 'student' role, bypass validation
-        if ($user && $user->hasRole('student')) {
-            return;
-        }
+            'user_id' => [
+                'required',
+                function ($attribute, $value, $fail) use ($cardId) {
+                    // Check if the user exists
+                    $user = User::find($value);
+                // Debug to check the values being passed
+                
+                    if (!$user) {
+                        $fail('The selected user does not exist.');
+                        return;
+                    }
+                
+                    // If the user has the 'student' role, bypass validation
+                    if (auth()->user()->hasRole('student')) {
+                        return;
+                    }
+                 
+                    // Check if another card exists for this user, excluding the current card
+                    $existingCard = Card::where('user_id', $value)
+                        ->where('id', '!=', $cardId)
+                        ->exists();
 
-        // If the user is not a student, apply the validation
-        if (!$value) {
-            $fail('The user ID is required.');
-        } elseif (Card::where('user_id', $value)->exists()) {
-            $fail('This user already has a card.');
-        }
-    },
-]
-            // Other validation rules...
+                    if ($existingCard) {
+                        $fail('This user already has a card.');
+                    }
+                }
+            ],
         ];
-       
     }
 }

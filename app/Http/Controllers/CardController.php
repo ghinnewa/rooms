@@ -498,7 +498,7 @@ switch ($expirationPeriod) {
         $card = $this->cardRepository->update($input, $id);
 
         // Update the membership number if needed
-        $card->membership_number = '00' + 1000 + $card->id;
+    
         $card->save();
 
         Flash::success('Card updated successfully.');

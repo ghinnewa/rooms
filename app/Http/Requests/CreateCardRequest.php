@@ -70,7 +70,7 @@ class CreateCardRequest extends FormRequest
         // Check if the user has the 'student' role
         $user = \App\Models\User::find($value);
         
-        if ($user && $user->hasRole('student')) {
+        if (Auth()->user()->hasRole('student')) {
             // If the user is a student, bypass validation
             return;
         }
