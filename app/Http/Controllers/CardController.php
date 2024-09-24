@@ -189,7 +189,8 @@ class CardController extends AppBaseController
         $input['image'] = $this->cardRepository->filesFromDashboard($request->file('image'), 'profile');
         $input['identity_file1'] = $this->cardRepository->filesFromDashboard($request->file('identity_file1'), 'identity_file1');
         $input['identity_file2'] = $this->cardRepository->filesFromDashboard($request->file('identity_file2'), 'identity_file2');
-        $subjects = $user->subjects;
+  
+      
 
         // Assign user_id if the role is student
         if (auth()->user()->hasRole('student')) {
@@ -223,6 +224,8 @@ class CardController extends AppBaseController
             $systemAdmins = User::role('admin')->get();
            
             Notification::send($systemAdmins, new CardCreatedNotification($card));
+        }else{
+            $subjects = $card->user->subjects;
         }
 
         // Prepare data for the QR code (without expiration date)
