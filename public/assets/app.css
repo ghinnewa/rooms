@@ -344,7 +344,7 @@ body {
 }
 
 .navbar .dropdown-menu {
-    background-color: #7fc7d9; /* Soft blue for dropdown */
+    background-color: #ffffff; /* Soft blue for dropdown */
     border-color: #365486;
 }
 
@@ -457,7 +457,7 @@ body {
 }
 
 .modal-footer .btn {
-    background-color: #7fc7d9;
+    background-color: #ffffff;
     color: #fff;
 }
 
@@ -473,11 +473,14 @@ body {
 }
 
 .dropdown-item.read {
-    background-color: #dcf2f1; /* Light blue for read notifications */
+    background-color: #e7eaf2;
+    color: #365486!important;
+    
+     /* Light blue for read notifications */
 }
 
 .dropdown-item.unread {
-    background-color: #7fc7d9; /* Slightly darker blue for unread */
+    background-color: #67a3e8; /* Slightly darker blue for unread */
 }
 
 /* Footer */

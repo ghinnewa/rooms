@@ -36,7 +36,7 @@ public function toDatabase($notifiable)
 {
     return [
         'card_id' => $this->card->id,
-        'message' => $this->status === 'approved' ? 'Your card has been approved.' : 'Your card has been rejected.',
+        'message' => $this->status === 'approved' ? 'تم قبول بطاقتك' : 'تم رفض بطاقتك',
         'comment' => $this->comment, // Include the comment if the card is rejected
         'type' => 'App\\Notifications\\CardApprovalNotification', // Type identifier
     ];
@@ -46,7 +46,7 @@ public function toBroadcast($notifiable)
 {
     return new BroadcastMessage([
         'card_id' => $this->card->id,
-        'message' => $this->status === 'approved' ? 'Your card has been approved.' : 'Your card has been rejected.',
+        'message' => $this->status === 'approved' ? 'تم قبول بطاقتك' : 'Your card has been rejected.',
         'comment' => $this->comment,
         'type' => 'App\\Notifications\\CardApprovalNotification',
     ]);

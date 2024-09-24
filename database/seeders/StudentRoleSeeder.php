@@ -35,11 +35,11 @@ class StudentRoleSeeder extends Seeder
       'cards.edit',
       'users.edit',
       'users.update',
-      'card.show',
-      'card.edit',
-      'card.create',
-      'card.update',
-      'card.store',
+      'cards.show',
+      'cards.edit',
+      'cards.create',
+      'cards.update',
+      'cards.store',
       'examScheduleItems.index'
 
         ];

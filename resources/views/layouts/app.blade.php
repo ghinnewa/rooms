@@ -203,20 +203,20 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- User image -->
-                        <li class="user-header bg-primary">
+                        <li class="user-header ">
                             <img src="{{ asset('glucc.png') }}"
                                 class="img-circle elevation-2" alt="User Image">
                             <p>
                                 {{ Auth::user()->name }}
-                                <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                                <small>مشترك منذ {{ Auth::user()->created_at->format('M. Y') }}</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            <a href="#" class="btn btn-default btn-flat float-right"
+                            
+                            <a href="#" class="btn btn-primary btn-flat float-right"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Sign out
+                               تسجيل خروج
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -266,6 +266,11 @@
 
     <!-- jQuery -->
    <!-- DataTables CSS -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
 <!-- DataTables Responsive CSS -->
@@ -282,11 +287,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-
+  
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>

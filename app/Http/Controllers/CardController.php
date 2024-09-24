@@ -379,7 +379,7 @@ switch ($expirationPeriod) {
          $card->save();
      $semester = $card->calculateSemester();
     if (!$semester) {
-        $semester = 'no data available';
+        $semester = 'لا يوجد مواد';
     }
          // Send the notification to the student that the card has been approved
          $card->user->notify(new CardApprovalNotification($card, 'approved'));
@@ -387,7 +387,7 @@ switch ($expirationPeriod) {
 
          $subjects = $user->subjects;
 
-         Flash::success('Card approved successfully.');
+         Flash::success('تم قبول البطاقة');
          return view('cards.show')->with('card', $card)->with('semester', $semester)->with('subjects', $subjects);
      }
      
@@ -409,7 +409,7 @@ switch ($expirationPeriod) {
          // Notify the student about the rejection
          $card->user->notify(new CardApprovalNotification($card, 'rejected', $card->comment));
      
-         Flash::success('Card rejected successfully.');
+         Flash::success('تم رفض البطاقة');
          return redirect()->route('cards.show', $card->id);
      }
 
