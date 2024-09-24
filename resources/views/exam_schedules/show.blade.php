@@ -4,11 +4,10 @@
 
 <style>
     body {
-        /* font-family: 'Times New Roman', Times, serif; */
         color: #000;
     }
 
-    /* General Table Styling */
+    /* تنسيق الجدول العام */
     .formal-exam-table {
         width: 100%;
         border-collapse: collapse;
@@ -17,17 +16,17 @@
     }
 
     .formal-exam-table th, .formal-exam-table td {
-        border: 1px solid #000;
+        border: 1px solid #7aaede;
         padding: 10px;
     }
-        text-align: center;
+    text-align: center;
 
     .thead-dark th {
-        background-color: #343a40;
+        background-color: #7aaede;
         color: #fff;
     }
 
-    /* Print-specific Styling */
+    /* تنسيق مخصص للطباعة */
     @media print {
         .navbar, .btn, .footer, .sidebar, .no-print {
             display: none !important;
@@ -52,9 +51,11 @@
             font-size: 12pt;
             page-break-inside: avoid;
         }
-.form-group{
-    display: none;
-}
+
+        .form-group {
+            display: none;
+        }
+
         .formal-exam-table th, .formal-exam-table td {
             border: 1px solid #000;
             padding: 12px;
@@ -74,7 +75,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-                <h1>{{ $examSchedule->year }} Exam Schedule</h1>
+                <h1>جدول الامتحانات للسنة {{ $examSchedule->year }}</h1>
             </div>
         </div>
     </div>
@@ -83,47 +84,47 @@
 <div class="content px-3">
     <div class="card">
         <div class="card-body">
-            <h4>Exam Schedule Details</h4>
-            <p>Year: {{ $examSchedule->year }}</p>
+            <h4>تفاصيل جدول الامتحانات</h4>
+            <p>السنة: {{ $examSchedule->year }}</p>
 
-            <h4>Scheduled Exams</h4>
+            <h4>الامتحانات المجدولة</h4>
 
-            <!-- Search Filter -->
+            <!-- مربع البحث -->
             <div class="form-group">
-                <input type="text" id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="Search for exams...">
+                <input type="text" id="searchInput" class="form-control" onkeyup="filterTable()" placeholder="ابحث عن الامتحانات...">
             </div>
 
-            <!-- Table Display -->
+            <!-- عرض الجدول -->
             <table id="examScheduleTable" class="table table-bordered table-striped formal-exam-table">
-                <thead class="thead-dark">
+                <thead class="thead-dark" style="background-color: #7aaede;">
                     <tr>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Subject</th>
-                        <th>Semester</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
+                        <th style="background-color: #7aaede;">اليوم</th>
+                        <th style="background-color: #7aaede;">التاريخ</th>
+                        <th style="background-color: #7aaede;">الفئة</th>
+                        <th style="background-color: #7aaede;">المادة</th>
+                        <th style="background-color: #7aaede;">الفصل الدراسي</th>
+                        <th style="background-color: #7aaede;">وقت البداية</th>
+                        <th style="background-color: #7aaede;">وقت النهاية</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($examScheduleItems as $item)
                         <tr>
-                            <td>{{ date('l', strtotime($item->exam_date)) }}</td> <!-- Day of the week -->
-                            <td>{{ date('d M Y', strtotime($item->exam_date)) }}</td> <!-- Formatted date -->
-                            <td>{{ $item->category->name_en }}</td>
+                            <td>{{ date('l', strtotime($item->exam_date)) }}</td> <!-- يوم الأسبوع -->
+                            <td>{{ date('d M Y', strtotime($item->exam_date)) }}</td> <!-- التاريخ بالتنسيق -->
+                            <td>{{ $item->category->name_ar }}</td>
                             <td>{{ $item->subject->title }}</td>
                             <td>{{ $item->semester }}</td>
-                            <td>{{ date('h:i A', strtotime($item->start_time)) }}</td> <!-- Formatted start time -->
-                            <td>{{ date('h:i A', strtotime($item->end_time)) }}</td> <!-- Formatted end time -->
+                            <td>{{ date('h:i A', strtotime($item->start_time)) }}</td> <!-- وقت البداية -->
+                            <td>{{ date('h:i A', strtotime($item->end_time)) }}</td> <!-- وقت النهاية -->
                         </tr>
                     @endforeach
                 </tbody>
             </table>
 
-            <!-- Print Button -->
-            <button class="btn btn-primary no-print mt-6 " onclick="printTable()">Print Schedule</button>
-            <a href="{{ route('examSchedules.edit', $examSchedule->id) }}" class="btn btn-warning no-print m-2">Edit Schedule</a>
+            <!-- زر الطباعة -->
+            <button class="btn btn-primary no-print mt-6" onclick="printTable()">طباعة الجدول</button>
+            <a href="{{ route('examSchedules.edit', $examSchedule->id) }}" class="btn btn-warning no-print m-2">تعديل الجدول</a>
 
         </div>
     </div>
@@ -132,7 +133,7 @@
 
 @push('scripts')
 <script type="text/javascript">
-    // Function to filter table rows based on search input
+    // وظيفة لتصفية الصفوف بناءً على البحث
     function filterTable() {
         let input = document.getElementById('searchInput');
         let filter = input.value.toLowerCase();
@@ -152,7 +153,7 @@
         }
     }
 
-    // Function to print the table
+    // وظيفة لطباعة الجدول
     function printTable() {
         window.print();
     }

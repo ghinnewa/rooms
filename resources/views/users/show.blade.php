@@ -8,7 +8,7 @@
                     <h1>User Details</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
+                    <a class="btn btn-default float-left
                        href="{{ route('users.index') }}">
                         Back
                     </a>

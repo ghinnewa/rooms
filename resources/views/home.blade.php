@@ -2,6 +2,11 @@
 
 @section('content')
 
+<style>
+    .card-header{
+        background-color: #4387c1 !important;
+    }
+</style>
 
     <!-- Display widgets for non-student users -->
     <div class="container-fluid" dir="rtl">
@@ -153,7 +158,7 @@
             labels: categoryLabels,
             datasets: [{
                 data: categoryData,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                backgroundColor: ['#7aaede', '#36A2EB', '#FFCE56', '#4BC0C0']
             }]
         },
         options: {
@@ -170,7 +175,7 @@
             datasets: [{
                 label: 'البطاقات',
                 data: semesterData,
-                backgroundColor: '#36A2EB'
+                backgroundColor: '#7aaede'
             }]
         },
         options: {

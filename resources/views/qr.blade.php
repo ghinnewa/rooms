@@ -4,19 +4,19 @@
 <div class="container">
     @if(auth()->user()->hasRole('super admin')||auth()->user()->hasRole('admin'))
         <div class="text-center mt-5">
-            <h2>Scan QR Code</h2>
-            <div class="card mx-auto" style="max-width: 400px;">
-                <div class="card-body">
+            <h2>مسح رمز QR</h2>
+            <div class="card mx-auto" style="max-width: 400px; margin-left:auto!important;">
+                <div class="card-body" >
                     <div id="qr-reader" style="width:100%;"></div>
                     <div id="qr-reader-results" class="mt-3">
-                        <!-- The results of the scan will be displayed here -->
+                        <!-- سيتم عرض نتائج المسح هنا -->
                     </div>
                 </div>
             </div>
         </div>
     @else
         <div class="alert alert-danger mt-5">
-            <p>You do not have access to this page.</p>
+            <p>ليس لديك صلاحية الوصول إلى هذه الصفحة.</p>
         </div>
     @endif
 </div>
@@ -30,16 +30,16 @@
         var html5QrCode = new Html5Qrcode("qr-reader");
 
         function onScanSuccess(qrCodeMessage) {
-            // Hide the raw QR code content (commenting out this line)
-            // document.getElementById('qr-reader-results').innerText = `QR Code detected: ${qrCodeMessage}`;
+            // إخفاء محتوى رمز QR الخام (تم التعليق على هذا السطر)
+            // document.getElementById('qr-reader-results').innerText = `تم الكشف عن رمز QR: ${qrCodeMessage}`;
             
-            // Send the QR code to the server for verification
+            // إرسال رمز QR إلى الخادم للتحقق
             verifyQrCode(qrCodeMessage);
         }
 
         function verifyQrCode(qrCode) {
             $.ajax({
-                url: '{{ route("admin.verifyCard") }}', // Adjust this to your route
+                url: '{{ route("admin.verifyCard") }}', // تعديل الرابط حسب مسارك
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -48,29 +48,29 @@
                 success: function(response) {
                     var resultElement = document.getElementById('qr-reader-results');
                     if (response.exists && response.approved) {
-                        resultElement.innerHTML = '<div class="alert alert-success">Card is approved and valid.</div>';
+                        resultElement.innerHTML = '<div class="alert alert-success">البطاقة معتمدة وصالحة.</div>';
                     } else if (response.exists) {
-                        resultElement.innerHTML = '<div class="alert alert-warning">Card is found but not approved.</div>';
+                        resultElement.innerHTML = '<div class="alert alert-warning">تم العثور على البطاقة لكنها غير معتمدة.</div>';
                     } else {
-                        resultElement.innerHTML = '<div class="alert alert-danger">Card not found.</div>';
+                        resultElement.innerHTML = '<div class="alert alert-danger">لم يتم العثور على البطاقة.</div>';
                     }
                 },
                 error: function() {
-                    document.getElementById('qr-reader-results').innerHTML = '<div class="alert alert-danger">Error occurred while verifying the card.</div>';
+                    document.getElementById('qr-reader-results').innerHTML = '<div class="alert alert-danger">حدث خطأ أثناء التحقق من البطاقة.</div>';
                 }
             });
         }
 
         html5QrCode.start(
-            { facingMode: "environment" }, // Use the back camera
+            { facingMode: "environment" }, // استخدام الكاميرا الخلفية
             {
-                fps: 10, // Frame per second for QR code scanning
-                qrbox: { width: 250, height: 250 } // Bounding box for QR code scanning
+                fps: 10, // عدد الإطارات في الثانية لمسح رمز QR
+                qrbox: { width: 250, height: 250 } // إطار المسح لرمز QR
             },
-            onScanSuccess // The callback function when a QR code is scanned
+            onScanSuccess // وظيفة الاسترجاع عند مسح رمز QR
         ).catch(err => {
-            console.error("Unable to start scanning", err);
-            document.getElementById('qr-reader-results').innerText = 'Camera streaming is not supported by your browser.';
+            console.error("غير قادر على بدء المسح", err);
+            document.getElementById('qr-reader-results').innerText = 'بث الكاميرا غير مدعوم بواسطة متصفحك.';
         });
     });
 </script>

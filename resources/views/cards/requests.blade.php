@@ -6,14 +6,17 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Cards</h1>
+                    <h1>البطاقات</h1>
                 </div>
            
             </div>
         </div>
-        <div class="d-flex justify-content-start">
-        <button id="print-selected" class="btn btn-primary mb-3">Print Selected</button>
-    </div>
+        <div class="d-flex justify-content-end">
+                    <button id="print-selected" class="btn btn-primary ml-2 mb-3">
+                        <i class="fas fa-print"></i> <!-- Print Icon -->
+                        طباعة
+                    </button>
+                </div>
     </section>
 
     <div class="content px-3">

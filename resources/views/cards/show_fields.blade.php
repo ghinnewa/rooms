@@ -7,34 +7,36 @@
            
             <ul class="list-group  list-group-unbordered mb-3" dir="rtl">
                 <li class="list-group-item" dir="rtl" lang="ar">
-                <h3 class="profile-username text-left" dir="rtl" lang="ar">{{ $card->name_ar }}</h3>
+                <h3 class="profile-username text-right" dir="rtl" lang="ar">{{ $card->name_ar }}</h3>
 
-                    <p class="text-muted text-left">{{ $card->name_en }}</p>
+                    <p class="text-muted text-right">{{ $card->name_en }}</p>
 
                 </li>
                 <li class="list-group-item" dir="rtl" lang="ar">
-                <a class="float-right">{{ $card->membership_number }}</a>  
-                <b  class="float-left">رقم القيد</b> 
+                <a class="float-left">{{ $card->membership_number }}</a>  
+                <b  class="float-right">رقم القيد</b> 
                 </li>
                 <li class="list-group-item">
-                    <b class="float-left">رقم الهاتف الأول</b> <a class="float-right">{{ $card->phone1 }}</a>
+                    <b class="float-right">رقم الهاتف الأول</b> <a class="float-left">{{ $card->phone1 }}</a>
                 </li>
               
 
 
                 <li class="list-group-item">
-                    <b class="float-left">البريد</b> <a class="float-right">{{ $card->user->email }}</a>
+                    <b class="float-right">البريد</b> <a class="float-left">{{ $card->user->email }}</a>
                 </li>
 
                 <li class="list-group-item">
-                    <b class="float-left">المدينة</b> <a class="float-right">{{ $card->city }}</a>
+                    <b class="float-right">المدينة</b> <a class="float-left">{{ $card->city }}</a>
                 </li>
                 <li class="list-group-item">
-                    <b class="float-left"> التخصص</b>
-                    <p class="float-right">{{ $card->category->name_ar }}/{{ $card->category->name_en }}</p>
+                    <b class="float-right"> التخصص</b>
+                    <p class="float-left">{{ $card->category->name_ar }}/{{ $card->category->name_en }}</p>
                 </li>
                 <li class="list-group-item">
-                    <b class="float-left"> الفصل</b>
+                    <b class="float-right"> الفصل</b>
+                    <p class="float-left">{{ $semester }}</p>
+
                     </li>
 
 
@@ -99,16 +101,16 @@
                 </div>
                 <div class="d-flex item-center justify-content-center">
                     @if (!$card->paid)
-                    <p class="badge bg-warning text-center"> pending </p>
+                    <p class="badge bg-warning text-center"> قبد الانتظار </p>
                 </div>
 
                 @else
                 @if ($card->expiration < Carbon\Carbon::now() &&$card->expiration!=null)
-                    <p class="badge bg-danger text-center"> expired </p>
+                    <p class="badge bg-danger text-center"> منتهية الصلاحية </p>
             </div>
             <h3 class="profile-username text-center">Exp:{{date('Y-m-d ',strtotime($card->expiration))  }}</h3>
             @else
-            <p class="badge bg-success text-center"> active </p>
+            <p class="badge bg-success text-center"> فعالة </p>
         </div>
         <h3 class="profile-username text-center">Exp:{{date('Y-m-d ',strtotime($card->expiration))  }}</h3>
         @endif
@@ -119,11 +121,11 @@
 
 
 
-        <a href="{{ route('attachments.downloadAttachment', ['identity_file2', $card->identity_file2]) }}" class="btn  btn-block btn-outline-primary"><b>اثبات الهوية </b></a>
-        <a href="{{ route('attachments.downloadAttachment', ['identity_file2', $card->identity_file2]) }}" class="btn  btn-outline-primary btn-block"><b>اثبات الهوية2</b></a>
+        <a href="{{ route('attachments.downloadAttachment', ['identity_file2', $card->identity_file2]) }}" style="text-align:center!important;" class="btn  btn-block btn-outline-primary"><b>اثبات الهوية </b></a>
+        <a href="{{ route('attachments.downloadAttachment', ['identity_file2', $card->identity_file2]) }}" style="text-align:center!important;" class="btn  btn-outline-primary btn-block"><b>اثبات الهوية2</b></a>
         <br>
 
-        <button onclick="window.open('/card/{{ $card->id }}')" class="btn btn-primary btn-block"><b>طباعة</b></button>
+        <button onclick="window.open('/card/{{ $card->id }}')" style="text-align:center!important;" class="btn btn-primary btn-block"><b>طباعة</b></button>
 
         <div class="d-flex justify-content-center mt-3">
             <!-- Facebook -->

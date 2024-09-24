@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-                <h1>Edit Exam Schedule</h1>
+                <h1>تعديل جدول الامتحانات</h1>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    {!! Form::label('year', 'Year:') !!}
+                    {!! Form::label('year', 'السنة:') !!}
                     {!! Form::text('year', null, ['class' => 'form-control', 'readonly']) !!}
                 </div>
             </div>
@@ -31,38 +31,37 @@
         {!! Form::hidden('exams['.$index.'][id]', $item->id) !!}
         
         <div class="col-md-3">
-            {!! Form::label('exam_date', 'Exam Date:') !!}
+            {!! Form::label('exam_date', 'تاريخ الامتحان:') !!}
             {!! Form::date('exams['.$index.'][exam_date]', $item->exam_date, ['class' => 'form-control']) !!}
         </div>
 
         <div class="col-md-3">
-            {!! Form::label('category_id', 'Category:') !!}
-            {!! Form::select('exams['.$index.'][category_id]', $categories->pluck('name_en', 'id'), $item->category_id, ['class' => 'form-control category-select', 'placeholder' => 'Select category']) !!}
+            {!! Form::label('category_id', 'الفئة:') !!}
+            {!! Form::select('exams['.$index.'][category_id]', $categories->pluck('name_ar', 'id'), $item->category_id, ['class' => 'form-control category-select', 'placeholder' => 'اختر الفئة']) !!}
         </div>
 
         <div class="col-md-3">
-            {!! Form::label('subject_id', 'Subject:') !!}
-            {!! Form::select('exams['.$index.'][subject_id]', $item->category->subjects->pluck('title', 'id'), $item->subject_id, ['class' => 'form-control subject-select', 'placeholder' => 'Select subject']) !!}
+            {!! Form::label('subject_id', 'المادة:') !!}
+            {!! Form::select('exams['.$index.'][subject_id]', $item->category->subjects->pluck('title', 'id'), $item->subject_id, ['class' => 'form-control subject-select', 'placeholder' => 'اختر المادة']) !!}
         </div>
 
         <div class="col-md-3">
-            {!! Form::label('semester', 'Semester:') !!}
+            {!! Form::label('semester', 'الفصل الدراسي:') !!}
             {!! Form::text('exams['.$index.'][semester]', $item->semester, ['class' => 'form-control semester-input', 'readonly' => 'readonly']) !!}
         </div>
 
         <div class="col-md-3 mt-2">
-    {!! Form::label('start_time', 'Start Time:') !!}
-    {!! Form::time('exams[0][start_time]', null, ['class' => 'form-control time-picker']) !!}
-</div>
+            {!! Form::label('start_time', 'وقت البدء:') !!}
+            {!! Form::time('exams[0][start_time]', null, ['class' => 'form-control time-picker']) !!}
+        </div>
 
-<div class="col-md-3 mt-2">
-    {!! Form::label('end_time', 'End Time:') !!}
-    {!! Form::time('exams[0][end_time]', null, ['class' => 'form-control time-picker']) !!}
-</div>
-
+        <div class="col-md-3 mt-2">
+            {!! Form::label('end_time', 'وقت الانتهاء:') !!}
+            {!! Form::time('exams[0][end_time]', null, ['class' => 'form-control time-picker']) !!}
+        </div>
 
         <div class="col-md-3 mt-2" style="display: flex; align-items: flex-end;">
-            <button type="button" class="btn btn-danger remove-exam-entry">Remove</button>
+            <button type="button" class="btn btn-danger remove-exam-entry">حذف</button>
         </div>
     </div>
 @endforeach
@@ -71,7 +70,7 @@
 
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" id="add-exam-entry">Add Another Exam</button>
+                    <button type="button" class="btn btn-primary" id="add-exam-entry">إضافة امتحان آخر</button>
                 </div>
             </div>
 
@@ -79,7 +78,7 @@
 
         <div class="card-footer">
             {!! Form::submit('حفظ', ['class' => 'btn btn-primary']) !!}
-            <a href="{{ route('examSchedules.index') }}" class="btn btn-default">Cancel</a>
+            <a href="{{ route('examSchedules.index') }}" class="btn btn-default">إلغاء</a>
         </div>
 
         {!! Form::close() !!}
@@ -98,7 +97,7 @@
                 this.name = this.name.replace(/\[\d+\]/, '[' + examIndex + ']');
                 this.value = '';
                 if ($(this).hasClass('subject-select')) {
-                    $(this).html('<option value="">Select subject</option>');
+                    $(this).html('<option value="">اختر المادة</option>');
                 }
             }).end();
 
@@ -112,7 +111,7 @@
             if ($('.exam-entry').length > 1) {
                 $(this).closest('.exam-entry').remove();
             } else {
-                alert('You must have at least one exam entry.');
+                alert('يجب أن تحتوي القائمة على امتحان واحد على الأقل.');
             }
         });
 
@@ -127,7 +126,7 @@
                     url: '/categories/' + categoryId + '/subjects',
                     type: 'GET',
                     success: function (data) {
-                        $subjectSelect.empty().append('<option value="">Select subject</option>');
+                        $subjectSelect.empty().append('<option value="">اختر المادة</option>');
                         $.each(data.subjects, function (key, value) {
                             $subjectSelect.append('<option value="' + value.id + '">' + value.title + '</option>');
                         });
@@ -166,7 +165,7 @@
                 // Check if all required fields are filled
                 if (!$examDate.val() || !$categorySelect.val() || !$subjectSelect.val() || !$startTime.val() || !$endTime.val()) {
                     isValid = false;
-                    alert('Please fill out all fields in each exam entry or remove the incomplete entry.');
+                    alert('يرجى ملء جميع الحقول لكل امتحان أو إزالة الإدخال غير المكتمل.');
                     return false; // Break out of the loop
                 }
             });
@@ -176,34 +175,35 @@
             }
         });
     });
+
     $(document).ready(function() {
-    // Function to adjust the time picker to only allow 00 or 30 minutes
-    function adjustTimeToInterval($timeInput) {
-        let timeValue = $timeInput.val();
+        // Function to adjust the time picker to only allow 00 or 30 minutes
+        function adjustTimeToInterval($timeInput) {
+            let timeValue = $timeInput.val();
 
-        if (timeValue) {
-            let [hours, minutes] = timeValue.split(':');
+            if (timeValue) {
+                let [hours, minutes] = timeValue.split(':');
 
-            if (minutes >= 0 && minutes < 30) {
-                minutes = '00';
-            } else {
-                minutes = '30';
+                if (minutes >= 0 && minutes < 30) {
+                    minutes = '00';
+                } else {
+                    minutes = '30';
+                }
+
+                $timeInput.val(`${hours}:${minutes}`);
             }
-
-            $timeInput.val(`${hours}:${minutes}`);
         }
-    }
 
-    // When the user changes the time, adjust the minutes to either 00 or 30
-    $(document).on('change', '.time-picker', function() {
-        adjustTimeToInterval($(this));
-    });
+        // When the user changes the time, adjust the minutes to either 00 or 30
+        $(document).on('change', '.time-picker', function() {
+            adjustTimeToInterval($(this));
+        });
 
-    // Also apply this adjustment when the user first clicks into the time picker
-    $(document).on('focusout', '.time-picker', function() {
-        adjustTimeToInterval($(this));
+        // Also apply this adjustment when the user first clicks into the time picker
+        $(document).on('focusout', '.time-picker', function() {
+            adjustTimeToInterval($(this));
+        });
     });
-});
 
 </script>
 @endpush

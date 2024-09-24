@@ -337,23 +337,6 @@
    
     <script src="{{ mix('js/app.js') }}"></script>
 
-    @stack('third_party_scripts')
-
-
-    @stack('chart')
-
-   
-    @stack('scriptss')
-    @stack('scripts')
-    @stack('scripts_subject')
-    @stack('subjects')
-    @stack('img')
-    @stack('paidscript')
-    @stack('filename1')
-    @stack('filename2')
-    @stack('scripts1')
-    @stack('page_scripts')
-    @stack('myscript')
     <script>
       // Handle showing the modal and updating its content based on the clicked notification
 // Handle showing the modal and updating its content based on the clicked notification
@@ -440,6 +423,23 @@ $(document).on('click', '.nav-link[data-toggle="dropdown"]', function () {
 
     </script>
 
+@stack('third_party_scripts')
+
+
+@stack('chart')
+
+
+@stack('scriptss')
+@stack('scripts')
+@stack('scripts_subject')
+@stack('subjects')
+@stack('img')
+@stack('paidscript')
+@stack('filename1')
+@stack('filename2')
+@stack('scripts1')
+@stack('page_scripts')
+@stack('myscript')
 </body>
 
 </html>

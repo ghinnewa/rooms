@@ -56,9 +56,9 @@ class Subject extends Model
      * @var array
      */
     public static $rules = [
-        'title' => 'nullable|string|max:255',
-        'code' => 'nullable|string|max:255',
-        'points' => 'nullable|string|max:255',
+        'title' => 'required|string|max:255',
+        'code' => 'required|string|max:255',
+        'points' => 'required|string|max:255',
         'prerequisite_subject_id' => 'nullable',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',

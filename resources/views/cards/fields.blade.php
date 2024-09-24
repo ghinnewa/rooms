@@ -10,7 +10,7 @@
     {!! Form::text('name_en', null, ['class' => 'form-control', 'maxlength' => 255, 'maxlength' => 255]) !!}
 </div>
 <div class="form-group col-sm-6">
-    {!! Form::label('membership_number', 'Membership Number:') !!}
+    {!! Form::label('membership_number', 'رقم القيد:') !!}
     {!! Form::text('membership_number', null, ['class' => 'form-control']) !!}
     @if ($errors->has('membership_number'))
         <span class="text-danger">{{ $errors->first('membership_number') }}</span>
@@ -19,7 +19,7 @@
 
 <!-- National Number Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('national_number', 'National Number:') !!}
+    {!! Form::label('national_number', 'الرقم الوطني:') !!}
     {!! Form::text('national_number', null, ['class' => 'form-control']) !!}
     @if ($errors->has('national_number'))
         <span class="text-danger">{{ $errors->first('national_number') }}</span>
@@ -220,7 +220,7 @@
 <!-- User Selection Field (only for admin/super admin | admin) -->
 @hasanyrole('super admin|admin')
 <div class="form-group col-sm-6">
-    {!! Form::label('user_id', __('models/cards.fields.user_id').':') !!}
+    {!! Form::label('user_id', __('الطالب').':') !!}
     {!! Form::select('user_id', $students, null, ['class' => 'form-control', 'id' => 'user-select']) !!}
     @if ($errors->has('user_id'))
         <span class="text-danger">{{ $errors->first('user_id') }}</span>

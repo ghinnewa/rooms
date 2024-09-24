@@ -8,7 +8,7 @@
                     <h1>@lang('models/notifications.singular')</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
+                    <a class="btn btn-default float-left
                        href="{{ route('notifications.index') }}">
                          @lang('crud.back')
                     </a>

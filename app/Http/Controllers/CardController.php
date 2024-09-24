@@ -37,14 +37,14 @@ class CardController extends AppBaseController
     public function __construct(CardRepository $cardRepo)
     {
         $this->cardRepository = $cardRepo;
-        $this->middleware('CheckAdminRoles')->only('edit');
+        // $this->middleware('CheckAdminRoles')->only('edit');
 
         $this->middleware('permission:cards.index')->only('index');
         $this->middleware('permission:cards.show')->only('show');
         $this->middleware('permission:cards.create')->only('create');
-        // $this->middleware('permission:cards.edit')->only('edit');
+        $this->middleware('permission:cards.edit')->only('edit');
         $this->middleware('permission:cards.store')->only('store');
-        // $this->middleware('permission:cards.destroy')->only('destroy');
+        $this->middleware('permission:cards.destroy')->only('destroy');
         $this->middleware('permission:cards.update')->only('update');
     }
 
@@ -261,7 +261,7 @@ class CardController extends AppBaseController
 
     // Calculate the semester based on the card's data
     $semester = $card->calculateSemester();
-    if ($semester == null) {
+    if (!$semester) {
         $semester = 'no data available';
     }
 
@@ -325,6 +325,7 @@ class CardController extends AppBaseController
         if (auth()->user()->hasRole('student') && $card->user_id !== auth()->id()) {
             abort(403, 'Unauthorized action.');
         }
+        
         if (empty($card)) {
             Flash::error('Card not found');
             return redirect(route('cards.index'));
@@ -374,13 +375,20 @@ switch ($expirationPeriod) {
          // Save the expiration date and mark the card as paid (approved)
          $card->expiration = $expirationDate;
          $card->paid = 1;
+
          $card->save();
-     
+     $semester = $card->calculateSemester();
+    if (!$semester) {
+        $semester = 'no data available';
+    }
          // Send the notification to the student that the card has been approved
          $card->user->notify(new CardApprovalNotification($card, 'approved'));
-     
+         $user = User::find($card->user_id);
+
+         $subjects = $user->subjects;
+
          Flash::success('Card approved successfully.');
-         return view('cards.show')->with('card', $card);
+         return view('cards.show')->with('card', $card)->with('semester', $semester)->with('subjects', $subjects);
      }
      
 

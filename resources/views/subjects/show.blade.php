@@ -8,7 +8,7 @@
                     <h1>المادة</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-default float-right"
+                    <a class="btn btn-default float-left
                        href="{{ route('subjects.index') }}">
                          @lang('crud.back')
                     </a>
