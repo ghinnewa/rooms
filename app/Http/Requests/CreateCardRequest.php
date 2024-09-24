@@ -78,7 +78,7 @@ class CreateCardRequest extends FormRequest
         // If the user is not a student, apply validation
         if (!$value) {
             $fail('The user ID is required.');
-        } elseif (\App\Models\Card::where('user_id', $value)->where('id', '!=', $cardId)->exists()) {
+        } elseif (Card::where('user_id', $value)->where('id', '!=', $cardId)->exists()) {
             $fail('This user already has a card.');
         }
     },
