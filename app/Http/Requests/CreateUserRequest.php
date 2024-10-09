@@ -45,7 +45,7 @@ class CreateUserRequest extends FormRequest
                          return;
                      } else {
                          // For other users, restrict role creation to students only
-                         if ($value !== 'student') {
+                         if ($value !== '8') {
                              $fail('Only super admins can assign admin or super admin roles.');
                          }
                      }
