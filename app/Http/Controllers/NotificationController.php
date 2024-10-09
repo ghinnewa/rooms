@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\NotificationDataTable;
 use App\Http\Requests;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\CreateNotificationRequest;
 use App\Http\Requests\UpdateNotificationRequest;
 use App\Repositories\NotificationRepository;
