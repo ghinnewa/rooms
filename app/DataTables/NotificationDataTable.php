@@ -33,10 +33,17 @@ class NotificationDataTable extends DataTable
                 return 'Unknown Notification';
             })
             ->addColumn('recipient', function ($notification) {
-                // Determine if the notification is sent to a student or an admin
+                // Find the user associated with the notification
                 $user = User::find($notification->notifiable_id);
-                return $user && $user->role === 'student' ? 'Sent to Student' : 'Sent to Admin';
+            
+                // Use Spatie's `hasRole` method to determine the role
+                if ($user) {
+                    return $user->hasRole('student') ? 'Sent to Student' : 'Sent to Admin';
+                }
+            
+                return 'Unknown Recipient';
             })
+            
             ->addColumn('status', function ($notification) {
                 // Display read/unread status as a badge
                 return $notification->read_at ? '<span class="badge badge-success">Read</span>' : '<span class="badge badge-warning">Unread</span>';
