@@ -22,37 +22,40 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public static function rules($userId = null)
-    {
-        dd('g');
-        if ($userId === null) {
-            $userId = request()->route('user');  // Fetch the user ID from the route
-        }
-    
-        return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' ,  // Ensures the email is unique
-            'password' => 'required|string|min:8|confirmed', // Ensure at least one role is selected
-            'role' => [
-                function ()  {
-                    // Check if the user has the 'student' role
-                    
-                    
-                    if (Auth()->user()->hasRole('stuent')) {
-                        // If the user is a student, bypass validation
-                        return;
-                    }else{
-                        $fail('The user ID is required.');
-                    }
-            
-                    // If the user is not a student, apply validation
-                    
-                },
-            ] ,// Ensure each selected role exists in the roles table
-            'remember_token' => 'nullable|string|max:100',
-            'created_at' => 'nullable',
-            'updated_at' => 'nullable'
-        ];
-    }
+  
+
+     public static function rules($userId = null)
+     {
+         if ($userId === null) {
+             $userId = request()->route('user');  // Fetch the user ID from the route
+         }
+     
+         return [
+             'name' => 'required|string|max:255',
+             'email' => 'required|email|unique:users,email,' . $userId,  // Ensures the email is unique, excluding the current user's ID
+             'password' => 'required|string|min:8|confirmed', // Ensure the password is confirmed and has a minimum length of 8 characters
+             'role' => [
+                 function ($attribute, $value, $fail) {
+                     // Get the authenticated user's role
+                     $authUser = Auth()->user();
+                     
+                     // Check if the authenticated user is a super admin
+                     if ($authUser->hasRole('super admin')) {
+                         // If the user is super admin, allow adding super admin, admin, or student roles
+                         return;
+                     } else {
+                         // For other users, restrict role creation to students only
+                         if ($value !== 'student') {
+                             $fail('Only super admins can assign admin or super admin roles.');
+                         }
+                     }
+                 },
+             ],
+             'remember_token' => 'nullable|string|max:100',
+             'created_at' => 'nullable',
+             'updated_at' => 'nullable'
+         ];
+     }
+     
     
 }

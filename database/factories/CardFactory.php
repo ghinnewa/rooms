@@ -2,53 +2,47 @@
 
 namespace Database\Factories;
 
-use App\Models\Card;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
+
+use Illuminate\Http\UploadedFile;
+use App\Models\Card;
+
 
 class CardFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Card::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
-    {
-        return [
-            'name_ar' => $this->faker->word,
-        'name_en' => $this->faker->word,
-        'job_title_ar' => $this->faker->word,
-        'job_title_en' => $this->faker->word,
-        'membership_number' => $this->faker->word,
-        'phone1' => $this->faker->word,
-        'phone2' => $this->faker->word,
-        'email' => $this->faker->word,
-        'website' => $this->faker->word,
-        'qrcode' => $this->faker->word,
-        'image' => $this->faker->word,
-        'paid' => $this->faker->word,
-        'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s'),
-        'category_id' => $this->faker->word,
-        'facebook_url' => $this->faker->word,
-        'twitter_url' => $this->faker->word,
-        'linkedin_url' => $this->faker->word,
-        'company_ar' => $this->faker->word,
-        'company_en' => $this->faker->word,
-        'company_email' => $this->faker->word,
-        'instagram_url' => $this->faker->word,
-        'youtube_url' => $this->faker->word,
-        'identity_file1' => $this->faker->word,
-        'identity_file2' => $this->faker->word,
-        'city' => $this->faker->word
-        ];
-    }
+   // database/factories/CardFactory.php
+   
+
+   public function definition()
+   {
+       return [
+           'name_ar' => $this->faker->word,
+           'name_en' => $this->faker->word,
+           'membership_number' => $this->faker->numerify('######'),
+           'national_number' => $this->faker->regexify('[12][0-9]{11}'), // National number starting with 1 or 2, 12 digits long
+           'phone1' => $this->faker->phoneNumber,
+           'qrcode' => $this->faker->uuid,
+           'image' => UploadedFile::fake()->image('avatar.jpg', 100, 100), // Simulate an uploaded file
+           'paid' => $this->faker->boolean,
+           'category_id' => \App\Models\Category::factory(),
+           'facebook_url' => $this->faker->url,
+           'twitter_url' => $this->faker->url,
+           'linkedin_url' => $this->faker->url,
+           'instagram_url' => $this->faker->url,
+           'youtube_url' => $this->faker->url,
+           'identity_file1' => $this->faker->word,
+           'identity_file2' => $this->faker->word,
+           'city' => $this->faker->city,
+           'added_by_user' => \App\Models\User::factory(),
+           'expiration' => $this->faker->dateTimeBetween('now', '+1 year'),
+           'job_title_en' => $this->faker->jobTitle,
+           'user_id' => \App\Models\User::factory(),
+       ];
+   }
+   
+
+
 }

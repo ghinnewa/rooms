@@ -13,68 +13,74 @@ class CardApiTest extends TestCase
     /**
      * @test
      */
-    public function test_create_card()
-    {
-        $card = Card::factory()->make()->toArray();
+  // tests/APIs/CardApiTest.php
 
-        $this->response = $this->json(
-            'POST',
-            '/api/cards', $card
-        );
+public function test_create_card()
+{
+    $card = Card::factory()->make()->toArray();
 
-        $this->assertApiResponse($card);
-    }
+    $this->response = $this->json(
+        'POST',
+        '/api/cards', 
+        $card
+    );
 
-    /**
-     * @test
-     */
-    public function test_read_card()
-    {
-        $card = Card::factory()->create();
+    // Adjusting assertion for successful response (status code 201 or 200)
+    $this->response->assertStatus(201);
+    $this->assertApiResponse($card);
+}
 
-        $this->response = $this->json(
-            'GET',
-            '/api/cards/'.$card->id
-        );
+public function test_update_card()
+{
+    $card = Card::factory()->create();
+    $editedCard = Card::factory()->make()->toArray();
 
-        $this->assertApiResponse($card->toArray());
-    }
+    $this->response = $this->json(
+        'PUT',
+        '/api/cards/'.$card->id,
+        $editedCard
+    );
 
-    /**
-     * @test
-     */
-    public function test_update_card()
-    {
-        $card = Card::factory()->create();
-        $editedCard = Card::factory()->make()->toArray();
+    $this->response->assertStatus(200);
+    $this->assertApiResponse($editedCard);
+}
 
-        $this->response = $this->json(
-            'PUT',
-            '/api/cards/'.$card->id,
-            $editedCard
-        );
+public function test_read_card()
+{
+    // Create a card first
+    $card = Card::factory()->create();
 
-        $this->assertApiResponse($editedCard);
-    }
+    // Attempt to retrieve the card
+    $this->response = $this->json(
+        'GET',
+        '/api/cards/' . $card->id
+    );
 
-    /**
-     * @test
-     */
-    public function test_delete_card()
-    {
-        $card = Card::factory()->create();
+    // Check if the response status is 200 OK
+    $this->response->assertStatus(200);
+    $this->assertApiResponse($card->toArray());
+}
 
-        $this->response = $this->json(
-            'DELETE',
-             '/api/cards/'.$card->id
-         );
 
-        $this->assertApiSuccess();
-        $this->response = $this->json(
-            'GET',
-            '/api/cards/'.$card->id
-        );
+public function test_delete_card()
+{
+    $card = Card::factory()->create();
 
-        $this->response->assertStatus(404);
-    }
+    $this->response = $this->json(
+        'DELETE',
+        '/api/cards/'.$card->id
+    );
+
+    $this->response->assertStatus(200);
+    $this->assertApiSuccess();
+
+    // Ensure the card is deleted
+    $this->response = $this->json(
+        'GET',
+        '/api/cards/'.$card->id
+    );
+
+    $this->response->assertStatus(404);
+}
+
 }

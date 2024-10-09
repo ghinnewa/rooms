@@ -282,7 +282,7 @@ if ($user->hasRole('super admin')) {
 
     public function updateProfile(CreateUserRequest $request)
 {
-    dd('hi');
+  
     $user = auth()->user();
     
     $input = $request->except('roles');
